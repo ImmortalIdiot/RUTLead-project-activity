@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.immortalidiot.rutlead.navigation.main.RUTLeadScreen
+import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.presentation.screens.auth.LoginScreen
 import com.immortalidiot.rutlead.presentation.screens.auth.ResetPassword
 import com.immortalidiot.rutlead.presentation.screens.auth.SignUpScreen

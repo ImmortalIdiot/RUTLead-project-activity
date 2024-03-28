@@ -33,7 +33,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
+import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
+import com.immortalidiot.rutlead.navigation.main.MainScreen
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.other.AccountMissing
 import com.immortalidiot.rutlead.ui.components.other.BottomSnackbar
@@ -46,6 +48,7 @@ import com.immortalidiot.rutlead.providers.showMessage
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.presentation.viemodels.auth.LoginScreenViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -88,10 +91,20 @@ fun LoginScreen(
             viewModel.clearErrorStack()
         }
     }
+
+    if (state is LoginScreenViewModel.State.Success) {
+        navHostController.navigate(RUTLeadScreen.MainScreenFlow.route) {
+            popUpTo(0) {
+                inclusive = true
+                saveState = false
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = palette.surface),
+            .background(color = palette.backgroundScreen),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

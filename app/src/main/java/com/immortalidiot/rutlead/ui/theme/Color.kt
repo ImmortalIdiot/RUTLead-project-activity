@@ -13,6 +13,7 @@ val LightBlue = Color(0xFF2A5EBD)
 val ClassicGray = Color.Gray
 val DarkGray = Color.DarkGray
 val LightGray = Color.LightGray
+val DarkLightGray = Color(0xFF878787)
 
 val DarkBlack = Color(0xFF1C1B1B)
 val LightBlack = Color(0xFF232323)
@@ -58,6 +59,7 @@ sealed class ClassicColors(
 sealed class ThemeColors(
     val header: Color,
     val surface: Color,
+    val backgroundScreen: Color,
     val primary: Color,
     val content: Color,
     val outline: Color,
@@ -72,12 +74,15 @@ sealed class ThemeColors(
     val buttonOutline: Color,
     val textSelection: Color,
     val handle: Color,
-    val handleBackground: Color
+    val handleBackground: Color,
+    val indicatorNavBar: Color,
+    val textNavBar: Color
 ) {
     object Light : ThemeColors(
         header = ClassicWhite,
-        surface = Color.Transparent,
+        surface = ClassicWhite,
         primary = LightBlue,
+        backgroundScreen = Color.Transparent,
         content = LightBlue,
         outline = Color.Transparent,
         text = ClassicWhite,
@@ -91,13 +96,16 @@ sealed class ThemeColors(
         buttonOutline = Color.White,
         textSelection = DarkWhite,
         handle = LightGray,
-        handleBackground = LightGray
+        handleBackground = LightGray,
+        indicatorNavBar = ClassicWhite,
+        textNavBar = LightBlue
     )
 
     object Dark : ThemeColors(
         header = DarkWhite,
         surface = DarkBlack,
         primary = LightBlack,
+        backgroundScreen = DarkBlack,
         content = DarkWhite,
         outline = PrimaryDarkBlue,
         text = DarkWhite,
@@ -111,6 +119,8 @@ sealed class ThemeColors(
         buttonOutline = DarkBlue,
         textSelection = PrimaryDarkBlue,
         handle = DarkWhite,
-        handleBackground = LightBlue
+        handleBackground = LightBlue,
+        indicatorNavBar = DarkBlack,
+        textNavBar = DarkLightGray
     )
 }
