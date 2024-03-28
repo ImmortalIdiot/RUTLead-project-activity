@@ -15,6 +15,7 @@ import com.immortalidiot.rutlead.ui.theme.ThemeColors
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    //TODO(): add viewmodel
 ) {
     val palette = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light
 
