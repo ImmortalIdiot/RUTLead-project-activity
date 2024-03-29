@@ -55,7 +55,6 @@ fun ProfileScreen(
 
     val dimensions = LocalDimensions.current
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
-    val groupTextStyle = boldLato12.copy(color = palette.text)
     val commonTextStyle = boldInter16.copy(color = palette.text)
     val themeContentColor = palette.themeContent
 
@@ -122,9 +121,9 @@ fun ProfileScreen(
                 thirdName = thirdName
             )
             GroupField(
-                modifier = modifier.padding(vertical = dimensions.verticalNormalPadding),
+                modifier = modifier.padding(vertical = dimensions.verticalSmallPadding),
                 group = group,
-                groupTextStyle = groupTextStyle
+                groupTextStyle = commonTextStyle
             )
             Spacer(modifier = modifier.height(dimensions.verticalSLarge))
             Row(
