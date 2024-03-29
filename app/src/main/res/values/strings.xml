@@ -6,7 +6,7 @@
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="confirm_password">Пароль повторно</string>
-    <string name="change_password">Сменить</string>
+    <string name="change_password">Сменить пароль</string>
     <string name="account_existing">Есть аккаунт?</string>
     <string name="login_text_button">Войдите</string>
 
