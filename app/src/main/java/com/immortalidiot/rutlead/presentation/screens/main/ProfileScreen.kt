@@ -30,7 +30,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.immortalidiot.rutlead.R
-import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
@@ -41,7 +40,6 @@ import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.boldInter16
-import com.immortalidiot.rutlead.ui.theme.boldLato12
 import com.immortalidiot.rutlead.ui.theme.boldLato20
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
