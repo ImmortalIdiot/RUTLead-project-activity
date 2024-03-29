@@ -11,5 +11,7 @@
     <string name="login_text_button">Войдите</string>
 
     <string name="auto_theme">Авто</string>
+    <string name="profile_change_password">Сменить пароль</string>
+    <string name="delete_account">Удалить аккаунт</string>
 
 </resources>
