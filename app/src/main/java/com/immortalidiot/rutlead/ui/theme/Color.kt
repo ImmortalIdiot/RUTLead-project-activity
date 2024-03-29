@@ -27,8 +27,8 @@ sealed class ClassicColors(
     private val darkBrown: Color = Color(0xFF35170C),
 
     private val lightRed: Color = Color(0xFFFF2400),
-    private val red: Color = Color(0xFFFF0000),
-    private val darkRed: Color = Color(0xFF8B0000),
+    val red: Color = Color(0xFFFF0000),
+    val darkRed: Color = Color(0xFF8B0000),
 
     private val lightGreen: Color = Color(0xFF00FF00),
     private val green: Color = Color(0xFF008000),
@@ -76,7 +76,11 @@ sealed class ThemeColors(
     val handle: Color,
     val handleBackground: Color,
     val indicatorNavBar: Color,
-    val textNavBar: Color
+    val textNavBar: Color,
+    val profileContent: Color,
+    val themeContent: Color,
+    val changePassword: Color,
+    val deleteAccount: Color
 ) {
     object Light : ThemeColors(
         header = ClassicWhite,
@@ -98,7 +102,11 @@ sealed class ThemeColors(
         handle = LightGray,
         handleBackground = LightGray,
         indicatorNavBar = ClassicWhite,
-        textNavBar = LightBlue
+        textNavBar = LightBlue,
+        profileContent = LightBlue,
+        themeContent = ClassicWhite,
+        changePassword = LightBlue,
+        deleteAccount = ClassicColors.AvatarColor.red,
     )
 
     object Dark : ThemeColors(
@@ -121,6 +129,10 @@ sealed class ThemeColors(
         handle = DarkWhite,
         handleBackground = LightBlue,
         indicatorNavBar = DarkBlack,
-        textNavBar = DarkLightGray
+        textNavBar = DarkLightGray,
+        profileContent = PrimaryDarkBlue,
+        themeContent = DarkWhite,
+        changePassword = PrimaryDarkBlue,
+        deleteAccount = ClassicColors.AvatarColor.darkRed
     )
 }
