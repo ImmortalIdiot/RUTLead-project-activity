@@ -8,8 +8,10 @@ import androidx.navigation.navigation
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.presentation.screens.main.JournalScreen
 import com.immortalidiot.rutlead.presentation.screens.main.ProfileScreen
+import com.immortalidiot.rutlead.ui.theme.ClassicColors
 
 fun NavGraphBuilder.mainScreenFlow(screenName: (String) -> Unit) {
+    val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
     navigation(
         startDestination = MainScreen.JournalScreen.route,
         route = RUTLeadScreen.MainScreenFlow.route
@@ -28,7 +30,7 @@ fun NavGraphBuilder.mainScreenFlow(screenName: (String) -> Unit) {
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            ProfileScreen()
+            ProfileScreen(colorUserAvatar = backgroundUserColor)
             screenName("Профиль")
         }
     }
