@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.boldLato20
@@ -18,6 +20,10 @@ fun PrimaryButton(
     modifier: Modifier,
     palette: ThemeColors,
     text: String,
+    textStyle: TextStyle = boldLato20,
+    colorText: Color = palette.containerText,
+    containerColor: Color = palette.container,
+    outlineColor: Color = palette.outline,
     onButtonClick: () -> Unit
 ) {
     val dimensions = LocalDimensions.current
@@ -28,16 +34,16 @@ fun PrimaryButton(
         modifier = modifier.border(
             width = dimensions.borderSSmall,
             shape = roundedShape,
-            color = palette.outline
+            color = outlineColor
         ),
         shape = roundedShape,
-        colors = ButtonDefaults.buttonColors(containerColor = palette.container)
+        colors = ButtonDefaults.buttonColors(containerColor = containerColor)
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(
                 text = text,
-                style = boldLato20,
-                color = palette.containerText
+                style = textStyle,
+                color = colorText
             )
         }
     }
