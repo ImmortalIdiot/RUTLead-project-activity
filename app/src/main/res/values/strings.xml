@@ -10,6 +10,7 @@
     <string name="account_existing">Есть аккаунт?</string>
     <string name="login_text_button">Войдите</string>
 
+    <string name="account_management">Управление аккаунтом</string>
     <string name="auto_theme">Авто</string>
     <string name="profile_change_password">Сменить пароль</string>
     <string name="delete_account">Удалить аккаунт</string>
