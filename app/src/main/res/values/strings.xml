@@ -10,4 +10,6 @@
     <string name="account_existing">Есть аккаунт?</string>
     <string name="login_text_button">Войдите</string>
 
+    <string name="auto_theme">Авто</string>
+
 </resources>
