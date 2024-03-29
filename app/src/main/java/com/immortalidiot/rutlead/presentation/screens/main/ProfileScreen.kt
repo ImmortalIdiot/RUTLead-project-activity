@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +35,9 @@ import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
+import com.immortalidiot.rutlead.ui.theme.ClassicGray
+import com.immortalidiot.rutlead.ui.theme.LightBlue
+import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.boldInter16
@@ -153,29 +159,74 @@ fun ProfileScreen(
             }
         }
         Spacer(modifier = modifier.height(dimensions.verticalXLarge))
-        PrimaryButton(
-            modifier = modifier.fillMaxWidth(0.8f),
-            palette = palette,
-            text = stringResource(id = R.string.profile_change_password),
-            colorText = palette.changePassword,
-            outlineColor = palette.changePassword,
-            containerColor = palette.backgroundScreen,
-            onButtonClick = {
-                //TODO(): show confirmation window before log out the user
+        Column(
+            modifier = modifier
+                .fillMaxWidth(0.8f)
+                .border(
+                    width = dimensions.borderSSmall,
+                    color = LightBlue,
+                    shape = roundedShape
+                )
+                .padding(vertical = dimensions.verticalBigPadding)
+        ) {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.account_management),
+                    color = palette.labelText,
+                    style = commonTextStyle,
+                    textAlign = TextAlign.Center
+                )
             }
-        )
-        Spacer(modifier = modifier.height(dimensions.verticalXLarge))
-        PrimaryButton(
-            modifier = modifier.fillMaxWidth(0.8f),
-            palette = palette,
-            text = stringResource(id = R.string.delete_account),
-            colorText = palette.deleteAccount,
-            outlineColor = palette.deleteAccount,
-            containerColor = palette.backgroundScreen,
-            onButtonClick = {
-                //TODO(): show confirmation window before delete the user account
+            Spacer(modifier = modifier.height(dimensions.verticalStandard))
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(start = dimensions.horizontalBigPadding)
+            ) {
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(end = dimensions.horizontalNormalPadding),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.change_password),
+                        color = palette.labelText,
+                        style = commonTextStyle,
+                        textAlign = TextAlign.Center
+                    )
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowRight,
+                        contentDescription = "forward_arrow",
+                        tint = ClassicGray
+                    )
+                }
+                Spacer(modifier = modifier.height(dimensions.verticalStandard))
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(end = dimensions.horizontalNormalPadding),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.delete_account),
+                        color = LightRed,
+                        style = commonTextStyle,
+                        textAlign = TextAlign.Center
+                    )
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowRight,
+                        contentDescription = "forward_arrow",
+                        tint = ClassicGray
+                    )
+                }
             }
-        )
+        }
     }
 }
 
