@@ -189,7 +189,10 @@ fun ProfileScreen(
                 Row(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(end = dimensions.horizontalNormalPadding),
+                        .padding(end = dimensions.horizontalNormalPadding)
+                        .clickable {
+                            //TODO(): open the change password dialog
+                        },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -209,7 +212,10 @@ fun ProfileScreen(
                 Row(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(end = dimensions.horizontalNormalPadding),
+                        .padding(end = dimensions.horizontalNormalPadding)
+                        .clickable {
+                            //TODO(): open the delete account dialog
+                        },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
