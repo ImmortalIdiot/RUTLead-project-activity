@@ -15,6 +15,7 @@ fun RUTLeadScreenFlow(
     darkTheme: Boolean,
     paddingValues: PaddingValues,
     isNavigationBarVisible: (Boolean) -> Unit,
+    onThemeUpdated: () -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
      NavHost(
@@ -26,6 +27,9 @@ fun RUTLeadScreenFlow(
              navController = navController,
              darkTheme = darkTheme
          ) { isNavigationBarVisible(false) }
-         mainScreenFlow(darkTheme = darkTheme) { isNavigationBarVisible(true) }
+         mainScreenFlow(
+             darkTheme = darkTheme,
+             onThemeUpdated = onThemeUpdated
+         ) { isNavigationBarVisible(true) }
      }
 }

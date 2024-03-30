@@ -46,11 +46,13 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 @Composable
 fun ProfileScreen(
     darkTheme: Boolean,
+    onThemeUpdated: () -> Unit,
     modifier: Modifier = Modifier,
     colorUserAvatar: Color,
     //TODO(): add viewmodel
 ) {
-    val palette = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light
+    val palette = if (darkTheme) ThemeColors.Dark else ThemeColors.Light
+    val systemTheme = isSystemInDarkTheme()
 
     val dimensions = LocalDimensions.current
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
@@ -140,16 +142,33 @@ fun ProfileScreen(
             ) {
                 //TODO(): paint over the background of the selected mode
                 Text(
+                    modifier = modifier.clickable {
+                        if (!darkTheme && systemTheme) {
+                            onThemeUpdated()
+                        } else if (darkTheme && !systemTheme) {
+                            onThemeUpdated()
+                        }
+                    },
                     text = "Авто",
                     style = boldLato20.copy(color = themeContentColor),
                     textAlign = TextAlign.Center
                 )
                 Icon(
+                    modifier = modifier.clickable {
+                        if (darkTheme) {
+                            onThemeUpdated()
+                        }
+                    },
                     imageVector = ImageVector.vectorResource(id = R.drawable.light_theme_controller),
                     contentDescription = "light_theme_controller",
                     tint = themeContentColor
                 )
                 Icon(
+                    modifier = modifier.clickable {
+                        if (!darkTheme) {
+                            onThemeUpdated()
+                        }
+                    },
                     imageVector = ImageVector.vectorResource(id = R.drawable.dark_theme_controller),
                     contentDescription = "dark_theme_controller",
                     tint = themeContentColor
@@ -238,5 +257,9 @@ fun ProfileScreen(
 //@Composable
 //fun ProfileScreenPreview() {
 //    val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
-//    //ProfileScreen(colorUserAvatar = backgroundUserColor)
+//    ProfileScreen(
+//        colorUserAvatar = backgroundUserColor,
+//        darkTheme = true,
+//        viewModel = ProfileScreenViewModel()
+//    )
 //}
