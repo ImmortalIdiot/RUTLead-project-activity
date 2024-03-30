@@ -10,7 +10,10 @@ import com.immortalidiot.rutlead.presentation.screens.main.JournalScreen
 import com.immortalidiot.rutlead.presentation.screens.main.ProfileScreen
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 
-fun NavGraphBuilder.mainScreenFlow(screenName: (String) -> Unit) {
+fun NavGraphBuilder.mainScreenFlow(
+    darkTheme: Boolean,
+    screenName: (String) -> Unit
+) {
     val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
     navigation(
         startDestination = MainScreen.JournalScreen.route,
@@ -21,7 +24,7 @@ fun NavGraphBuilder.mainScreenFlow(screenName: (String) -> Unit) {
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            JournalScreen()
+            JournalScreen(darkTheme = darkTheme)
             screenName("Журнал")
         }
 
@@ -30,7 +33,10 @@ fun NavGraphBuilder.mainScreenFlow(screenName: (String) -> Unit) {
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            ProfileScreen(colorUserAvatar = backgroundUserColor)
+            ProfileScreen(
+                darkTheme = darkTheme,
+                colorUserAvatar = backgroundUserColor
+            )
             screenName("Профиль")
         }
     }

@@ -16,6 +16,7 @@ import com.immortalidiot.rutlead.presentation.viemodels.auth.SignUpViewModel
 
 fun NavGraphBuilder.authScreenFlow(
     navController: NavHostController,
+    darkTheme: Boolean,
     screenName: (String) -> Unit,
 ) {
     navigation(
@@ -29,6 +30,7 @@ fun NavGraphBuilder.authScreenFlow(
         ) {
             LoginScreen(
                 viewModel = LoginScreenViewModel(),
+                darkTheme = darkTheme,
                 navHostController = navController
             )
             screenName("Вход")
@@ -41,6 +43,7 @@ fun NavGraphBuilder.authScreenFlow(
         ) {
             SignUpScreen(
                 viewModel = SignUpViewModel(),
+                darkTheme = darkTheme,
                 navHostController = navController
             )
             screenName("Регистрация")
@@ -52,6 +55,7 @@ fun NavGraphBuilder.authScreenFlow(
             exitTransition = { fadeOut() }
         ) {
             ResetPassword(
+                darkTheme = darkTheme,
                 viewModel = ResetPasswordViewModel(),
                 navController = navController
             )

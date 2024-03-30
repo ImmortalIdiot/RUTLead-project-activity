@@ -12,6 +12,7 @@ import com.immortalidiot.rutlead.navigation.main.mainScreenFlow
 
 @Composable
 fun RUTLeadScreenFlow(
+    darkTheme: Boolean,
     paddingValues: PaddingValues,
     isNavigationBarVisible: (Boolean) -> Unit,
     navController: NavHostController = rememberNavController()
@@ -21,7 +22,10 @@ fun RUTLeadScreenFlow(
          navController = navController,
          startDestination = RUTLeadScreen.AuthScreenFlow.route
      ) {
-         authScreenFlow(navController = navController) { isNavigationBarVisible(false) }
-         mainScreenFlow { isNavigationBarVisible(true) }
+         authScreenFlow(
+             navController = navController,
+             darkTheme = darkTheme
+         ) { isNavigationBarVisible(false) }
+         mainScreenFlow(darkTheme = darkTheme) { isNavigationBarVisible(true) }
      }
 }

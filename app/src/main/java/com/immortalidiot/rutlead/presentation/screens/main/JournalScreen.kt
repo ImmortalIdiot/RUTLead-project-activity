@@ -14,6 +14,7 @@ import com.immortalidiot.rutlead.ui.theme.ThemeColors
 
 @Composable
 fun JournalScreen(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     //TODO(): add viewmodel
 ) {

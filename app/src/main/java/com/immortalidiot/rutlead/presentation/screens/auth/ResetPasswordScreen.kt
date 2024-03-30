@@ -63,6 +63,7 @@ import com.immortalidiot.rutlead.presentation.viemodels.auth.ResetPasswordViewMo
 )
 @Composable
 fun ResetPassword(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: ResetPasswordViewModel,
     navController: NavHostController

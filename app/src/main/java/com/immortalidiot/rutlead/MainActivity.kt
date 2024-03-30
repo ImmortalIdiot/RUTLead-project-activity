@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RUTLeadTheme {
+            val darkTheme by remember { mutableStateOf(false) }
+            RUTLeadTheme(darkTheme = darkTheme) {
                 val snackbarHostState = remember { SnackbarHostState() }
                 val navController = rememberNavController()
                 var isNavigationBarVisible by remember { mutableStateOf(false) }
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { padding ->
                         RUTLeadScreenFlow(
+                            darkTheme = darkTheme,
                             paddingValues = padding,
                             isNavigationBarVisible = { isNavigationBarVisible = it },
                             navController = navController

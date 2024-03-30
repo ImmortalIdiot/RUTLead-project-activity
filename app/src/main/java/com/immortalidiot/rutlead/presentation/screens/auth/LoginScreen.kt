@@ -53,6 +53,7 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: LoginScreenViewModel,
     navHostController: NavHostController

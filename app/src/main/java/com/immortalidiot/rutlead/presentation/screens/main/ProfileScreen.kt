@@ -45,6 +45,7 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
 @Composable
 fun ProfileScreen(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     colorUserAvatar: Color,
     //TODO(): add viewmodel

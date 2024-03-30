@@ -63,6 +63,7 @@ import com.immortalidiot.rutlead.presentation.viemodels.auth.SignUpViewModel
 )
 @Composable
 fun SignUpScreen(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: SignUpViewModel,
     navHostController: NavHostController
