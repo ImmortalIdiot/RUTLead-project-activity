@@ -23,10 +23,12 @@ import com.immortalidiot.rutlead.ui.theme.ThemeColors
 fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    palette: ThemeColors = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light
+    darkTheme: Boolean
 ) {
     val navigationBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navigationBackStackEntry?.destination?.route
+
+    val palette = if (darkTheme) ThemeColors.Dark else ThemeColors.Light
 
     NavigationBar(
         modifier = modifier,
@@ -70,5 +72,8 @@ fun BottomNavigationBar(
 @Preview
 @Composable
 fun MainNavigationBarPreview() {
-    BottomNavigationBar(navController = rememberNavController())
+    BottomNavigationBar(
+        navController = rememberNavController(),
+        darkTheme = true
+    )
 }
