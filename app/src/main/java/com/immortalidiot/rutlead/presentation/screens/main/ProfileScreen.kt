@@ -234,9 +234,9 @@ fun ProfileScreen(
     }
 }
 
-@Preview
-@Composable
-fun ProfileScreenPreview() {
-    val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
-    ProfileScreen(colorUserAvatar = backgroundUserColor)
-}
+//@Preview
+//@Composable
+//fun ProfileScreenPreview() {
+//    val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
+//    //ProfileScreen(colorUserAvatar = backgroundUserColor)
+//}

@@ -361,15 +361,15 @@ fun SignUpScreen(
     )
 }
 
-@Preview
-@Composable
-fun SignUpScreenPreview() {
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
-        SignUpScreen(
-            viewModel = SignUpViewModel(),
-            navHostController = rememberNavController()
-        )
-    }
-}
+//@Preview
+//@Composable
+//fun SignUpScreenPreview() {
+//    val snackbarHostState = remember { SnackbarHostState() }
+//
+//    CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
+//        SignUpScreen(
+//            viewModel = SignUpViewModel(),
+//            navHostController = rememberNavController()
+//        )
+//    }
+//}

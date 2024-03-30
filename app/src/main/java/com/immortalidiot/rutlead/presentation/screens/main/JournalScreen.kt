@@ -31,8 +31,8 @@ fun JournalScreen(
     }
 }
 
-@Preview
-@Composable
-fun JournalScreenPreview() {
-    JournalScreen()
-}
+//@Preview
+//@Composable
+//fun JournalScreenPreview() {
+//    JournalScreen()
+//}
