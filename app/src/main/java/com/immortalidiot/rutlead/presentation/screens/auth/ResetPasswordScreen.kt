@@ -277,15 +277,16 @@ fun ResetPassword(
     )
 }
 
-//@Preview
-//@Composable
-//fun ResetPasswordPreview() {
-//    val snackbarHostState = remember { SnackbarHostState() }
-//
-//    CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
-//        ResetPassword(
-//            viewModel = ResetPasswordViewModel(),
-//            navController = rememberNavController()
-//        )
-//    }
-//}
+@Preview
+@Composable
+fun ResetPasswordPreview() {
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
+        ResetPassword(
+            darkTheme = true,
+            viewModel = ResetPasswordViewModel(),
+            navController = rememberNavController()
+        )
+    }
+}

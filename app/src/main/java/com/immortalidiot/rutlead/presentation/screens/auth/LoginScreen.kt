@@ -235,11 +235,12 @@ fun LoginScreen(
     )
 }
 
-//@Preview
-//@Composable
-//fun LoginScreenPreview() {
-//    LoginScreen(
-//        viewModel = LoginScreenViewModel(),
-//        navHostController = rememberNavController()
-//    )
-//}
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(
+        darkTheme = true,
+        viewModel = LoginScreenViewModel(),
+        navHostController = rememberNavController()
+    )
+}

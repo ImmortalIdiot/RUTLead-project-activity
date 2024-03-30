@@ -253,13 +253,13 @@ fun ProfileScreen(
     }
 }
 
-//@Preview
-//@Composable
-//fun ProfileScreenPreview() {
-//    val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
-//    ProfileScreen(
-//        colorUserAvatar = backgroundUserColor,
-//        darkTheme = true,
-//        viewModel = ProfileScreenViewModel()
-//    )
-//}
+@Preview
+@Composable
+fun ProfileScreenPreview() {
+    val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
+    ProfileScreen(
+        colorUserAvatar = backgroundUserColor,
+        darkTheme = true,
+        onThemeUpdated = {}
+    )
+}
