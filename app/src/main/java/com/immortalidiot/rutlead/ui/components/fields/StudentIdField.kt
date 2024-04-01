@@ -7,6 +7,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -20,7 +21,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
-import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.mediumInter12
 import com.immortalidiot.rutlead.ui.theme.mediumInter14
 
@@ -28,7 +28,6 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter14
 @Composable
 fun StudentIdTextField(
     hint: String,
-    palette: ThemeColors,
     modifier: Modifier = Modifier,
     value: String = "",
     onTextChange: (studentID: String) -> Unit
@@ -37,9 +36,11 @@ fun StudentIdTextField(
     val dimensions = LocalDimensions.current
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
+    val scheme = MaterialTheme.colorScheme
+
     val customCursorHandleColor = TextSelectionColors(
-        handleColor = palette.handle,
-        backgroundColor = palette.handleBackground
+        handleColor = scheme.scrim,
+        backgroundColor = scheme.tertiary
     )
 
     var isFocused by remember { mutableStateOf(false) }
@@ -53,7 +54,7 @@ fun StudentIdTextField(
                 }
                 .border(
                     width = dimensions.borderSSmall,
-                    color = palette.outline,
+                    color = scheme.outline,
                     shape = roundedShape
                 ),
             value = value,
@@ -65,20 +66,20 @@ fun StudentIdTextField(
                 Text(
                     text = hint,
                     style = if (!isFocused || value.isNotBlank()) {
-                        mediumInter12.copy(color = palette.containerText)
+                        mediumInter12.copy(color = scheme.primary)
                     } else {
-                        mediumInter14.copy(color = palette.containerText)
+                        mediumInter14.copy(color = scheme.primary)
                     }
                 )
             },
             isSingleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = palette.container,
-                textColor = palette.containerText,
-                cursorColor = palette.cursor,
-                unfocusedLabelColor = palette.label,
-                focusedLabelColor = palette.label,
+                containerColor = scheme.primaryContainer,
+                textColor = scheme.primary,
+                cursorColor = scheme.onSecondary,
+                unfocusedLabelColor = scheme.onPrimary,
+                focusedLabelColor = scheme.onPrimary,
                 focusedSupportingTextColor = Color.White,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
