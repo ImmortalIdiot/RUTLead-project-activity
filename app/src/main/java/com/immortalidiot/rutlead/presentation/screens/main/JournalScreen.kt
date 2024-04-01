@@ -1,16 +1,15 @@
 package com.immortalidiot.rutlead.presentation.screens.main
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.immortalidiot.rutlead.ui.theme.ThemeColors
 
 @Composable
 fun JournalScreen(
@@ -18,12 +17,12 @@ fun JournalScreen(
     modifier: Modifier = Modifier,
     //TODO(): add viewmodel
 ) {
-    val palette = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light
+    val scheme = MaterialTheme.colorScheme
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(palette.backgroundScreen),
+            .background(scheme.onBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
