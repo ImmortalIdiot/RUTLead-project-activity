@@ -113,12 +113,12 @@ sealed class ThemeColors(
 
     object Dark : ThemeColors(
         header = DarkWhite,
-        surface = DarkBlack,
+        surface = LightBlack,
         primary = DarkWhite,
         onPrimary = DarkWhite,
         secondary = DarkWhite,
         onSecondary = PrimaryDarkBlue,
-        background = LightBlack,
+        background = DarkBlack,
         content = DarkWhite,
         outline = PrimaryDarkBlue,
         container = LightBlack,
