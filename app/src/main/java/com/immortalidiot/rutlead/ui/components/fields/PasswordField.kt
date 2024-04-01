@@ -13,6 +13,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -39,7 +40,6 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter14
 @Composable
 fun PasswordField(
     hint: String,
-    palette: ThemeColors,
     modifier: Modifier = Modifier,
     passwordValue: String = "",
     imageVector: ImageVector,
@@ -48,9 +48,11 @@ fun PasswordField(
     onIconClick: () -> Unit,
     onTextChange: (password: String) -> Unit
 ) {
+    val scheme = MaterialTheme.colorScheme
+
     val customCursorHandleColor = TextSelectionColors(
-        handleColor = palette.handle,
-        backgroundColor = palette.handleBackground
+        handleColor = scheme.scrim,
+        backgroundColor = scheme.tertiary
     )
 
     var isFocused by remember { mutableStateOf(false) }
@@ -70,9 +72,9 @@ fun PasswordField(
                 Text(
                     text = hint,
                     style = if (!isFocused || passwordValue.isNotBlank()) {
-                        mediumInter12.copy(color = palette.containerText)
+                        mediumInter12.copy(color = scheme.primary)
                     } else {
-                        mediumInter14.copy(color = palette.containerText)
+                        mediumInter14.copy(color = scheme.primary)
                     }
                 )
             },
@@ -81,7 +83,7 @@ fun PasswordField(
                 IconButton(
                     onClick = onIconClick,
                     colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = palette.content
+                        contentColor = scheme.primary
                     )
                 ) {
                     Icon(
@@ -94,15 +96,15 @@ fun PasswordField(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             keyboardActions = KeyboardActions(onDone = { onDoneAction() }),
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = palette.container,
-                textColor = palette.containerText,
-                cursorColor = palette.cursor,
-                unfocusedLabelColor = palette.labelText,
-                focusedLabelColor = palette.labelText,
+                containerColor = scheme.primaryContainer,
+                textColor = scheme.primary,
+                cursorColor = scheme.onSecondary,
+                unfocusedLabelColor = scheme.onPrimary,
+                focusedLabelColor = scheme.onPrimary,
                 unfocusedIndicatorColor = transparentColor,
                 focusedIndicatorColor = transparentColor,
-                focusedTrailingIconColor = palette.content,
-                unfocusedTrailingIconColor = palette.content
+                focusedTrailingIconColor = scheme.primary,
+                unfocusedTrailingIconColor = scheme.primary
             ),
         )
     }
@@ -113,7 +115,6 @@ fun PasswordField(
 fun PasswordFieldPreview() {
     PasswordField(
         hint = "Пароль",
-        palette = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light,
         modifier = Modifier
             .padding(
                 top = 100.dp,
