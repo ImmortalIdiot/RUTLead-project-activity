@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,12 +19,12 @@ import com.immortalidiot.rutlead.ui.theme.boldLato20
 @Composable
 fun PrimaryButton(
     modifier: Modifier,
-    palette: ThemeColors,
+    scheme: ColorScheme,
     text: String,
     textStyle: TextStyle = boldLato20,
-    colorText: Color = palette.containerText,
-    containerColor: Color = palette.container,
-    outlineColor: Color = palette.outline,
+    colorText: Color = scheme.primary,
+    containerColor: Color = scheme.background,
+    outlineColor: Color = scheme.outline,
     onButtonClick: () -> Unit
 ) {
     val dimensions = LocalDimensions.current
