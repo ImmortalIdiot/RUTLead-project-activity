@@ -1,7 +1,7 @@
 package com.immortalidiot.rutlead.navigation.navBars
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -17,22 +17,20 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
 import com.immortalidiot.rutlead.ui.theme.LightBlue
-import com.immortalidiot.rutlead.ui.theme.ThemeColors
 
 @Composable
 fun BottomNavigationBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    darkTheme: Boolean
 ) {
     val navigationBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navigationBackStackEntry?.destination?.route
 
-    val palette = if (darkTheme) ThemeColors.Dark else ThemeColors.Light
+    val scheme = MaterialTheme.colorScheme
 
     NavigationBar(
         modifier = modifier,
-        containerColor = palette.backgroundScreen,
+        containerColor = scheme.onBackground,
     ) {
         navigationBarItems.forEach { item: NavigationBarItem ->
             val isSelected = currentRoute == item.route
@@ -57,13 +55,11 @@ fun BottomNavigationBar(
                 label = {
                     Text(
                         text = item.name,
-                        color = palette.textNavBar
+                        color = scheme.tertiary
                     )
                 },
                 alwaysShowLabel = false,
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = palette.indicatorNavBar,
-                )
+                colors = NavigationBarItemDefaults.colors(indicatorColor = scheme.onBackground)
             )
         }
     }
@@ -72,8 +68,5 @@ fun BottomNavigationBar(
 @Preview
 @Composable
 fun MainNavigationBarPreview() {
-    BottomNavigationBar(
-        navController = rememberNavController(),
-        darkTheme = true
-    )
+    BottomNavigationBar(navController = rememberNavController())
 }
