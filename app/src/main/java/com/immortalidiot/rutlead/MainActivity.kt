@@ -34,10 +34,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         bottomBar = {
                             if (isNavigationBarVisible) {
-                                BottomNavigationBar(
-                                    darkTheme = darkTheme,
-                                    navController = navController
-                                )
+                                BottomNavigationBar(navController = navController)
                             }
                         }
                     ) { padding ->
