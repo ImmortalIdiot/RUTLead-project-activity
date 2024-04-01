@@ -23,7 +23,7 @@ fun PrimaryButton(
     text: String,
     textStyle: TextStyle = boldLato20,
     colorText: Color = scheme.primary,
-    containerColor: Color = scheme.background,
+    containerColor: Color = scheme.primaryContainer,
     outlineColor: Color = scheme.outline,
     onButtonClick: () -> Unit
 ) {
