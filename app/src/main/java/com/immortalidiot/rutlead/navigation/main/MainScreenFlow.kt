@@ -8,6 +8,7 @@ import androidx.navigation.navigation
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.presentation.screens.main.JournalScreen
 import com.immortalidiot.rutlead.presentation.screens.main.ProfileScreen
+import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 
 fun NavGraphBuilder.mainScreenFlow(
@@ -38,6 +39,7 @@ fun NavGraphBuilder.mainScreenFlow(
                 darkTheme = darkTheme,
                 onThemeUpdated = onThemeUpdated,
                 colorUserAvatar = backgroundUserColor,
+                profileViewModel = ProfileScreenViewModel()
             )
             screenName("Профиль")
         }
