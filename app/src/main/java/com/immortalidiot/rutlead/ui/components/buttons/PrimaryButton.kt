@@ -12,12 +12,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
+import com.immortalidiot.rutlead.ui.theme.Dimensions
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldLato20
 
 @Composable
 fun PrimaryButton(
     modifier: Modifier,
+    dimensions: Dimensions = LocalDimensions.current,
+    borderWidth: Dp = dimensions.borderSSmall,
+    shape: RoundedCornerShape = RoundedCornerShape(dimensions.shapeSLarge),
     scheme: ColorScheme,
     text: String,
     textStyle: TextStyle = boldLato20,
@@ -26,17 +31,14 @@ fun PrimaryButton(
     outlineColor: Color = scheme.outline,
     onButtonClick: () -> Unit
 ) {
-    val dimensions = LocalDimensions.current
-    val roundedShape = RoundedCornerShape(dimensions.shapeSLarge)
-
     Button(
         onClick = { onButtonClick() },
         modifier = modifier.border(
-            width = dimensions.borderSSmall,
-            shape = roundedShape,
+            width = borderWidth,
+            shape = shape,
             color = outlineColor
         ),
-        shape = roundedShape,
+        shape = shape,
         colors = ButtonDefaults.buttonColors(containerColor = containerColor)
     ) {
         Box(contentAlignment = Alignment.Center) {
