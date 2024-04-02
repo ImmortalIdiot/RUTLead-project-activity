@@ -28,8 +28,10 @@ data class Dimensions(
     val shapeXSmall: Dp = 4.dp,
     val shapeNormal: Dp = 8.dp,
     val shapeSLarge: Dp = 10.dp,
+    val shapeMLarge: Dp = 12.dp,
     val shapeXLarge: Dp = 15.dp,
 
+    val borderXSSmall: Dp = 2.dp,
     val borderSSmall: Dp = 3.dp,
     val borderNormal: Dp = 5.dp,
     val borderXLarge: Dp = 8.dp
