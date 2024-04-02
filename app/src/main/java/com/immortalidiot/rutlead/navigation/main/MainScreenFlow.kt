@@ -2,6 +2,7 @@ package com.immortalidiot.rutlead.navigation.main
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
@@ -35,11 +36,12 @@ fun NavGraphBuilder.mainScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
+            val profileScreenViewModel: ProfileScreenViewModel = viewModel()
             ProfileScreen(
                 darkTheme = darkTheme,
                 onThemeUpdated = onThemeUpdated,
                 colorUserAvatar = backgroundUserColor,
-                profileViewModel = ProfileScreenViewModel()
+                profileViewModel = profileScreenViewModel
             )
             screenName("Профиль")
         }
