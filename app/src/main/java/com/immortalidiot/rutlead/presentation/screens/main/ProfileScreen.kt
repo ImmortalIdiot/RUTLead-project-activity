@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
+import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
@@ -216,80 +217,29 @@ fun ProfileScreen(
             }
         }
         Spacer(modifier = modifier.height(dimensions.verticalXLarge))
-        Column(
-            modifier = modifier
-                .fillMaxWidth(0.8f)
-                .border(
-                    width = dimensions.borderSSmall,
-                    color = LightBlue,
-                    shape = roundedShape
-                )
-                .padding(vertical = dimensions.verticalBigPadding)
-        ) {
-            Box(
-                modifier = modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.account_management),
-                    color = scheme.primary,
-                    style = commonTextStyle,
-                    textAlign = TextAlign.Center
-                )
+        PrimaryButton(
+            modifier = modifier.fillMaxWidth(0.8f),
+            scheme = scheme,
+            text = stringResource(id = R.string.profile_change_password),
+            colorText = scheme.onSecondary,
+            outlineColor = scheme.onSecondary,
+            containerColor = scheme.onBackground,
+            onButtonClick = {
+                //TODO(): open the change password dialog
             }
-            Spacer(modifier = modifier.height(dimensions.verticalStandard))
-            Column(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(start = dimensions.horizontalBigPadding)
-            ) {
-                Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(end = dimensions.horizontalNormalPadding)
-                        .clickable {
-                            //TODO(): open the change password dialog
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.change_password),
-                        color = scheme.primary,
-                        style = commonTextStyle,
-                        textAlign = TextAlign.Center
-                    )
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowRight,
-                        contentDescription = "forward_arrow",
-                        tint = ClassicGray
-                    )
-                }
-                Spacer(modifier = modifier.height(dimensions.verticalStandard))
-                Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(end = dimensions.horizontalNormalPadding)
-                        .clickable {
-                            //TODO(): open the delete account dialog
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.delete_account),
-                        color = LightRed,
-                        style = commonTextStyle,
-                        textAlign = TextAlign.Center
-                    )
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowRight,
-                        contentDescription = "forward_arrow",
-                        tint = ClassicGray
-                    )
-                }
+        )
+        Spacer(modifier = modifier.height(dimensions.verticalXLarge))
+        PrimaryButton(
+            modifier = modifier.fillMaxWidth(0.8f),
+            scheme = scheme,
+            text = stringResource(id = R.string.delete_account),
+            colorText = scheme.error,
+            outlineColor = scheme.error,
+            containerColor = scheme.onBackground,
+            onButtonClick = {
+                //TODO(): open the delete account dialog
             }
-        }
+        )
     }
 }
 
