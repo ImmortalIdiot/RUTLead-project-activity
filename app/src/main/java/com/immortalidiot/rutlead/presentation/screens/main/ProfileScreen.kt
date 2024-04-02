@@ -3,7 +3,6 @@ package com.immortalidiot.rutlead.presentation.screens.main
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,8 +17,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +32,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.immortalidiot.rutlead.R
+import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
@@ -49,15 +52,17 @@ fun ProfileScreen(
     onThemeUpdated: () -> Unit,
     modifier: Modifier = Modifier,
     colorUserAvatar: Color,
-    //TODO(): add viewmodel
+    profileViewModel: ProfileScreenViewModel
 ) {
+    val state by profileViewModel.mutableState.collectAsState()
+
     val palette = if (darkTheme) ThemeColors.Dark else ThemeColors.Light
-    val systemTheme = isSystemInDarkTheme()
+    val scheme = MaterialTheme.colorScheme
 
     val dimensions = LocalDimensions.current
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
-    val commonTextStyle = boldInter16.copy(color = palette.text)
-    val themeContentColor = palette.themeContent
+    val commonTextStyle = boldInter16.copy(color = MaterialTheme.colorScheme.onPrimary)
+    val themeContentColor = scheme.onPrimary
 
     // TODO(): get values from the db
     val firstName = "Иванов"
@@ -70,7 +75,7 @@ fun ProfileScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(palette.backgroundScreen),
+            .background(scheme.onBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -80,7 +85,7 @@ fun ProfileScreen(
                 .clip(roundedShape)
                 .border(
                     width = dimensions.borderSSmall,
-                    color = palette.outline,
+                    color = scheme.outline,
                     shape = roundedShape
                 )
                 .background(color = palette.profileContent)
@@ -89,8 +94,7 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
             ) {
                 Icon(
                     modifier = modifier
@@ -103,12 +107,11 @@ fun ProfileScreen(
                     tint = themeContentColor
                 )
             }
-            UserAvatar(
-                modifier = modifier,
+            UserAvatar(modifier = modifier,
                 url = url,
                 initials = initials,
                 backgroundColor = colorUserAvatar,
-                textStyle = mediumInter32.copy(color = palette.text),
+                textStyle = mediumInter32.copy(color = scheme.onPrimary),
                 onIconClick = {
                     //TODO: add the ability to upload photo from the local storage
                 }
@@ -138,41 +141,82 @@ fun ProfileScreen(
                     )
                     .padding(vertical = dimensions.verticalSmallPadding),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.Center
             ) {
-                //TODO(): paint over the background of the selected mode
-                Text(
-                    modifier = modifier.clickable {
-                        if (!darkTheme && systemTheme) {
-                            onThemeUpdated()
-                        } else if (darkTheme && !systemTheme) {
-                            onThemeUpdated()
-                        }
+                val customModifier = modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .padding(dimensions.normalPadding)
+                    .border(
+                        width = dimensions.borderSSmall,
+                        color = Color.Transparent,
+                        shape = roundedShape
+                    )
+                    .clip(roundedShape)
+                    .background(color = themeContentColor)
+
+                Box(
+                    modifier = if (state is ProfileScreenViewModel.State.AutoThemeSelected) {
+                        customModifier
+                    } else {
+                        modifier
+                            .weight(1f)
+                            .clickable(onClick = { profileViewModel.onAutoTheme() })
                     },
-                    text = "Авто",
-                    style = boldLato20.copy(color = themeContentColor),
-                    textAlign = TextAlign.Center
-                )
-                Icon(
-                    modifier = modifier.clickable {
-                        if (darkTheme) {
-                            onThemeUpdated()
-                        }
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Авто",
+                        style = boldLato20.copy(
+                            color = if (state is ProfileScreenViewModel.State.AutoThemeSelected) {
+                                scheme.onSecondary
+                            } else {
+                                themeContentColor
+                            }
+                        ),
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Box(
+                    modifier = if (state is ProfileScreenViewModel.State.LightThemeSelected) {
+                        customModifier
+                    } else {
+                        modifier
+                            .weight(1f)
+                            .clickable(onClick = { profileViewModel.onLightTheme() })
                     },
-                    imageVector = ImageVector.vectorResource(id = R.drawable.light_theme_controller),
-                    contentDescription = "light_theme_controller",
-                    tint = themeContentColor
-                )
-                Icon(
-                    modifier = modifier.clickable {
-                        if (!darkTheme) {
-                            onThemeUpdated()
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.light_theme_controller),
+                        contentDescription = "light_theme_controller",
+                        tint = if (state is ProfileScreenViewModel.State.LightThemeSelected) {
+                            scheme.onSecondary
+                        } else {
+                            themeContentColor
                         }
+                    )
+                }
+                Box(
+                    modifier = if (state is ProfileScreenViewModel.State.DarkThemeSelected) {
+                        customModifier
+                    } else {
+                        modifier
+                            .weight(1f)
+                            .clickable(onClick = { profileViewModel.onDarkTheme() })
                     },
-                    imageVector = ImageVector.vectorResource(id = R.drawable.dark_theme_controller),
-                    contentDescription = "dark_theme_controller",
-                    tint = themeContentColor
-                )
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.dark_theme_controller),
+                        contentDescription = "dark_theme_controller",
+                        tint = if (state is ProfileScreenViewModel.State.DarkThemeSelected) {
+                            scheme.onSecondary
+                        } else {
+                            themeContentColor
+                        }
+                    )
+                }
             }
         }
         Spacer(modifier = modifier.height(dimensions.verticalXLarge))
@@ -192,7 +236,7 @@ fun ProfileScreen(
             ) {
                 Text(
                     text = stringResource(id = R.string.account_management),
-                    color = palette.labelText,
+                    color = scheme.primary,
                     style = commonTextStyle,
                     textAlign = TextAlign.Center
                 )
@@ -215,7 +259,7 @@ fun ProfileScreen(
                 ) {
                     Text(
                         text = stringResource(id = R.string.change_password),
-                        color = palette.labelText,
+                        color = scheme.primary,
                         style = commonTextStyle,
                         textAlign = TextAlign.Center
                     )
@@ -260,6 +304,7 @@ fun ProfileScreenPreview() {
     ProfileScreen(
         colorUserAvatar = backgroundUserColor,
         darkTheme = true,
-        onThemeUpdated = {}
+        onThemeUpdated = {},
+        profileViewModel = ProfileScreenViewModel()
     )
 }
