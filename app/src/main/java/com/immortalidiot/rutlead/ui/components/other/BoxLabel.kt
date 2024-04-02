@@ -10,11 +10,10 @@ import com.immortalidiot.rutlead.ui.theme.boldInter34
 
 @Composable
 fun BoxLabel(text: String) {
-    val scheme = MaterialTheme.colorScheme
     Text(
         text = text,
         modifier = Modifier.fillMaxWidth(),
-        color = scheme.onPrimary,
+        color = MaterialTheme.colorScheme.onPrimary,
         textAlign = TextAlign.Center,
         style = boldInter34
     )
