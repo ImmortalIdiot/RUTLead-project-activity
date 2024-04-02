@@ -44,6 +44,7 @@ import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
+import com.immortalidiot.rutlead.ui.theme.mediumInter16
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
 @Composable
@@ -219,8 +220,11 @@ fun ProfileScreen(
         Spacer(modifier = modifier.height(dimensions.verticalXLarge))
         PrimaryButton(
             modifier = modifier.fillMaxWidth(0.8f),
+            borderWidth = dimensions.borderXSSmall,
+            shape = RoundedCornerShape(dimensions.shapeMLarge),
             scheme = scheme,
             text = stringResource(id = R.string.profile_change_password),
+            textStyle = mediumInter16,
             colorText = scheme.onSecondary,
             outlineColor = scheme.onSecondary,
             containerColor = scheme.onBackground,
@@ -231,8 +235,11 @@ fun ProfileScreen(
         Spacer(modifier = modifier.height(dimensions.verticalXLarge))
         PrimaryButton(
             modifier = modifier.fillMaxWidth(0.8f),
+            borderWidth = dimensions.borderXSSmall,
+            shape = RoundedCornerShape(dimensions.shapeMLarge),
             scheme = scheme,
             text = stringResource(id = R.string.delete_account),
+            textStyle = mediumInter16,
             colorText = scheme.error,
             outlineColor = scheme.error,
             containerColor = scheme.onBackground,
