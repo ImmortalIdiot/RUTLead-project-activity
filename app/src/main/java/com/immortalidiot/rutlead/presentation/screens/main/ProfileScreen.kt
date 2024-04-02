@@ -217,7 +217,7 @@ fun ProfileScreen(
                 }
             }
         }
-        Spacer(modifier = modifier.height(dimensions.verticalXLarge))
+        Spacer(modifier = modifier.height(dimensions.verticalStandard))
         PrimaryButton(
             modifier = modifier.fillMaxWidth(0.8f),
             borderWidth = dimensions.borderXSSmall,
@@ -232,7 +232,7 @@ fun ProfileScreen(
                 //TODO(): open the change password dialog
             }
         )
-        Spacer(modifier = modifier.height(dimensions.verticalXLarge))
+        Spacer(modifier = modifier.height(dimensions.verticalStandard))
         PrimaryButton(
             modifier = modifier.fillMaxWidth(0.8f),
             borderWidth = dimensions.borderXSSmall,
