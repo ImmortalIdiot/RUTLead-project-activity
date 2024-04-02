@@ -41,7 +41,6 @@ import com.immortalidiot.rutlead.ui.theme.ClassicGray
 import com.immortalidiot.rutlead.ui.theme.LightBlue
 import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
-import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
