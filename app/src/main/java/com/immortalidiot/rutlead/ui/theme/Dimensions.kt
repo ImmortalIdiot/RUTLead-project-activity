@@ -21,6 +21,7 @@ data class Dimensions(
     val horizontalNormalPadding: Dp = 16.dp,
     val horizontalBigPadding: Dp = 32.dp,
 
+    val normalPadding: Dp = 6.dp,
     val bigPadding: Dp = 16.dp,
 
     val shapeSSmall: Dp = 2.dp,
