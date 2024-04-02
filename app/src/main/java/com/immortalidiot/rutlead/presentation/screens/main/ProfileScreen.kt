@@ -48,7 +48,6 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
 @Composable
 fun ProfileScreen(
-    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     colorUserAvatar: Color,
     profileViewModel: ProfileScreenViewModel
@@ -301,7 +300,6 @@ fun ProfileScreenPreview() {
     val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
     ProfileScreen(
         colorUserAvatar = backgroundUserColor,
-        darkTheme = true,
         profileViewModel = ProfileScreenViewModel()
     )
 }

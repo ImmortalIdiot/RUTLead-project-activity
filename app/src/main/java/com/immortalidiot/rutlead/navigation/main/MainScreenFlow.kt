@@ -13,7 +13,6 @@ import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewMo
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 
 fun NavGraphBuilder.mainScreenFlow(
-    darkTheme: Boolean,
     screenName: (String) -> Unit
 ) {
     val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
@@ -26,7 +25,7 @@ fun NavGraphBuilder.mainScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            JournalScreen(darkTheme = darkTheme)
+            JournalScreen()
             screenName("Журнал")
         }
 
@@ -37,7 +36,6 @@ fun NavGraphBuilder.mainScreenFlow(
         ) {
             val profileScreenViewModel: ProfileScreenViewModel = viewModel()
             ProfileScreen(
-                darkTheme = darkTheme,
                 colorUserAvatar = backgroundUserColor,
                 profileViewModel = profileScreenViewModel
             )

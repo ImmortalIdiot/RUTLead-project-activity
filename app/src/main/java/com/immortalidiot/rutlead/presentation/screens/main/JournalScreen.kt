@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun JournalScreen(
-    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     //TODO(): add viewmodel
 ) {
@@ -33,5 +32,5 @@ fun JournalScreen(
 @Preview
 @Composable
 fun JournalScreenPreview() {
-    JournalScreen(darkTheme = true)
+    JournalScreen()
 }

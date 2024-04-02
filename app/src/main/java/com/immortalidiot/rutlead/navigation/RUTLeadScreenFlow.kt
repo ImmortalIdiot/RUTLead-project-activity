@@ -26,6 +26,6 @@ fun RUTLeadScreenFlow(
              navController = navController,
              darkTheme = darkTheme
          ) { isNavigationBarVisible(false) }
-         mainScreenFlow(darkTheme = darkTheme) { isNavigationBarVisible(true) }
+         mainScreenFlow { isNavigationBarVisible(true) }
      }
 }
