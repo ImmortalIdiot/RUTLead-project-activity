@@ -55,7 +55,6 @@ fun ProfileScreen(
 ) {
     val state by profileViewModel.mutableState.collectAsState()
 
-    val palette = if (darkTheme) ThemeColors.Dark else ThemeColors.Light
     val scheme = MaterialTheme.colorScheme
 
     val dimensions = LocalDimensions.current
@@ -87,7 +86,7 @@ fun ProfileScreen(
                     color = scheme.outline,
                     shape = roundedShape
                 )
-                .background(color = palette.profileContent)
+                .background(color = scheme.onSecondary)
                 .padding(vertical = dimensions.bigPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
