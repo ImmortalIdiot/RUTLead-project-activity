@@ -49,7 +49,6 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 @Composable
 fun ProfileScreen(
     darkTheme: Boolean,
-    onThemeUpdated: () -> Unit,
     modifier: Modifier = Modifier,
     colorUserAvatar: Color,
     profileViewModel: ProfileScreenViewModel
@@ -304,7 +303,6 @@ fun ProfileScreenPreview() {
     ProfileScreen(
         colorUserAvatar = backgroundUserColor,
         darkTheme = true,
-        onThemeUpdated = {},
         profileViewModel = ProfileScreenViewModel()
     )
 }

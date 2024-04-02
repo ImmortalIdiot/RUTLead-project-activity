@@ -14,7 +14,6 @@ import com.immortalidiot.rutlead.ui.theme.ClassicColors
 
 fun NavGraphBuilder.mainScreenFlow(
     darkTheme: Boolean,
-    onThemeUpdated: () -> Unit,
     screenName: (String) -> Unit
 ) {
     val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
@@ -39,7 +38,6 @@ fun NavGraphBuilder.mainScreenFlow(
             val profileScreenViewModel: ProfileScreenViewModel = viewModel()
             ProfileScreen(
                 darkTheme = darkTheme,
-                onThemeUpdated = onThemeUpdated,
                 colorUserAvatar = backgroundUserColor,
                 profileViewModel = profileScreenViewModel
             )

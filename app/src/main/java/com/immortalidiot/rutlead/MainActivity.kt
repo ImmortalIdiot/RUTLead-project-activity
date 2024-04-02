@@ -53,7 +53,6 @@ class MainActivity : ComponentActivity() {
                             darkTheme = darkTheme,
                             paddingValues = padding,
                             isNavigationBarVisible = { isNavigationBarVisible = it },
-                            onThemeUpdated = {},
                             navController = navController
                         )
                     }
