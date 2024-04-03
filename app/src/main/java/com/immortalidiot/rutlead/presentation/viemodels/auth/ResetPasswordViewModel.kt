@@ -77,7 +77,7 @@ class ResetPasswordViewModel : ViewModel() {
             confirmPassword = uiState.value.confirmPassword
         )
 
-        if (email.isFailure || password.isFailure) {
+        if (email.isFailure || password.isFailure || confirmPassword.isFailure) {
             mutableState.update {
                 State.ValidationError(
                     emailError = email.exceptionOrNull()?.message,
