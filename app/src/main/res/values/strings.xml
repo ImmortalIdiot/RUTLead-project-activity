@@ -13,6 +13,7 @@
     <string name="account_management">Управление аккаунтом</string>
     <string name="auto_theme">Авто</string>
     <string name="profile_change_password">Сменить пароль</string>
+    <string name="profile_change_group">Изменить группу</string>
     <string name="delete_account">Удалить аккаунт</string>
 
 </resources>

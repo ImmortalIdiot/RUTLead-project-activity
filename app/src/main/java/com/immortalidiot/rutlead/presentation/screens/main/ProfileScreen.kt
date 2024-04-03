@@ -223,13 +223,13 @@ fun ProfileScreen(
             borderWidth = dimensions.borderXSSmall,
             shape = RoundedCornerShape(dimensions.shapeMLarge),
             scheme = scheme,
-            text = stringResource(id = R.string.profile_change_password),
+            text = stringResource(id = R.string.profile_change_group),
             textStyle = mediumInter16,
             colorText = scheme.onSecondary,
             outlineColor = scheme.onSecondary,
             containerColor = scheme.onBackground,
             onButtonClick = {
-                //TODO(): open the change password dialog
+                //TODO(): open the change group dialog
             }
         )
         Spacer(modifier = modifier.height(dimensions.verticalStandard))
