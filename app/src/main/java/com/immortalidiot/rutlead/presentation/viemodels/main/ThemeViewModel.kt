@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class ProfileScreenViewModel : ViewModel() {
+class ThemeViewModel : ViewModel() {
 
     private val themeFlow = ThemeManager.themeFlow
     @Immutable

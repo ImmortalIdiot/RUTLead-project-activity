@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,15 +30,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.immortalidiot.rutlead.R
-import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
+import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
-import com.immortalidiot.rutlead.ui.theme.ClassicGray
-import com.immortalidiot.rutlead.ui.theme.LightBlue
-import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
@@ -51,9 +46,9 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     colorUserAvatar: Color,
-    profileViewModel: ProfileScreenViewModel
+    themeViewModel: ThemeViewModel
 ) {
-    val state by profileViewModel.mutableState.collectAsState()
+    val state by themeViewModel.mutableState.collectAsState()
 
     val scheme = MaterialTheme.colorScheme
 
@@ -154,19 +149,19 @@ fun ProfileScreen(
                     .background(color = themeContentColor)
 
                 Box(
-                    modifier = if (state is ProfileScreenViewModel.State.AutoThemeSelected) {
+                    modifier = if (state is ThemeViewModel.State.AutoThemeSelected) {
                         customModifier
                     } else {
                         modifier
                             .weight(1f)
-                            .clickable(onClick = { profileViewModel.onAutoTheme() })
+                            .clickable(onClick = { themeViewModel.onAutoTheme() })
                     },
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = "Авто",
                         style = boldLato20.copy(
-                            color = if (state is ProfileScreenViewModel.State.AutoThemeSelected) {
+                            color = if (state is ThemeViewModel.State.AutoThemeSelected) {
                                 scheme.onSecondary
                             } else {
                                 themeContentColor
@@ -176,19 +171,19 @@ fun ProfileScreen(
                     )
                 }
                 Box(
-                    modifier = if (state is ProfileScreenViewModel.State.LightThemeSelected) {
+                    modifier = if (state is ThemeViewModel.State.LightThemeSelected) {
                         customModifier
                     } else {
                         modifier
                             .weight(1f)
-                            .clickable(onClick = { profileViewModel.onLightTheme() })
+                            .clickable(onClick = { themeViewModel.onLightTheme() })
                     },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.light_theme_controller),
                         contentDescription = "light_theme_controller",
-                        tint = if (state is ProfileScreenViewModel.State.LightThemeSelected) {
+                        tint = if (state is ThemeViewModel.State.LightThemeSelected) {
                             scheme.onSecondary
                         } else {
                             themeContentColor
@@ -196,19 +191,19 @@ fun ProfileScreen(
                     )
                 }
                 Box(
-                    modifier = if (state is ProfileScreenViewModel.State.DarkThemeSelected) {
+                    modifier = if (state is ThemeViewModel.State.DarkThemeSelected) {
                         customModifier
                     } else {
                         modifier
                             .weight(1f)
-                            .clickable(onClick = { profileViewModel.onDarkTheme() })
+                            .clickable(onClick = { themeViewModel.onDarkTheme() })
                     },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.dark_theme_controller),
                         contentDescription = "dark_theme_controller",
-                        tint = if (state is ProfileScreenViewModel.State.DarkThemeSelected) {
+                        tint = if (state is ThemeViewModel.State.DarkThemeSelected) {
                             scheme.onSecondary
                         } else {
                             themeContentColor
@@ -256,6 +251,6 @@ fun ProfileScreenPreview() {
     val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
     ProfileScreen(
         colorUserAvatar = backgroundUserColor,
-        profileViewModel = ProfileScreenViewModel()
+        themeViewModel = ThemeViewModel()
     )
 }
