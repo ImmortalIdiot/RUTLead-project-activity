@@ -2,6 +2,7 @@ package com.immortalidiot.rutlead.navigation.main
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -10,12 +11,11 @@ import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.presentation.screens.main.JournalScreen
 import com.immortalidiot.rutlead.presentation.screens.main.ProfileScreen
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
-import com.immortalidiot.rutlead.ui.theme.ClassicColors
 
 fun NavGraphBuilder.mainScreenFlow(
+    backgroundUserColor: Color,
     screenName: (String) -> Unit
 ) {
-    val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
     navigation(
         startDestination = MainScreen.JournalScreen.route,
         route = RUTLeadScreen.MainScreenFlow.route

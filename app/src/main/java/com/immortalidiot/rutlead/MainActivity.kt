@@ -20,10 +20,12 @@ import com.immortalidiot.rutlead.navigation.navBars.BottomNavigationBar
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeManager
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeStyle
 import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
+import com.immortalidiot.rutlead.ui.theme.ClassicColors
 import com.immortalidiot.rutlead.ui.theme.RUTLeadTheme
 
 class MainActivity : ComponentActivity() {
     private val themeFlow = ThemeManager.themeFlow
+    private val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +52,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { padding ->
                         RUTLeadScreenFlow(
+                            backgroundUserColor = backgroundUserColor,
                             darkTheme = darkTheme,
                             paddingValues = padding,
                             isNavigationBarVisible = { isNavigationBarVisible = it },
