@@ -44,6 +44,7 @@ import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
 import com.immortalidiot.rutlead.ui.theme.DarkBlue
+import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
@@ -130,21 +131,23 @@ fun ProfileScreen(
                             //TODO(): logout
                         },
                         shape = RoundedCornerShape(dimensions.shapeXLarge),
-                        outlineColor = scheme.onBackground
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderOne
                     )
                     PrimaryButton(
                         modifier = modifier
-                            .fillMaxHeight(0.4f)
+                            .fillMaxHeight(0.45f)
                             .fillMaxWidth(0.4f),
-                        containerColor = scheme.onBackground,
+                        containerColor = LightRed,
                         scheme = scheme,
                         text = stringResource(id = R.string.cancel),
-                        textStyle = mediumInter14.copy(color = scheme.onSurface),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
                         onButtonClick = {
                             profileScreenViewModel.onCancelled()
                         },
                         shape = RoundedCornerShape(dimensions.shapeXLarge),
-                        outlineColor = DarkBlue,
+                        outlineColor = scheme.onBackground,
                         borderWidth = dimensions.borderOne
                     )
                 }
