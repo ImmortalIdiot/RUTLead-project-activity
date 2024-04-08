@@ -59,6 +59,7 @@ sealed class ClassicColors(
 sealed class ThemeColors(
     val header: Color,
     val surface: Color,
+    val onSurface: Color,
     val background: Color,
     val primary: Color,
     val secondary: Color,
@@ -77,6 +78,7 @@ sealed class ThemeColors(
     object Light : ThemeColors(
         header = ClassicWhite,
         surface = LightBlue,
+        onSurface = Color.Black,
         primary = LightBlue,
         onPrimary = ClassicWhite,
         secondary = LightBlue,
@@ -96,6 +98,7 @@ sealed class ThemeColors(
     object Dark : ThemeColors(
         header = DarkWhite,
         surface = LightBlack,
+        onSurface = DarkWhite,
         primary = DarkWhite,
         onPrimary = DarkWhite,
         secondary = DarkWhite,
