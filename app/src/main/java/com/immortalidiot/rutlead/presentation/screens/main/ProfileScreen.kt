@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,16 +31,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.immortalidiot.rutlead.R
+import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
+import com.immortalidiot.rutlead.ui.theme.ClassicGray
+import com.immortalidiot.rutlead.ui.theme.DarkBlue
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
+import com.immortalidiot.rutlead.ui.theme.mediumInter14
 import com.immortalidiot.rutlead.ui.theme.mediumInter16
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
@@ -46,9 +55,12 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 fun ProfileScreen(
     modifier: Modifier = Modifier,
     colorUserAvatar: Color,
-    themeViewModel: ThemeViewModel
+    themeViewModel: ThemeViewModel,
+    profileScreenViewModel: ProfileScreenViewModel
 ) {
     val state by themeViewModel.mutableState.collectAsState()
+
+    val profileState by profileScreenViewModel.mutableState.collectAsState()
 
     val scheme = MaterialTheme.colorScheme
 
@@ -65,10 +77,92 @@ fun ProfileScreen(
     val url = null
     val initials = firstName.take(1) + secondName.take(1)
 
+    if (profileState is ProfileScreenViewModel.State.LogoutDialog) {
+        Dialog(
+            onDismissRequest = {
+                //TODO(): on dismiss action
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true,
+                usePlatformDefaultWidth = false
+            )
+        ) {
+            Column(
+                modifier = modifier
+                    .fillMaxWidth(0.8f)
+                    .fillMaxHeight(0.2f)
+                    .clip(roundedShape)
+                    .background(color = scheme.onBackground)
+                    .border(
+                        width = LocalDimensions.current.borderXSSmall,
+                        color = ClassicGray,
+                        shape = roundedShape
+                    ),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(id = R.string.confirmation),
+                    style = boldInter16.copy(color = scheme.onSurface)
+                )
+                Text(
+                    text = stringResource(id = R.string.exit_text),
+                    style = mediumInter16.copy(color = scheme.onSurface)
+                )
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = scheme.onBackground),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    PrimaryButton(
+                        modifier = modifier
+                            .fillMaxHeight(0.45f)
+                            .fillMaxWidth(0.3f),
+                        containerColor = DarkBlue,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.confirm),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            //TODO(): logout
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLarge),
+                        outlineColor = scheme.onBackground
+                    )
+                    PrimaryButton(
+                        modifier = modifier
+                            .fillMaxHeight(0.4f)
+                            .fillMaxWidth(0.4f),
+                        containerColor = scheme.onBackground,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.cancel),
+                        textStyle = mediumInter14.copy(color = scheme.onSurface),
+                        onButtonClick = {
+                            profileScreenViewModel.onCancelled()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLarge),
+                        outlineColor = DarkBlue,
+                        borderWidth = dimensions.borderOne
+                    )
+                }
+            }
+        }
+    }
+
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(scheme.onBackground),
+        modifier = if (profileState is ProfileScreenViewModel.State.LogoutDialog) {
+            modifier
+                .fillMaxSize()
+                .background(scheme.onBackground)
+                .blur(radius = 10.dp)
+        } else {
+            modifier
+                .fillMaxSize()
+                .background(scheme.onBackground)
+        },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -93,6 +187,7 @@ fun ProfileScreen(
                     modifier = modifier
                         .padding(dimensions.bigPadding)
                         .clickable {
+                            profileScreenViewModel.changeLogoutDialogVisibility()
                             //TODO: add log out via the viewmodel
                         },
                     imageVector = ImageVector.vectorResource(id = R.drawable.exit_img),
@@ -251,6 +346,7 @@ fun ProfileScreenPreview() {
     val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
     ProfileScreen(
         colorUserAvatar = backgroundUserColor,
-        themeViewModel = ThemeViewModel()
+        themeViewModel = ThemeViewModel(),
+        profileScreenViewModel = ProfileScreenViewModel()
     )
 }
