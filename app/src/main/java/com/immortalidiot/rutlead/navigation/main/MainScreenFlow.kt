@@ -10,6 +10,7 @@ import androidx.navigation.navigation
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.presentation.screens.main.JournalScreen
 import com.immortalidiot.rutlead.presentation.screens.main.ProfileScreen
+import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 
 fun NavGraphBuilder.mainScreenFlow(
@@ -35,9 +36,12 @@ fun NavGraphBuilder.mainScreenFlow(
             exitTransition = { fadeOut() }
         ) {
             val themeViewModel: ThemeViewModel = viewModel()
+            val profileScreenViewModel: ProfileScreenViewModel = viewModel()
+
             ProfileScreen(
                 colorUserAvatar = backgroundUserColor,
-                themeViewModel = themeViewModel
+                themeViewModel = themeViewModel,
+                profileScreenViewModel = profileScreenViewModel
             )
             screenName("Профиль")
         }
