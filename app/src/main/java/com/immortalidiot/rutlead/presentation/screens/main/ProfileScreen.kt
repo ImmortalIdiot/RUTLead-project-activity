@@ -121,7 +121,7 @@ fun ProfileScreen(
                         modifier = modifier
                             .fillMaxHeight(0.45f)
                             .fillMaxWidth(0.3f),
-                        containerColor = DarkBlue,
+                        containerColor = LightRed,
                         scheme = scheme,
                         text = stringResource(id = R.string.confirm),
                         textStyle = mediumInter14.copy(),
@@ -137,7 +137,7 @@ fun ProfileScreen(
                         modifier = modifier
                             .fillMaxHeight(0.45f)
                             .fillMaxWidth(0.4f),
-                        containerColor = LightRed,
+                        containerColor = DarkBlue,
                         scheme = scheme,
                         text = stringResource(id = R.string.cancel),
                         textStyle = mediumInter14.copy(),
