@@ -155,16 +155,9 @@ fun ProfileScreen(
     }
 
     Column(
-        modifier = if (profileState is ProfileScreenViewModel.State.LogoutDialog) {
-            modifier
-                .fillMaxSize()
-                .background(scheme.onBackground)
-                .blur(radius = 10.dp)
-        } else {
-            modifier
-                .fillMaxSize()
-                .background(scheme.onBackground)
-        },
+        modifier = modifier
+            .fillMaxSize()
+            .background(scheme.onBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
