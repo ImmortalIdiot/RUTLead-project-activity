@@ -317,8 +317,8 @@ fun ProfileScreen(
             scheme = scheme,
             text = stringResource(id = R.string.profile_change_group),
             textStyle = mediumInter16,
-            colorText = scheme.error,
-            outlineColor = scheme.error,
+            colorText = scheme.onSecondary,
+            outlineColor = scheme.onSecondary,
             containerColor = scheme.onBackground,
             onButtonClick = {
                 //TODO(): open the change group dialog
@@ -332,8 +332,8 @@ fun ProfileScreen(
             scheme = scheme,
             text = stringResource(id = R.string.delete_account),
             textStyle = mediumInter16,
-            colorText = scheme.onSecondary,
-            outlineColor = scheme.onSecondary,
+            colorText = scheme.error,
+            outlineColor = scheme.error,
             containerColor = scheme.onBackground,
             onButtonClick = {
                 //TODO(): open the delete account dialog
