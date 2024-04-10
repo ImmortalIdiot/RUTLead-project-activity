@@ -35,7 +35,9 @@ data class Dimensions(
     val borderXSSmall: Dp = 2.dp,
     val borderSSmall: Dp = 3.dp,
     val borderNormal: Dp = 5.dp,
-    val borderXLarge: Dp = 8.dp
+    val borderXLarge: Dp = 8.dp,
+
+    val userAvatarRadius: Dp = 80.dp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }
