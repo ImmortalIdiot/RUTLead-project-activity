@@ -159,7 +159,7 @@ fun ProfileScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Авто",
+                        text = stringResource(id = R.string.theme_auto),
                         style = boldLato20.copy(
                             color = if (state is ThemeViewModel.State.AutoThemeSelected) {
                                 scheme.onSecondary

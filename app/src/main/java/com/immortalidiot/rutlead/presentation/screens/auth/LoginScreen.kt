@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -138,16 +139,16 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                BoxLabel(text = "Авторизация")
+                BoxLabel(text = stringResource(id = R.string.authorization_header))
                 Spacer(modifier = modifier.height(dimensions.verticalXXLarge))
                 StudentIdTextField(
-                    hint = "Номер студенческого билета",
+                    hint = stringResource(id = R.string.student_id_field),
                     value = uiState.studentID,
                     onTextChange = { studentID -> viewModel.changeLogin(studentID) }
                 )
                 Spacer(modifier = modifier.height(dimensions.verticalXLarge))
                 PasswordField(
-                    hint = "Пароль",
+                    hint = stringResource(id = R.string.password),
                     modifier = modifier.border(
                         width = dimensions.borderSSmall,
                         color = scheme.outline,
@@ -180,7 +181,7 @@ fun LoginScreen(
                         .fillMaxHeight(0.14f)
                         .fillMaxWidth(0.55f),
                     scheme = scheme,
-                    text = "Войти",
+                    text = stringResource(id = R.string.login),
                     onButtonClick = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
@@ -195,7 +196,7 @@ fun LoginScreen(
                     AccountMissing()
                     RedirectText(
                         modifier = modifier,
-                        text = "Зарегистрируйтесь",
+                        text = stringResource(id = R.string.to_registration),
                         onTextClick = {
                             navHostController.navigate(AuthScreen.SignUpScreen.route) {
                                 popUpTo(0) {
@@ -209,7 +210,7 @@ fun LoginScreen(
                 Spacer(modifier = modifier.height(dimensions.verticalXSmall))
                 RedirectText(
                     modifier = modifier,
-                    text = "Забыли пароль?",
+                    text = stringResource(id = R.string.forgot_password),
                     onTextClick = {
                         navHostController.navigate(AuthScreen.ResetPasswordScreen.route)
                     }

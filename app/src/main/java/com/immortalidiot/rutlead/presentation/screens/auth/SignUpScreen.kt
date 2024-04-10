@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -167,13 +168,13 @@ fun SignUpScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                BoxLabel(text = "Регистрация")
+                BoxLabel(text = stringResource(id = R.string.registration_header))
                 Spacer(modifier = modifier.height(dimensions.verticalXXLarge))
                 if (state is SignUpViewModel.State.Init ||
                     state is SignUpViewModel.State.SignUpValidationFirstPartError
                 ) {
                     StudentIdTextField(
-                        hint = "Номер студенческого билета",
+                        hint = stringResource(id = R.string.student_id_field),
                         value = uiState.studentID,
                         onTextChange = { studentID ->
                             viewModel.changeStudentID(studentID = studentID)
@@ -190,7 +191,7 @@ fun SignUpScreen(
                         isSingleLine = true,
                         label = {
                             Text(
-                                text = "Email",
+                                text = stringResource(id = R.string.email),
                                 style = if (uiState.isFocused || uiState.email.isNotBlank()) {
                                     mediumInter12.copy(color = scheme.primary)
                                 } else {
@@ -212,7 +213,7 @@ fun SignUpScreen(
                     )
                     Spacer(modifier = modifier.height(dimensions.verticalXLarge))
                     PasswordField(
-                        hint = "Пароль",
+                        hint = stringResource(id = R.string.password),
                         modifier = modifier.border(
                             width = dimensions.borderSSmall,
                             color = scheme.outline,
@@ -244,7 +245,7 @@ fun SignUpScreen(
                             .fillMaxHeight(0.18f)
                             .fillMaxWidth(0.55f),
                         scheme = scheme,
-                        text = "Далее",
+                        text = stringResource(id = R.string.next_step),
                         onButtonClick = {
                             focusManager.clearFocus()
                             keyboardController?.hide()
@@ -264,7 +265,7 @@ fun SignUpScreen(
                         isSingleLine = true,
                         label = {
                             Text(
-                                text = "ФИО",
+                                text = stringResource(id = R.string.full_name),
                                 style = if (uiState.isFocused || uiState.name.isNotBlank()) {
                                     mediumInter12.copy(color = scheme.primary)
                                 } else {
@@ -295,7 +296,7 @@ fun SignUpScreen(
                         isSingleLine = true,
                         label = {
                             Text(
-                                text = "Группа",
+                                text = stringResource(id = R.string.group),
                                 style = if (uiState.isFocused || uiState.group.isNotBlank()) {
                                     mediumInter12.copy(color = scheme.primary)
                                 } else {
@@ -319,7 +320,7 @@ fun SignUpScreen(
                     PrimaryButton(
                         modifier = modifier.fillMaxHeight(0.13f),
                         scheme = scheme,
-                        text = "Зарегистрироваться",
+                        text = stringResource(id = R.string.register),
                         onButtonClick = remember {
                             {
                                 focusManager.clearFocus()
@@ -335,12 +336,12 @@ fun SignUpScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Есть аккаунт?",
+                        text = stringResource(id = R.string.account_existing),
                         style = boldInter14.copy(color = scheme.onPrimary),
                     )
                     RedirectText(
                         modifier = modifier,
-                        text = "Войдите",
+                        text = stringResource(id = R.string.login_text_button),
                         onTextClick = { navHostController.navigate(AuthScreen.LoginScreen.route) }
                     )
                 }
