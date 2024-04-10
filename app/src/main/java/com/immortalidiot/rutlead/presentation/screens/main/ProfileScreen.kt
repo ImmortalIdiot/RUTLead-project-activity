@@ -174,7 +174,8 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Row(
-                modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
                 Icon(
                     modifier = modifier
