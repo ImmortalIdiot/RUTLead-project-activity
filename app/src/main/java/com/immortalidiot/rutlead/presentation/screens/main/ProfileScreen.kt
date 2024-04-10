@@ -82,7 +82,7 @@ fun ProfileScreen(
     if (profileState is ProfileScreenViewModel.State.LogoutDialog) {
         Dialog(
             onDismissRequest = {
-                //TODO(): on dismiss action
+                profileScreenViewModel.onCancelled()
             },
             properties = DialogProperties(
                 dismissOnBackPress = true,
