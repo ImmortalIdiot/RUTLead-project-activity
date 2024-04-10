@@ -31,7 +31,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
+import com.immortalidiot.rutlead.navigation.auth.AuthScreen
 import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
@@ -52,6 +55,7 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     colorUserAvatar: Color,
     themeViewModel: ThemeViewModel,
     profileScreenViewModel: ProfileScreenViewModel
@@ -125,7 +129,12 @@ fun ProfileScreen(
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onPrimary,
                         onButtonClick = {
-                            //TODO(): logout
+                            navController.navigate(AuthScreen.LoginScreen.route) {
+                                popUpTo(0) {
+                                    inclusive = false
+                                    saveState = true
+                                }
+                            }
                         },
                         shape = RoundedCornerShape(dimensions.shapeXLarge),
                         outlineColor = scheme.onBackground,
@@ -341,6 +350,7 @@ fun ProfileScreenPreview() {
     ProfileScreen(
         colorUserAvatar = backgroundUserColor,
         themeViewModel = ThemeViewModel(),
-        profileScreenViewModel = ProfileScreenViewModel()
+        profileScreenViewModel = ProfileScreenViewModel(),
+        navController = rememberNavController()
     )
 }
