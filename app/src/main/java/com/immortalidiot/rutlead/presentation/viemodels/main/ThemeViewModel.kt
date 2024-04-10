@@ -40,5 +40,5 @@ object ThemeManager {
 enum class ThemeStyle {
     DARK,
     LIGHT,
-    AUTO
+    AUTO;
 }

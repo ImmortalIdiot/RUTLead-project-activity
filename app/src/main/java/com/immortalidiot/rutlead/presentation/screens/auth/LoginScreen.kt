@@ -134,14 +134,11 @@ fun LoginScreen(
                 .padding(vertical = dimensions.verticalBigPadding)
         ) {
             Column(
-                modifier = modifier
-                    .fillMaxWidth(0.85f),
+                modifier = modifier.fillMaxWidth(0.85f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                BoxLabel(
-                    text = "Авторизация",
-                )
+                BoxLabel(text = "Авторизация")
                 Spacer(modifier = modifier.height(dimensions.verticalXXLarge))
                 StudentIdTextField(
                     hint = "Номер студенческого билета",
