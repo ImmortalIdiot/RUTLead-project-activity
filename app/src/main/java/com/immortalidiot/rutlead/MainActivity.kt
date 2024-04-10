@@ -1,5 +1,7 @@
 package com.immortalidiot.rutlead
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,9 +20,11 @@ import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
 import com.immortalidiot.rutlead.ui.theme.RUTLeadTheme
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("ObsoleteSdkInt")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = getColor(R.color.black)
         setContent {
             RUTLeadTheme {
                 val snackbarHostState = remember { SnackbarHostState() }
