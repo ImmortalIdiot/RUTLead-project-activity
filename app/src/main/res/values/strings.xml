@@ -28,6 +28,7 @@
     <string name="register">Зарегистрироваться</string>
     <string name="full_name">ФИО</string>
     <string name="group">Группа</string>
+    <string name="group_with_example">Группа (АБВ-123)</string>
     <string name="next_step">Далее</string>
 
     <string name="theme_auto">Авто</string>
