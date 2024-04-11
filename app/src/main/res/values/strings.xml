@@ -32,5 +32,7 @@
     <string name="next_step">Далее</string>
 
     <string name="theme_auto">Авто</string>
+    <string name="save_group">Сохранить</string>
+    <string name="cancel_group">Отменить</string>
 
 </resources>
