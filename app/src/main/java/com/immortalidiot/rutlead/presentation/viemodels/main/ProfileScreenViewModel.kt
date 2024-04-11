@@ -19,7 +19,10 @@ class ProfileScreenViewModel : ViewModel() {
     var mutableState = MutableStateFlow<State>(State.Init)
         private set
 
-    private val _uiState = MutableStateFlow(ChangeGroupModel(group = String()))
+    private val _uiState = MutableStateFlow(ChangeGroupModel(
+        group = String(),
+        isGroupFieldFocused = false
+    ))
     val uiState: StateFlow<ChangeGroupModel> = _uiState.asStateFlow()
 
     fun changeLogoutDialogVisibility() {
