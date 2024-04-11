@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
+import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
@@ -34,7 +34,7 @@ fun UserAvatar(
     //TODO(): add the ability to load photo from gallery
     Box(
         modifier = modifier
-            .size(80.dp)
+            .size(LocalDimensions.current.userAvatarRadius)
             .clickable {
                 onIconClick()
             },

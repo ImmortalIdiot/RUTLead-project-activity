@@ -29,26 +29,40 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
+import com.immortalidiot.rutlead.navigation.auth.AuthScreen
+import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
+import com.immortalidiot.rutlead.ui.theme.ClassicGray
+import com.immortalidiot.rutlead.ui.theme.DarkBlue
+import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
+import com.immortalidiot.rutlead.ui.theme.mediumInter14
 import com.immortalidiot.rutlead.ui.theme.mediumInter16
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     colorUserAvatar: Color,
-    themeViewModel: ThemeViewModel
+    themeViewModel: ThemeViewModel,
+    profileScreenViewModel: ProfileScreenViewModel
 ) {
     val state by themeViewModel.mutableState.collectAsState()
+
+    val profileState by profileScreenViewModel.mutableState.collectAsState()
 
     val scheme = MaterialTheme.colorScheme
 
@@ -64,6 +78,88 @@ fun ProfileScreen(
     val group = "УВП-212"
     val url = null
     val initials = firstName.take(1) + secondName.take(1)
+
+    if (profileState is ProfileScreenViewModel.State.LogoutDialog) {
+        Dialog(
+            onDismissRequest = {
+                profileScreenViewModel.onCancelled()
+            },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true,
+                usePlatformDefaultWidth = false
+            )
+        ) {
+            Column(
+                modifier = modifier
+                    .fillMaxWidth(0.8f)
+                    .fillMaxHeight(0.2f)
+                    .clip(roundedShape)
+                    .background(color = scheme.onBackground)
+                    .border(
+                        width = LocalDimensions.current.borderXSSmall,
+                        color = ClassicGray,
+                        shape = roundedShape
+                    ),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(id = R.string.confirmation),
+                    style = boldInter16.copy(color = scheme.onSurface)
+                )
+                Text(
+                    text = stringResource(id = R.string.exit_text),
+                    style = mediumInter16.copy(color = scheme.onSurface)
+                )
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = scheme.onBackground),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    PrimaryButton(
+                        modifier = modifier
+                            .fillMaxHeight(0.45f)
+                            .fillMaxWidth(0.3f),
+                        containerColor = LightRed,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.confirm),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            navController.navigate(AuthScreen.LoginScreen.route) {
+                                popUpTo(0) {
+                                    inclusive = false
+                                    saveState = true
+                                }
+                            }
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLarge),
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderOne
+                    )
+                    PrimaryButton(
+                        modifier = modifier
+                            .fillMaxHeight(0.45f)
+                            .fillMaxWidth(0.4f),
+                        containerColor = DarkBlue,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.cancel),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            profileScreenViewModel.onCancelled()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLarge),
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderOne
+                    )
+                }
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -87,12 +183,14 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Row(
-                modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
                 Icon(
                     modifier = modifier
                         .padding(dimensions.bigPadding)
                         .clickable {
+                            profileScreenViewModel.changeLogoutDialogVisibility()
                             //TODO: add log out via the viewmodel
                         },
                     imageVector = ImageVector.vectorResource(id = R.drawable.exit_img),
@@ -251,6 +349,8 @@ fun ProfileScreenPreview() {
     val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
     ProfileScreen(
         colorUserAvatar = backgroundUserColor,
-        themeViewModel = ThemeViewModel()
+        themeViewModel = ThemeViewModel(),
+        profileScreenViewModel = ProfileScreenViewModel(),
+        navController = rememberNavController()
     )
 }
