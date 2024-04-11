@@ -3,7 +3,6 @@ package com.immortalidiot.rutlead.presentation.screens.auth
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -51,7 +51,6 @@ import com.immortalidiot.rutlead.ui.components.fields.PrimaryTextField
 import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
 import com.immortalidiot.rutlead.providers.showMessage
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
-import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.boldInter14
 import com.immortalidiot.rutlead.ui.theme.mediumInter12
 import com.immortalidiot.rutlead.ui.theme.mediumInter14
@@ -63,6 +62,7 @@ import com.immortalidiot.rutlead.presentation.viemodels.auth.ResetPasswordViewMo
 )
 @Composable
 fun ResetPassword(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: ResetPasswordViewModel,
     navController: NavHostController
@@ -75,14 +75,13 @@ fun ResetPassword(
     val snackbarHostState = LocalSnackbarHostState.current
     val focusManager = LocalFocusManager.current
 
-    val palette = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light
+    val scheme = MaterialTheme.colorScheme
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
     var emailErrorMessage = ""
     var passwordErrorMessage = ""
     var confirmPasswordErrorMessage = ""
-
 
     LaunchedEffect(key1 = state) {
         (state as? ResetPasswordViewModel.State.ValidationError)?.let {
@@ -109,7 +108,7 @@ fun ResetPassword(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = palette.backgroundScreen),
+            .background(color = scheme.onBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -118,7 +117,7 @@ fun ResetPassword(
                 .fillMaxWidth(0.4f)
                 .fillMaxHeight(0.07f),
             imageVector = ImageVector.vectorResource(
-                id = if (isSystemInDarkTheme()) {
+                id = if (darkTheme) {
                     R.drawable.ic_app_dark_logo
                 } else {
                     R.drawable.ic_app_light_logo
@@ -132,10 +131,10 @@ fun ResetPassword(
             modifier = modifier
                 .fillMaxWidth(0.85f)
                 .clip(roundedShape)
-                .background(color = palette.primary)
+                .background(color = scheme.surface)
                 .border(
                     width = dimensions.borderSSmall,
-                    color = palette.outline,
+                    color = scheme.outline,
                     shape = roundedShape
                 )
                 .padding(vertical = dimensions.verticalBigPadding)
@@ -144,15 +143,12 @@ fun ResetPassword(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = modifier.fillMaxWidth(0.85f)
             ) {
-                BoxLabel(
-                    text = stringResource(id = R.string.reset_password),
-                    palette = palette
-                )
+                BoxLabel(text = stringResource(id = R.string.reset_password))
                 Spacer(modifier = modifier.height(dimensions.verticalXXLarge))
                 PrimaryTextField(
                     modifier = modifier.border(
                         width = dimensions.borderSSmall,
-                        color = palette.outline,
+                        color = scheme.outline,
                         shape = roundedShape
                     ),
                     value = uiState.email,
@@ -161,18 +157,18 @@ fun ResetPassword(
                         Text(
                             text = stringResource(id = R.string.email),
                             style = if (uiState.isFocused || uiState.email.isNotBlank()) {
-                                mediumInter12.copy(color = palette.containerText)
+                                mediumInter12.copy(color = scheme.primary)
                             } else {
-                                mediumInter14.copy(color = palette.containerText)
+                                mediumInter14.copy(color = scheme.primary)
                             }
                         )
                     },
                     colors = TextFieldDefaults.textFieldColors(
-                        containerColor = palette.container,
-                        textColor = palette.containerText,
-                        cursorColor = palette.cursor,
-                        unfocusedLabelColor = palette.label,
-                        focusedLabelColor = palette.label,
+                        containerColor = scheme.primaryContainer,
+                        textColor = scheme.primary,
+                        cursorColor = scheme.onSecondary,
+                        unfocusedLabelColor = scheme.onPrimary,
+                        focusedLabelColor = scheme.onPrimary,
                         focusedSupportingTextColor = Color.White,
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent
@@ -182,10 +178,9 @@ fun ResetPassword(
                 Spacer(modifier = modifier.height(dimensions.verticalXLarge))
                 PasswordField(
                     hint = stringResource(id = R.string.password),
-                    palette = palette,
                     modifier = modifier.border(
                         width = dimensions.borderSSmall,
-                        color = palette.outline,
+                        color = scheme.outline,
                         shape = roundedShape
                     ),
                     passwordValue = uiState.password,
@@ -208,10 +203,9 @@ fun ResetPassword(
                 Spacer(modifier = modifier.height(dimensions.verticalXLarge))
                 PasswordField(
                     hint = stringResource(id = R.string.confirm_password),
-                    palette = palette,
                     modifier = modifier.border(
                         width = dimensions.borderSSmall,
-                        color = palette.outline,
+                        color = scheme.outline,
                         shape = roundedShape
                     ),
                     passwordValue = uiState.confirmPassword,
@@ -239,10 +233,8 @@ fun ResetPassword(
                 )
                 Spacer(modifier = Modifier.height(dimensions.verticalXLarge))
                 PrimaryButton(
-                    modifier = modifier
-                        .fillMaxHeight(0.16f)
-                        .fillMaxWidth(0.55f),
-                    palette = palette,
+                    modifier = modifier.fillMaxHeight(0.16f),
+                    scheme = scheme,
                     text = stringResource(id = R.string.change_password),
                     onButtonClick = {
                         focusManager.clearFocus()
@@ -257,12 +249,11 @@ fun ResetPassword(
                 ) {
                     Text(
                         text = stringResource(id = R.string.account_existing),
-                        style = boldInter14.copy(color = palette.text),
+                        style = boldInter14.copy(color = scheme.onPrimary),
                     )
                     RedirectText(
                         modifier = modifier,
                         text = stringResource(id = R.string.login_text_button),
-                        palette = palette,
                         onTextClick = { navController.navigate(AuthScreen.LoginScreen.route) }
                     )
                 }
@@ -271,7 +262,6 @@ fun ResetPassword(
     }
     BottomSnackbar(
         modifier = modifier,
-        palette = palette,
         snackbarHostState = snackbarHostState
     )
 }
@@ -283,6 +273,7 @@ fun ResetPasswordPreview() {
 
     CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
         ResetPassword(
+            darkTheme = true,
             viewModel = ResetPasswordViewModel(),
             navController = rememberNavController()
         )

@@ -2,14 +2,20 @@ package com.immortalidiot.rutlead.navigation.main
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.presentation.screens.main.JournalScreen
 import com.immortalidiot.rutlead.presentation.screens.main.ProfileScreen
+import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 
-fun NavGraphBuilder.mainScreenFlow(screenName: (String) -> Unit) {
+fun NavGraphBuilder.mainScreenFlow(
+    backgroundUserColor: Color,
+    screenName: (String) -> Unit
+) {
     navigation(
         startDestination = MainScreen.JournalScreen.route,
         route = RUTLeadScreen.MainScreenFlow.route
@@ -28,7 +34,11 @@ fun NavGraphBuilder.mainScreenFlow(screenName: (String) -> Unit) {
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            ProfileScreen()
+            val themeViewModel: ThemeViewModel = viewModel()
+            ProfileScreen(
+                colorUserAvatar = backgroundUserColor,
+                themeViewModel = themeViewModel
+            )
             screenName("Профиль")
         }
     }

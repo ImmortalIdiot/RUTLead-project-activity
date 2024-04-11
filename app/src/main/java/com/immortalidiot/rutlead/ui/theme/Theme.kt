@@ -14,30 +14,40 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 val DarkColorScheme = darkColorScheme(
-    primary = ThemeColors.Dark.primary,
+    onBackground = ThemeColors.Dark.background,
     surface = ThemeColors.Dark.surface,
-    outline = ThemeColors.Dark.outline,
-    primaryContainer = ThemeColors.Dark.container,
-    onSecondary = ThemeColors.Dark.containerText,
+    primary = ThemeColors.Dark.primary,
+    onPrimary = ThemeColors.Dark.onPrimary,
+    secondary = ThemeColors.Dark.secondary,
+    onSecondary = ThemeColors.Dark.onSecondary,
+    tertiary = ThemeColors.Dark.textNavBar,
     onTertiary = ThemeColors.Dark.label,
-    onPrimaryContainer = ThemeColors.Dark.container,
+    outline = ThemeColors.Dark.outline,
+    errorContainer = ThemeColors.Dark.containerColorError,
+    error = ThemeColors.Dark.error,
+    primaryContainer = ThemeColors.Dark.container,
+    onPrimaryContainer = ThemeColors.Dark.container, //
     onSecondaryContainer = ThemeColors.Dark.buttonOutline,
-    scrim = ThemeColors.Dark.handle,
-    onBackground = ThemeColors.Dark.textSelection
+    scrim = ThemeColors.Dark.handle
 
 )
 
 val LightColorScheme = lightColorScheme(
-    primary = ThemeColors.Light.primary,
+    onBackground = ThemeColors.Light.background,
     surface = ThemeColors.Light.surface,
-    outline = ThemeColors.Light.outline,
-    primaryContainer = ThemeColors.Light.container,
-    onSecondary = ThemeColors.Light.containerText,
+    primary = ThemeColors.Light.primary,
+    onPrimary = ThemeColors.Light.onPrimary,
+    secondary = ThemeColors.Light.secondary,
+    onSecondary = ThemeColors.Light.onSecondary,
+    tertiary = ThemeColors.Light.textNavBar,
     onTertiary = ThemeColors.Light.label,
-    onPrimaryContainer = ThemeColors.Light.container,
+    outline = ThemeColors.Light.outline,
+    errorContainer = ThemeColors.Light.containerColorError,
+    error = ThemeColors.Light.error,
+    primaryContainer = ThemeColors.Light.container,
+    onPrimaryContainer = ThemeColors.Light.container, //
     onSecondaryContainer = ThemeColors.Light.buttonOutline,
-    scrim = ThemeColors.Light.handle,
-    onBackground = ThemeColors.Light.textSelection
+    scrim = ThemeColors.Light.handle
 
 )
 

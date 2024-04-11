@@ -3,7 +3,6 @@ package com.immortalidiot.rutlead.presentation.screens.auth
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -35,7 +36,6 @@ import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
-import com.immortalidiot.rutlead.navigation.main.MainScreen
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.other.AccountMissing
 import com.immortalidiot.rutlead.ui.components.other.BottomSnackbar
@@ -46,18 +46,17 @@ import com.immortalidiot.rutlead.ui.components.fields.StudentIdTextField
 import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
 import com.immortalidiot.rutlead.providers.showMessage
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
-import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.presentation.viemodels.auth.LoginScreenViewModel
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: LoginScreenViewModel,
     navHostController: NavHostController
 ) {
-    val palette = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light
+    val scheme = MaterialTheme.colorScheme
 
     val dimensions = LocalDimensions.current
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
@@ -104,7 +103,7 @@ fun LoginScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = palette.backgroundScreen),
+            .background(color = scheme.onBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -113,7 +112,7 @@ fun LoginScreen(
                 .fillMaxWidth(0.4f)
                 .fillMaxHeight(0.07f),
             imageVector = ImageVector.vectorResource(
-                id = if (isSystemInDarkTheme()) {
+                id = if (darkTheme) {
                     R.drawable.ic_app_dark_logo
                 } else {
                     R.drawable.ic_app_light_logo
@@ -127,10 +126,10 @@ fun LoginScreen(
             modifier = modifier
                 .fillMaxWidth(0.85f)
                 .clip(roundedShape)
-                .background(color = palette.primary)
+                .background(color = scheme.surface)
                 .border(
                     width = dimensions.borderSSmall,
-                    color = palette.outline,
+                    color = scheme.outline,
                     shape = roundedShape
                 )
                 .padding(vertical = dimensions.verticalBigPadding)
@@ -140,24 +139,19 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                BoxLabel(
-                    text = "Авторизация",
-                    palette = palette
-                )
+                BoxLabel(text = stringResource(id = R.string.authorization_header))
                 Spacer(modifier = modifier.height(dimensions.verticalXXLarge))
                 StudentIdTextField(
-                    hint = "Номер студенческого билета",
-                    palette = palette,
+                    hint = stringResource(id = R.string.student_id_field),
                     value = uiState.studentID,
                     onTextChange = { studentID -> viewModel.changeLogin(studentID) }
                 )
                 Spacer(modifier = modifier.height(dimensions.verticalXLarge))
                 PasswordField(
-                    hint = "Пароль",
-                    palette = palette,
+                    hint = stringResource(id = R.string.password),
                     modifier = modifier.border(
                         width = dimensions.borderSSmall,
-                        color = palette.outline,
+                        color = scheme.outline,
                         shape = roundedShape
                     ),
                     passwordValue = uiState.password,
@@ -186,8 +180,8 @@ fun LoginScreen(
                     modifier = modifier
                         .fillMaxHeight(0.14f)
                         .fillMaxWidth(0.55f),
-                    palette = palette,
-                    text = "Войти",
+                    scheme = scheme,
+                    text = stringResource(id = R.string.login),
                     onButtonClick = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
@@ -199,11 +193,10 @@ fun LoginScreen(
                     modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    AccountMissing(palette = palette)
+                    AccountMissing()
                     RedirectText(
                         modifier = modifier,
-                        text = "Зарегистрируйтесь",
-                        palette = palette,
+                        text = stringResource(id = R.string.to_registration),
                         onTextClick = {
                             navHostController.navigate(AuthScreen.SignUpScreen.route) {
                                 popUpTo(0) {
@@ -217,8 +210,7 @@ fun LoginScreen(
                 Spacer(modifier = modifier.height(dimensions.verticalXSmall))
                 RedirectText(
                     modifier = modifier,
-                    text = "Забыли пароль?",
-                    palette = palette,
+                    text = stringResource(id = R.string.forgot_password),
                     onTextClick = {
                         navHostController.navigate(AuthScreen.ResetPasswordScreen.route)
                     }
@@ -229,7 +221,6 @@ fun LoginScreen(
     }
     BottomSnackbar(
         modifier = modifier,
-        palette = palette,
         snackbarHostState = snackbarHostState
     )
 }
@@ -238,6 +229,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
+        darkTheme = true,
         viewModel = LoginScreenViewModel(),
         navHostController = rememberNavController()
     )

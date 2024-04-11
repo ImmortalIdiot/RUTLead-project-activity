@@ -3,7 +3,6 @@ package com.immortalidiot.rutlead.presentation.screens.auth
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -51,7 +52,6 @@ import com.immortalidiot.rutlead.ui.components.fields.StudentIdTextField
 import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
 import com.immortalidiot.rutlead.providers.showMessage
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
-import com.immortalidiot.rutlead.ui.theme.ThemeColors
 import com.immortalidiot.rutlead.ui.theme.boldInter14
 import com.immortalidiot.rutlead.ui.theme.mediumInter12
 import com.immortalidiot.rutlead.ui.theme.mediumInter14
@@ -63,6 +63,7 @@ import com.immortalidiot.rutlead.presentation.viemodels.auth.SignUpViewModel
 )
 @Composable
 fun SignUpScreen(
+    darkTheme: Boolean,
     modifier: Modifier = Modifier,
     viewModel: SignUpViewModel,
     navHostController: NavHostController
@@ -75,7 +76,7 @@ fun SignUpScreen(
     val focusManager = LocalFocusManager.current
     val snackbarHostState = LocalSnackbarHostState.current
 
-    val palette = if (isSystemInDarkTheme()) ThemeColors.Dark else ThemeColors.Light
+    val scheme = MaterialTheme.colorScheme
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
@@ -131,7 +132,7 @@ fun SignUpScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(color = palette.backgroundScreen),
+            .background(color = scheme.onBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -140,7 +141,7 @@ fun SignUpScreen(
                 .fillMaxWidth(0.4f)
                 .fillMaxHeight(0.07f),
             imageVector = ImageVector.vectorResource(
-                id = if (isSystemInDarkTheme()) {
+                id = if (darkTheme) {
                     R.drawable.ic_app_dark_logo
                 } else {
                     R.drawable.ic_app_light_logo
@@ -154,10 +155,10 @@ fun SignUpScreen(
             modifier = modifier
                 .fillMaxWidth(0.85f)
                 .clip(roundedShape)
-                .background(color = palette.primary)
+                .background(color = scheme.surface)
                 .border(
                     width = dimensions.borderSSmall,
-                    color = palette.outline,
+                    color = scheme.outline,
                     shape = roundedShape
                 )
                 .padding(vertical = dimensions.verticalBigPadding)
@@ -167,17 +168,13 @@ fun SignUpScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                BoxLabel(
-                    text = "Регистрация",
-                    palette = palette
-                )
+                BoxLabel(text = stringResource(id = R.string.registration_header))
                 Spacer(modifier = modifier.height(dimensions.verticalXXLarge))
                 if (state is SignUpViewModel.State.Init ||
                     state is SignUpViewModel.State.SignUpValidationFirstPartError
                 ) {
                     StudentIdTextField(
-                        hint = "Номер студенческого билета",
-                        palette = palette,
+                        hint = stringResource(id = R.string.student_id_field),
                         value = uiState.studentID,
                         onTextChange = { studentID ->
                             viewModel.changeStudentID(studentID = studentID)
@@ -187,27 +184,27 @@ fun SignUpScreen(
                     PrimaryTextField(
                         modifier = modifier.border(
                             width = dimensions.borderSSmall,
-                            color = palette.outline,
+                            color = scheme.outline,
                             shape = roundedShape
                         ),
                         value = uiState.email,
                         isSingleLine = true,
                         label = {
                             Text(
-                                text = "Email",
+                                text = stringResource(id = R.string.email),
                                 style = if (uiState.isFocused || uiState.email.isNotBlank()) {
-                                    mediumInter12.copy(color = palette.containerText)
+                                    mediumInter12.copy(color = scheme.primary)
                                 } else {
-                                    mediumInter14.copy(color = palette.containerText)
+                                    mediumInter14.copy(color = scheme.primary)
                                 }
                             )
                         },
                         colors = TextFieldDefaults.textFieldColors(
-                            containerColor = palette.container,
-                            textColor = palette.containerText,
-                            cursorColor = palette.cursor,
-                            unfocusedLabelColor = palette.label,
-                            focusedLabelColor = palette.label,
+                            containerColor = scheme.primaryContainer,
+                            textColor = scheme.primary,
+                            cursorColor = scheme.onSecondary,
+                            unfocusedLabelColor = scheme.onPrimary,
+                            focusedLabelColor = scheme.onPrimary,
                             focusedSupportingTextColor = Color.White,
                             unfocusedIndicatorColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent
@@ -216,11 +213,10 @@ fun SignUpScreen(
                     )
                     Spacer(modifier = modifier.height(dimensions.verticalXLarge))
                     PasswordField(
-                        hint = "Пароль",
-                        palette = palette,
+                        hint = stringResource(id = R.string.password),
                         modifier = modifier.border(
                             width = dimensions.borderSSmall,
-                            color = palette.outline,
+                            color = scheme.outline,
                             shape = roundedShape
                         ),
                         imageVector = if (uiState.isPasswordVisible) {
@@ -248,8 +244,8 @@ fun SignUpScreen(
                         modifier = modifier
                             .fillMaxHeight(0.18f)
                             .fillMaxWidth(0.55f),
-                        palette = palette,
-                        text = "Далее",
+                        scheme = scheme,
+                        text = stringResource(id = R.string.next_step),
                         onButtonClick = {
                             focusManager.clearFocus()
                             keyboardController?.hide()
@@ -262,27 +258,27 @@ fun SignUpScreen(
                     PrimaryTextField(
                         modifier = modifier.border(
                             width = dimensions.borderSSmall,
-                            color = palette.outline,
+                            color = scheme.outline,
                             shape = roundedShape
                         ),
                         value = uiState.name,
                         isSingleLine = true,
                         label = {
                             Text(
-                                text = "ФИО",
+                                text = stringResource(id = R.string.full_name),
                                 style = if (uiState.isFocused || uiState.name.isNotBlank()) {
-                                    mediumInter12.copy(color = palette.containerText)
+                                    mediumInter12.copy(color = scheme.primary)
                                 } else {
-                                    mediumInter14.copy(color = palette.containerText)
+                                    mediumInter14.copy(color = scheme.primary)
                                 }
                             )
                         },
                         colors = TextFieldDefaults.textFieldColors(
-                            containerColor = palette.container,
-                            textColor = palette.containerText,
-                            cursorColor = palette.cursor,
-                            unfocusedLabelColor = palette.label,
-                            focusedLabelColor = palette.label,
+                            containerColor = scheme.primaryContainer,
+                            textColor = scheme.primary,
+                            cursorColor = scheme.onSecondary,
+                            unfocusedLabelColor = scheme.onPrimary,
+                            focusedLabelColor = scheme.onPrimary,
                             focusedSupportingTextColor = Color.White,
                             unfocusedIndicatorColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent
@@ -293,27 +289,27 @@ fun SignUpScreen(
                     PrimaryTextField(
                         modifier = modifier.border(
                             width = dimensions.borderSSmall,
-                            color = palette.outline,
+                            color = scheme.outline,
                             shape = roundedShape
                         ),
                         value = uiState.group,
                         isSingleLine = true,
                         label = {
                             Text(
-                                text = "Группа",
+                                text = stringResource(id = R.string.group),
                                 style = if (uiState.isFocused || uiState.group.isNotBlank()) {
-                                    mediumInter12.copy(color = palette.containerText)
+                                    mediumInter12.copy(color = scheme.primary)
                                 } else {
-                                    mediumInter14.copy(color = palette.containerText)
+                                    mediumInter14.copy(color = scheme.primary)
                                 }
                             )
                         },
                         colors = TextFieldDefaults.textFieldColors(
-                            containerColor = palette.container,
-                            textColor = palette.containerText,
-                            cursorColor = palette.cursor,
-                            unfocusedLabelColor = palette.label,
-                            focusedLabelColor = palette.label,
+                            containerColor = scheme.primaryContainer,
+                            textColor = scheme.primary,
+                            cursorColor = scheme.onSecondary,
+                            unfocusedLabelColor = scheme.onPrimary,
+                            focusedLabelColor = scheme.onPrimary,
                             focusedSupportingTextColor = Color.White,
                             unfocusedIndicatorColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent
@@ -323,8 +319,8 @@ fun SignUpScreen(
                     Spacer(modifier = modifier.height(dimensions.verticalXLarge))
                     PrimaryButton(
                         modifier = modifier.fillMaxHeight(0.13f),
-                        palette = palette,
-                        text = "Зарегистрироваться",
+                        scheme = scheme,
+                        text = stringResource(id = R.string.register),
                         onButtonClick = remember {
                             {
                                 focusManager.clearFocus()
@@ -340,13 +336,12 @@ fun SignUpScreen(
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Есть аккаунт?",
-                        style = boldInter14.copy(color = palette.text),
+                        text = stringResource(id = R.string.account_existing),
+                        style = boldInter14.copy(color = scheme.onPrimary),
                     )
                     RedirectText(
                         modifier = modifier,
-                        text = "Войдите",
-                        palette = palette,
+                        text = stringResource(id = R.string.login_text_button),
                         onTextClick = { navHostController.navigate(AuthScreen.LoginScreen.route) }
                     )
                 }
@@ -355,7 +350,6 @@ fun SignUpScreen(
     }
     BottomSnackbar(
         modifier = modifier,
-        palette = palette,
         snackbarHostState = snackbarHostState
     )
 }
@@ -367,6 +361,7 @@ fun SignUpScreenPreview() {
 
     CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
         SignUpScreen(
+            darkTheme = true,
             viewModel = SignUpViewModel(),
             navHostController = rememberNavController()
         )

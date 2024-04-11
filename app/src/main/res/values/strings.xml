@@ -6,8 +6,26 @@
     <string name="email">Email</string>
     <string name="password">Пароль</string>
     <string name="confirm_password">Пароль повторно</string>
-    <string name="change_password">Сменить</string>
+    <string name="change_password">Сменить пароль</string>
     <string name="account_existing">Есть аккаунт?</string>
     <string name="login_text_button">Войдите</string>
+
+    <string name="account_management">Управление аккаунтом</string>
+    <string name="profile_change_password">Сменить пароль</string>
+    <string name="profile_change_group">Изменить группу</string>
+    <string name="delete_account">Удалить аккаунт</string>
+
+    <string name="authorization_header">Авторизация</string>
+    <string name="student_id_field">Номер студенческого билета</string>
+    <string name="login">Войти</string>
+    <string name="to_registration">Зарегистрируйтесь</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="registration_header">Регистрация</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="full_name">ФИО</string>
+    <string name="group">Группа</string>
+    <string name="next_step">Далее</string>
+
+    <string name="theme_auto">Авто</string>
 
 </resources>

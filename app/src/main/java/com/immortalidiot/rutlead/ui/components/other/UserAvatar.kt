@@ -33,7 +33,11 @@ fun UserAvatar(
 ) {
     //TODO(): add the ability to load photo from gallery
     Box(
-        modifier = modifier.size(80.dp),
+        modifier = modifier
+            .size(80.dp)
+            .clickable {
+                onIconClick()
+            },
         contentAlignment = Alignment.Center
     ) {
         //TODO(): load photo if the user has one
@@ -63,9 +67,9 @@ fun UserAvatarPreview() {
         textStyle = mediumInter32.copy(
             color =
             if (isDarkTheme) {
-                ThemeColors.Dark.text
+                ThemeColors.Dark.onPrimary
             } else {
-                ThemeColors.Light.text
+                ThemeColors.Light.onPrimary
             }
         ),
         backgroundColor = ClassicColors.AvatarColor.getRandomColor(),
