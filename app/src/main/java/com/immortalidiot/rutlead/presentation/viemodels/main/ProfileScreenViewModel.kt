@@ -9,6 +9,7 @@ class ProfileScreenViewModel : ViewModel() {
     sealed class State {
         object Init : State()
         object LogoutDialog : State()
+        object ChangeGroupDialog : State()
     }
 
     var mutableState = MutableStateFlow<State>(State.Init)
@@ -20,5 +21,9 @@ class ProfileScreenViewModel : ViewModel() {
 
     fun onCancelled() {
         mutableState.value = State.Init
+    }
+
+    fun changeGroupDialogVisibility() {
+        mutableState.value = State.ChangeGroupDialog
     }
 }
