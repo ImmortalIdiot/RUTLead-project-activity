@@ -56,6 +56,9 @@ class ProfileScreenViewModel : ViewModel() {
             mutableState.update {
                 State.GroupValidationError(groupError = group.exceptionOrNull()?.message)
             }
-        } else { mutableState.value = State.Init }
+        } else {
+            // TODO(): add post request for change a group
+            mutableState.value = State.Init
+        }
     }
 }
