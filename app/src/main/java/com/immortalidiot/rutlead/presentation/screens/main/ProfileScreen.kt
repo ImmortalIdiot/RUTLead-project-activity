@@ -51,10 +51,10 @@ import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
 import com.immortalidiot.rutlead.providers.showMessage
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
+import com.immortalidiot.rutlead.ui.components.dialogs.PrimaryProfileDialog
 import com.immortalidiot.rutlead.ui.components.fields.PrimaryTextField
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
-import com.immortalidiot.rutlead.ui.components.other.BottomSnackbar
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
@@ -101,7 +101,9 @@ fun ProfileScreen(
     LaunchedEffect(key1 = profileState) {
         if (profileState is ProfileScreenViewModel.State.GroupValidationError) {
             val errorState = profileState as ProfileScreenViewModel.State.GroupValidationError
-            if (errorState.groupError != null) { snackbarHostState.showMessage(groupError) }
+            if (errorState.groupError != null) {
+                snackbarHostState.showMessage(groupError)
+            }
             profileScreenViewModel.clearErrorStack()
         }
     }
@@ -197,7 +199,114 @@ fun ProfileScreen(
     }
 
     if (profileState is ProfileScreenViewModel.State.ChangeGroupDialog ||
-        profileState is ProfileScreenViewModel.State.GroupValidationError) {
+        profileState is ProfileScreenViewModel.State.GroupValidationError
+    ) {
+        Box(
+            modifier = modifier
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
+            contentAlignment = Alignment.Center
+        ) {
+            PrimaryProfileDialog(
+                modifier = modifier,
+                properties = DialogProperties(
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true,
+                    usePlatformDefaultWidth = false
+                ),
+                headerText = stringResource(id = R.string.profile_change_group),
+                headerTextStyle = boldInter16.copy(),
+                headerTextColor = scheme.onSurface,
+                onCancelled = { profileScreenViewModel.onCancelled() },
+                isSnackbar = true,
+                snackbarHostState = snackbarHostState
+            ) {
+                PrimaryTextField(
+                    modifier = modifier.border(
+                        width = dimensions.borderXSSmall,
+                        color = LightBlue,
+                        shape = roundedShape
+                    ),
+                    value = uiState.group,
+                    isSingleLine = true,
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.group_with_example),
+                            style = if (uiState.isGroupFieldFocused || uiState.group.isNotBlank()) {
+                                mediumInter12.copy(color = scheme.primary)
+                            } else {
+                                mediumInter14.copy(color = scheme.primary)
+                            }
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = scheme.primaryContainer,
+                        textColor = scheme.primary,
+                        cursorColor = scheme.onSecondary,
+                        unfocusedLabelColor = scheme.onPrimary,
+                        focusedLabelColor = scheme.onPrimary,
+                        focusedSupportingTextColor = Color.White,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    ),
+                    onTextChange = { group -> profileScreenViewModel.changeGroup(group = group) }
+                )
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = scheme.onBackground)
+                        .padding(horizontal = dimensions.horizontalNormalPadding),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    PrimaryButton(
+                        modifier = modifier.weight(1f),
+                        containerColor = scheme.onBackground,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.cancel_group),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onSurface,
+                        onButtonClick = {
+                            profileScreenViewModel.onCancelled()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        outlineColor = LightBlue,
+                        borderWidth = dimensions.borderXSSmall
+                    )
+                    Spacer(modifier = modifier.width(dimensions.horizontalNormalPadding))
+                    PrimaryButton(
+                        modifier = modifier.weight(1f),
+                        containerColor = LightBlue,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.save_group),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            profileScreenViewModel.changeGroup()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        backgroundColor = LightBlue,
+                        outlineColor = LightBlue,
+                        borderWidth = dimensions.borderOne
+                    )
+                }
+            }
+            SnackbarHost(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter),
+                hostState = snackbarHostState
+            ) {
+                Snackbar(
+                    snackbarData = it,
+                    containerColor = scheme.errorContainer,
+                    contentColor = scheme.onPrimary,
+                    dismissActionContentColor = scheme.onPrimary,
+                    shape = RoundedCornerShape(LocalDimensions.current.shapeNormal)
+                )
+            }
+        }
+
         Dialog(
             onDismissRequest = { profileScreenViewModel.onCancelled() },
             properties = DialogProperties(
