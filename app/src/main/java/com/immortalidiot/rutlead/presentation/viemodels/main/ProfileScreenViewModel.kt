@@ -27,6 +27,10 @@ class ProfileScreenViewModel : ViewModel() {
     ))
     val uiState: StateFlow<ChangeGroupModel> = _uiState.asStateFlow()
 
+    fun clearErrorStack() {
+        mutableState.value = State.ChangeGroupDialog
+    }
+
     fun changeLogoutDialogVisibility() {
         mutableState.value = State.LogoutDialog
     }
