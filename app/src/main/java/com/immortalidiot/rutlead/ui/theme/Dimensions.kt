@@ -39,7 +39,10 @@ data class Dimensions(
     val borderNormal: Dp = 5.dp,
     val borderXLarge: Dp = 8.dp,
 
-    val userAvatarRadius: Dp = 80.dp
+    val userAvatarRadius: Dp = 80.dp,
+
+    val profileDialogMaxHeight: Dp = 200.dp,
+    val profileDialogMaxWidth: Dp = 300.dp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }
