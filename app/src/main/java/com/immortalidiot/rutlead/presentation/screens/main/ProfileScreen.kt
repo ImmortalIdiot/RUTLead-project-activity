@@ -13,10 +13,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -38,20 +41,24 @@ import com.immortalidiot.rutlead.navigation.auth.AuthScreen
 import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
+import com.immortalidiot.rutlead.ui.components.fields.PrimaryTextField
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
 import com.immortalidiot.rutlead.ui.theme.DarkBlue
+import com.immortalidiot.rutlead.ui.theme.LightBlue
 import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
+import com.immortalidiot.rutlead.ui.theme.mediumInter12
 import com.immortalidiot.rutlead.ui.theme.mediumInter14
 import com.immortalidiot.rutlead.ui.theme.mediumInter16
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
@@ -61,6 +68,7 @@ fun ProfileScreen(
     profileScreenViewModel: ProfileScreenViewModel
 ) {
     val state by themeViewModel.mutableState.collectAsState()
+    val uiState by profileScreenViewModel.uiState.collectAsState()
 
     val profileState by profileScreenViewModel.mutableState.collectAsState()
 
@@ -153,6 +161,109 @@ fun ProfileScreen(
                             profileScreenViewModel.onCancelled()
                         },
                         shape = RoundedCornerShape(dimensions.shapeXLarge),
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderOne
+                    )
+                }
+            }
+        }
+    }
+
+    if (profileState is ProfileScreenViewModel.State.ChangeGroupDialog) {
+        Dialog(
+            onDismissRequest = { profileScreenViewModel.onCancelled() },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true,
+                usePlatformDefaultWidth = false
+            )
+        ) {
+            Column(
+                modifier = modifier
+                    .fillMaxWidth(0.8f)
+                    .fillMaxHeight(0.25f)
+                    .clip(roundedShape)
+                    .background(color = scheme.onBackground)
+                    .border(
+                        width = LocalDimensions.current.borderXSSmall,
+                        color = ClassicGray,
+                        shape = roundedShape
+                    ),
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(id = R.string.confirmation),
+                    style = boldInter16.copy(color = scheme.onSurface)
+                )
+                PrimaryTextField(
+                    modifier = modifier.border(
+                        width = dimensions.borderXSSmall,
+                        color = LightBlue,
+                        shape = roundedShape
+                    ),
+                    value = uiState.group,
+                    isSingleLine = true,
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.group_with_example),
+                            style = if (uiState.isGroupFieldFocused || uiState.group.isNotBlank()) {
+                                mediumInter12.copy(color = scheme.primary)
+                            } else {
+                                mediumInter14.copy(color = scheme.primary)
+                            }
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = scheme.primaryContainer,
+                        textColor = scheme.primary,
+                        cursorColor = scheme.onSecondary,
+                        unfocusedLabelColor = scheme.onPrimary,
+                        focusedLabelColor = scheme.onPrimary,
+                        focusedSupportingTextColor = Color.White,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    ),
+                    onTextChange = { group -> profileScreenViewModel.changeGroup(group = group) }
+                )
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = scheme.onBackground)
+                        .padding(horizontal = dimensions.horizontalNormalPadding),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    PrimaryButton(
+                        modifier = modifier
+                            .weight(1f)
+                            .fillMaxHeight(0.4f),
+                        containerColor = scheme.onBackground,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.cancel_group),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onSurface,
+                        onButtonClick = {
+                            profileScreenViewModel.onCancelled()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        outlineColor = LightBlue,
+                        borderWidth = dimensions.borderXSSmall
+                    )
+                    Spacer(modifier = modifier.width(dimensions.horizontalNormalPadding))
+                    PrimaryButton(
+                        modifier = modifier
+                            .weight(1f)
+                            .fillMaxHeight(0.4f),
+                        containerColor = LightBlue,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.save_group),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            //TODO(): save the new group
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
                         outlineColor = scheme.onBackground,
                         borderWidth = dimensions.borderOne
                     )
@@ -322,7 +433,7 @@ fun ProfileScreen(
             outlineColor = scheme.onSecondary,
             containerColor = scheme.onBackground,
             onButtonClick = {
-                //TODO(): open the change group dialog
+                profileScreenViewModel.changeGroupDialogVisibility()
             }
         )
         Spacer(modifier = modifier.height(dimensions.verticalStandard))
