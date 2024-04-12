@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class ProfileScreenViewModel : ViewModel() {
+
     @Immutable
     sealed class State {
         object Init : State()
@@ -21,33 +22,23 @@ class ProfileScreenViewModel : ViewModel() {
     var mutableState = MutableStateFlow<State>(State.Init)
         private set
 
-    private val _uiState = MutableStateFlow(ChangeGroupModel(
-        group = String(),
-        isGroupFieldFocused = false
-    ))
+    private val _uiState = MutableStateFlow(
+        ChangeGroupModel(
+            group = String(),
+            isGroupFieldFocused = false
+        )
+    )
     val uiState: StateFlow<ChangeGroupModel> = _uiState.asStateFlow()
 
-    fun clearErrorStack() {
-        mutableState.value = State.ChangeGroupDialog
-    }
+    fun clearErrorStack() { mutableState.value = State.ChangeGroupDialog }
 
-    fun changeLogoutDialogVisibility() {
-        mutableState.value = State.LogoutDialog
-    }
+    fun changeLogoutDialogVisibility() { mutableState.value = State.LogoutDialog }
 
-    fun onCancelled() {
-        mutableState.value = State.Init
-    }
+    fun onCancelled() { mutableState.value = State.Init }
 
-    fun changeGroupDialogVisibility() {
-        mutableState.value = State.ChangeGroupDialog
-    }
+    fun changeGroupDialogVisibility() { mutableState.value = State.ChangeGroupDialog }
 
-    fun changeGroup(group: String) {
-        _uiState.update {
-            uiState.value.copy(group = group)
-        }
-    }
+    fun changeGroup(group: String) { _uiState.update { uiState.value.copy(group = group) } }
 
     fun changeGroup() {
         val group = _uiState.value.group.validateGroup()

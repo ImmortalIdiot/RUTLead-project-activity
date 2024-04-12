@@ -214,7 +214,8 @@ fun ProfileScreen(
                             width = LocalDimensions.current.borderXSSmall,
                             color = ClassicGray,
                             shape = roundedShape
-                        ).align(Alignment.Center),
+                        )
+                        .align(Alignment.Center),
                     verticalArrangement = Arrangement.SpaceEvenly,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
