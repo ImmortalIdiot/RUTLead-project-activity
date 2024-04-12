@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -40,10 +41,13 @@ import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
 import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
+import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
+import com.immortalidiot.rutlead.providers.showMessage
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.fields.PrimaryTextField
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
+import com.immortalidiot.rutlead.ui.components.other.BottomSnackbar
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
@@ -79,6 +83,21 @@ fun ProfileScreen(
     val commonTextStyle = boldInter16.copy(color = MaterialTheme.colorScheme.onPrimary)
     val themeContentColor = scheme.onPrimary
 
+    val snackbarHostState = LocalSnackbarHostState.current
+
+    var groupError = ""
+
+    (profileState as? ProfileScreenViewModel.State.GroupValidationError)?.let { errorState ->
+        groupError = errorState.groupError.toString()
+    }
+
+    LaunchedEffect(key1 = profileState) {
+        if (profileState is ProfileScreenViewModel.State.GroupValidationError) {
+            val errorState = profileState as ProfileScreenViewModel.State.GroupValidationError
+            if (errorState.groupError != null) { snackbarHostState.showMessage(groupError) }
+        }
+    }
+
     // TODO(): get values from the db
     val firstName = "Иванов"
     val secondName = "Александр"
@@ -94,7 +113,7 @@ fun ProfileScreen(
             },
             properties = DialogProperties(
                 dismissOnBackPress = true,
-                dismissOnClickOutside = true,
+                dismissOnClickOutside = false,
                 usePlatformDefaultWidth = false
             )
         ) {
@@ -169,7 +188,8 @@ fun ProfileScreen(
         }
     }
 
-    if (profileState is ProfileScreenViewModel.State.ChangeGroupDialog) {
+    if (profileState is ProfileScreenViewModel.State.ChangeGroupDialog ||
+        profileState is ProfileScreenViewModel.State.GroupValidationError) {
         Dialog(
             onDismissRequest = { profileScreenViewModel.onCancelled() },
             properties = DialogProperties(
@@ -261,7 +281,7 @@ fun ProfileScreen(
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onPrimary,
                         onButtonClick = {
-                            //TODO(): save the new group
+                            profileScreenViewModel.changeGroup()
                         },
                         shape = RoundedCornerShape(dimensions.shapeXLLarge),
                         outlineColor = scheme.onBackground,
@@ -452,6 +472,10 @@ fun ProfileScreen(
             }
         )
     }
+    BottomSnackbar(
+        modifier = modifier,
+        snackbarHostState = snackbarHostState
+    )
 }
 
 @Preview
