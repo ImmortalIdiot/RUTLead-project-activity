@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
@@ -58,8 +57,8 @@ fun PrimaryProfileDialog(
         ) {
             Column(
                 modifier = modifier
-                    .heightIn(max = 200.dp)
-                    .widthIn(max = 300.dp)
+                    .heightIn(max = dimensions.profileDialogMaxHeight)
+                    .widthIn(max = dimensions.profileDialogMaxWidth)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clip(roundedShape)
