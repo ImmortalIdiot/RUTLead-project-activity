@@ -3,6 +3,7 @@ package com.immortalidiot.rutlead.presentation.viemodels.main
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import com.immortalidiot.rutlead.ui.models.ChangeGroupModel
+import com.immortalidiot.rutlead.validation.validateGroup
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,6 +15,7 @@ class ProfileScreenViewModel : ViewModel() {
         object Init : State()
         object LogoutDialog : State()
         object ChangeGroupDialog : State()
+        data class GroupValidationError(val groupError: String?) : State()
     }
 
     var mutableState = MutableStateFlow<State>(State.Init)
@@ -41,5 +43,15 @@ class ProfileScreenViewModel : ViewModel() {
         _uiState.update {
             uiState.value.copy(group = group)
         }
+    }
+
+    fun changeGroup() {
+        val group = _uiState.value.group.validateGroup()
+
+        if (group.isFailure) {
+            mutableState.update {
+                State.GroupValidationError(groupError = group.exceptionOrNull()?.message)
+            }
+        } else { mutableState.value = State.Init }
     }
 }
