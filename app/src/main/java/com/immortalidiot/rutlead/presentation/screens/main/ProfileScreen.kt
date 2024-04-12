@@ -12,9 +12,13 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
@@ -202,12 +207,16 @@ fun ProfileScreen(
             )
         ) {
             Box(
-                modifier = modifier.fillMaxHeight(),
+                modifier = modifier
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
             ) {
                 Column(
                     modifier = modifier
-                        .fillMaxWidth(0.8f)
-                        .fillMaxHeight(0.25f)
+                        .heightIn(max = 200.dp)
+                        .widthIn(max = 300.dp)
+                        .fillMaxWidth()
+                        .fillMaxHeight()
                         .clip(roundedShape)
                         .background(color = scheme.onBackground)
                         .border(
@@ -262,9 +271,7 @@ fun ProfileScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         PrimaryButton(
-                            modifier = modifier
-                                .weight(1f)
-                                .fillMaxHeight(0.4f),
+                            modifier = modifier.weight(1f),
                             containerColor = scheme.onBackground,
                             scheme = scheme,
                             text = stringResource(id = R.string.cancel_group),
@@ -279,9 +286,7 @@ fun ProfileScreen(
                         )
                         Spacer(modifier = modifier.width(dimensions.horizontalNormalPadding))
                         PrimaryButton(
-                            modifier = modifier
-                                .weight(1f)
-                                .fillMaxHeight(0.4f),
+                            modifier = modifier.weight(1f),
                             containerColor = LightBlue,
                             scheme = scheme,
                             text = stringResource(id = R.string.save_group),
