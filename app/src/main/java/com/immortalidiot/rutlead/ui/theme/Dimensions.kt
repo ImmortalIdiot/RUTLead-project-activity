@@ -14,6 +14,7 @@ data class Dimensions(
     val verticalXXLarge: Dp = 40.dp,
 
     val verticalXSSmallPadding: Dp = 1.dp,
+    val verticalMSmallPadding: Dp = 2.dp,
     val verticalSmallPadding: Dp = 4.dp,
     val verticalNormalPadding: Dp = 8.dp,
     val verticalBigPadding: Dp = 16.dp,
@@ -30,6 +31,7 @@ data class Dimensions(
     val shapeSLarge: Dp = 10.dp,
     val shapeMLarge: Dp = 12.dp,
     val shapeXLarge: Dp = 15.dp,
+    val shapeXLLarge: Dp = 20.dp,
 
     val borderOne: Dp = 1.dp,
     val borderXSSmall: Dp = 2.dp,
@@ -37,7 +39,10 @@ data class Dimensions(
     val borderNormal: Dp = 5.dp,
     val borderXLarge: Dp = 8.dp,
 
-    val userAvatarRadius: Dp = 80.dp
+    val userAvatarRadius: Dp = 80.dp,
+
+    val profileDialogMaxHeight: Dp = 200.dp,
+    val profileDialogMaxWidth: Dp = 300.dp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }

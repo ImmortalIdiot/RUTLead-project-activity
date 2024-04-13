@@ -12,12 +12,22 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
@@ -37,21 +48,28 @@ import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
 import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
+import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
+import com.immortalidiot.rutlead.providers.showMessage
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
+import com.immortalidiot.rutlead.ui.components.dialogs.PrimaryProfileDialog
+import com.immortalidiot.rutlead.ui.components.fields.PrimaryTextField
 import com.immortalidiot.rutlead.ui.components.fields.constant.FullNameField
 import com.immortalidiot.rutlead.ui.components.fields.constant.GroupField
 import com.immortalidiot.rutlead.ui.components.other.UserAvatar
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
 import com.immortalidiot.rutlead.ui.theme.DarkBlue
+import com.immortalidiot.rutlead.ui.theme.LightBlue
 import com.immortalidiot.rutlead.ui.theme.LightRed
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldInter16
 import com.immortalidiot.rutlead.ui.theme.boldLato20
+import com.immortalidiot.rutlead.ui.theme.mediumInter12
 import com.immortalidiot.rutlead.ui.theme.mediumInter14
 import com.immortalidiot.rutlead.ui.theme.mediumInter16
 import com.immortalidiot.rutlead.ui.theme.mediumInter32
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
@@ -61,6 +79,7 @@ fun ProfileScreen(
     profileScreenViewModel: ProfileScreenViewModel
 ) {
     val state by themeViewModel.mutableState.collectAsState()
+    val uiState by profileScreenViewModel.uiState.collectAsState()
 
     val profileState by profileScreenViewModel.mutableState.collectAsState()
 
@@ -70,6 +89,24 @@ fun ProfileScreen(
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
     val commonTextStyle = boldInter16.copy(color = MaterialTheme.colorScheme.onPrimary)
     val themeContentColor = scheme.onPrimary
+
+    val snackbarHostState = LocalSnackbarHostState.current
+
+    var groupError = ""
+
+    (profileState as? ProfileScreenViewModel.State.GroupValidationError)?.let { errorState ->
+        groupError = errorState.groupError.toString()
+    }
+
+    LaunchedEffect(key1 = profileState) {
+        if (profileState is ProfileScreenViewModel.State.GroupValidationError) {
+            val errorState = profileState as ProfileScreenViewModel.State.GroupValidationError
+            if (errorState.groupError != null) {
+                snackbarHostState.showMessage(groupError)
+            }
+            profileScreenViewModel.clearErrorStack()
+        }
+    }
 
     // TODO(): get values from the db
     val firstName = "Иванов"
@@ -86,7 +123,7 @@ fun ProfileScreen(
             },
             properties = DialogProperties(
                 dismissOnBackPress = true,
-                dismissOnClickOutside = true,
+                dismissOnClickOutside = false,
                 usePlatformDefaultWidth = false
             )
         ) {
@@ -155,6 +192,236 @@ fun ProfileScreen(
                         shape = RoundedCornerShape(dimensions.shapeXLarge),
                         outlineColor = scheme.onBackground,
                         borderWidth = dimensions.borderOne
+                    )
+                }
+            }
+        }
+    }
+
+    if (profileState is ProfileScreenViewModel.State.ChangeGroupDialog ||
+        profileState is ProfileScreenViewModel.State.GroupValidationError
+    ) {
+        Box(
+            modifier = modifier
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
+            contentAlignment = Alignment.Center
+        ) {
+            PrimaryProfileDialog(
+                modifier = modifier,
+                properties = DialogProperties(
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true,
+                    usePlatformDefaultWidth = false
+                ),
+                headerText = stringResource(id = R.string.profile_change_group),
+                headerTextStyle = boldInter16.copy(),
+                headerTextColor = scheme.onSurface,
+                onCancelled = { profileScreenViewModel.onCancelled() },
+                isSnackbar = true,
+                snackbarHostState = snackbarHostState
+            ) {
+                PrimaryTextField(
+                    modifier = modifier.border(
+                        width = dimensions.borderXSSmall,
+                        color = LightBlue,
+                        shape = roundedShape
+                    ),
+                    value = uiState.group,
+                    isSingleLine = true,
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.group_with_example),
+                            style = if (uiState.isGroupFieldFocused || uiState.group.isNotBlank()) {
+                                mediumInter12.copy(color = scheme.primary)
+                            } else {
+                                mediumInter14.copy(color = scheme.primary)
+                            }
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = scheme.primaryContainer,
+                        textColor = scheme.primary,
+                        cursorColor = scheme.onSecondary,
+                        unfocusedLabelColor = scheme.onPrimary,
+                        focusedLabelColor = scheme.onPrimary,
+                        focusedSupportingTextColor = Color.White,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
+                    ),
+                    onTextChange = { group -> profileScreenViewModel.changeGroup(group = group) }
+                )
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = scheme.onBackground)
+                        .padding(horizontal = dimensions.horizontalNormalPadding),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    PrimaryButton(
+                        modifier = modifier.weight(1f),
+                        containerColor = scheme.onBackground,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.cancel_group),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onSurface,
+                        onButtonClick = {
+                            profileScreenViewModel.onCancelled()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        outlineColor = LightBlue,
+                        borderWidth = dimensions.borderXSSmall
+                    )
+                    Spacer(modifier = modifier.width(dimensions.horizontalNormalPadding))
+                    PrimaryButton(
+                        modifier = modifier.weight(1f),
+                        containerColor = LightBlue,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.save_group),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            profileScreenViewModel.changeGroup()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        backgroundColor = LightBlue,
+                        outlineColor = LightBlue,
+                        borderWidth = dimensions.borderOne
+                    )
+                }
+            }
+            SnackbarHost(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter),
+                hostState = snackbarHostState
+            ) {
+                Snackbar(
+                    snackbarData = it,
+                    containerColor = scheme.errorContainer,
+                    contentColor = scheme.onPrimary,
+                    dismissActionContentColor = scheme.onPrimary,
+                    shape = RoundedCornerShape(LocalDimensions.current.shapeNormal)
+                )
+            }
+        }
+
+        Dialog(
+            onDismissRequest = { profileScreenViewModel.onCancelled() },
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true,
+                usePlatformDefaultWidth = false
+            )
+        ) {
+            Box(
+                modifier = modifier
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                Column(
+                    modifier = modifier
+                        .heightIn(max = 200.dp)
+                        .widthIn(max = 300.dp)
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .clip(roundedShape)
+                        .background(color = scheme.onBackground)
+                        .border(
+                            width = LocalDimensions.current.borderXSSmall,
+                            color = ClassicGray,
+                            shape = roundedShape
+                        )
+                        .align(Alignment.Center),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.confirmation),
+                        style = boldInter16.copy(color = scheme.onSurface)
+                    )
+                    PrimaryTextField(
+                        modifier = modifier.border(
+                            width = dimensions.borderXSSmall,
+                            color = LightBlue,
+                            shape = roundedShape
+                        ),
+                        value = uiState.group,
+                        isSingleLine = true,
+                        label = {
+                            Text(
+                                text = stringResource(id = R.string.group_with_example),
+                                style = if (uiState.isGroupFieldFocused || uiState.group.isNotBlank()) {
+                                    mediumInter12.copy(color = scheme.primary)
+                                } else {
+                                    mediumInter14.copy(color = scheme.primary)
+                                }
+                            )
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = scheme.primaryContainer,
+                            textColor = scheme.primary,
+                            cursorColor = scheme.onSecondary,
+                            unfocusedLabelColor = scheme.onPrimary,
+                            focusedLabelColor = scheme.onPrimary,
+                            focusedSupportingTextColor = Color.White,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+                        ),
+                        onTextChange = { group -> profileScreenViewModel.changeGroup(group = group) }
+                    )
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .background(color = scheme.onBackground)
+                            .padding(horizontal = dimensions.horizontalNormalPadding),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        PrimaryButton(
+                            modifier = modifier.weight(1f),
+                            containerColor = scheme.onBackground,
+                            scheme = scheme,
+                            text = stringResource(id = R.string.cancel_group),
+                            textStyle = mediumInter14.copy(),
+                            colorText = scheme.onSurface,
+                            onButtonClick = {
+                                profileScreenViewModel.onCancelled()
+                            },
+                            shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                            outlineColor = LightBlue,
+                            borderWidth = dimensions.borderXSSmall
+                        )
+                        Spacer(modifier = modifier.width(dimensions.horizontalNormalPadding))
+                        PrimaryButton(
+                            modifier = modifier.weight(1f),
+                            containerColor = LightBlue,
+                            scheme = scheme,
+                            text = stringResource(id = R.string.save_group),
+                            textStyle = mediumInter14.copy(),
+                            colorText = scheme.onPrimary,
+                            onButtonClick = {
+                                profileScreenViewModel.changeGroup()
+                            },
+                            shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                            outlineColor = scheme.onBackground,
+                            borderWidth = dimensions.borderOne
+                        )
+                    }
+                }
+                SnackbarHost(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    hostState = snackbarHostState
+                ) {
+                    Snackbar(
+                        snackbarData = it,
+                        containerColor = scheme.errorContainer,
+                        contentColor = scheme.onPrimary,
+                        dismissActionContentColor = scheme.onPrimary,
+                        shape = RoundedCornerShape(LocalDimensions.current.shapeNormal)
                     )
                 }
             }
@@ -322,7 +589,7 @@ fun ProfileScreen(
             outlineColor = scheme.onSecondary,
             containerColor = scheme.onBackground,
             onButtonClick = {
-                //TODO(): open the change group dialog
+                profileScreenViewModel.changeGroupDialogVisibility()
             }
         )
         Spacer(modifier = modifier.height(dimensions.verticalStandard))
