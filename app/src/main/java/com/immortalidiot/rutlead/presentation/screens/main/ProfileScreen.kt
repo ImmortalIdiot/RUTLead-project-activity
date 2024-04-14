@@ -344,7 +344,7 @@ fun ProfileScreen(
                         containerColor = LightRed,
                         scheme = scheme,
                         text = stringResource(id = R.string.confirm),
-                        textStyle = mediumInter14.copy(),
+                        textStyle = mediumInter14,
                         colorText = scheme.onPrimary,
                         onButtonClick = {
                             profileScreenViewModel.deleteAccount()
@@ -366,7 +366,7 @@ fun ProfileScreen(
                         containerColor = LightBlue,
                         scheme = scheme,
                         text = stringResource(id = R.string.cancel),
-                        textStyle = mediumInter14.copy(),
+                        textStyle = mediumInter14,
                         colorText = scheme.onPrimary,
                         onButtonClick = {
                             profileScreenViewModel.onCancelled()
