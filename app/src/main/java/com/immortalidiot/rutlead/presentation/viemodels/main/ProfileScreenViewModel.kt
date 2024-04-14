@@ -55,4 +55,8 @@ class ProfileScreenViewModel : ViewModel() {
             mutableState.value = State.Init
         }
     }
+
+    fun deleteAccount() {
+        //TODO(): realize the deletion account
+    }
 }
