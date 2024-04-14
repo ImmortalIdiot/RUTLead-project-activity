@@ -32,16 +32,16 @@ import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 
 @Composable
 fun PrimaryProfileDialog(
-    modifier: Modifier,
-    dimensions: Dimensions = LocalDimensions.current,
-    maxHeight: Dp = dimensions.profileDialogMaxHeight,
-    maxWidth: Dp = dimensions.profileDialogMaxWidth,
     properties: DialogProperties,
     headerText: String,
     headerTextStyle: TextStyle,
     headerTextColor: Color,
     onCancelled: () -> Unit,
     isSnackbar: Boolean,
+    modifier: Modifier = Modifier,
+    dimensions: Dimensions = LocalDimensions.current,
+    maxHeight: Dp = dimensions.profileDialogMaxHeight,
+    maxWidth: Dp = dimensions.profileDialogMaxWidth,
     snackbarHostState: SnackbarHostState? = null,
     content: @Composable () -> Unit
 ) {
