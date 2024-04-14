@@ -16,6 +16,7 @@ class ProfileScreenViewModel : ViewModel() {
         object Init : State()
         object LogoutDialog : State()
         object ChangeGroupDialog : State()
+        object DeleteAccountDialog : State()
         data class GroupValidationError(val groupError: String?) : State()
     }
 
@@ -33,6 +34,8 @@ class ProfileScreenViewModel : ViewModel() {
     fun clearErrorStack() { mutableState.value = State.ChangeGroupDialog }
 
     fun changeLogoutDialogVisibility() { mutableState.value = State.LogoutDialog }
+
+    fun deleteAccountDialogVisibility() { mutableState.value = State.DeleteAccountDialog }
 
     fun onCancelled() { mutableState.value = State.Init }
 
