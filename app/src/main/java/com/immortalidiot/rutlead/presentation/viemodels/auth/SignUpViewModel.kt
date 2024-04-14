@@ -2,6 +2,9 @@ package com.immortalidiot.rutlead.presentation.viemodels.auth
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.immortalidiot.rutlead.database.StudentRepository
+import com.immortalidiot.rutlead.database.StudentRequest
 import com.immortalidiot.rutlead.ui.models.SignUpModel
 import com.immortalidiot.rutlead.validation.validateEmail
 import com.immortalidiot.rutlead.validation.validateGroup
@@ -12,8 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(private val studentRepository: StudentRepository) : ViewModel() {
     @Immutable
     sealed class State {
         object Init : State()
@@ -127,6 +131,16 @@ class SignUpViewModel : ViewModel() {
                 )
             }
         } else {
+            viewModelScope.launch {
+                val student = StudentRequest(
+                    studentID = _uiState.value.studentID.toInt(),
+                    password = _uiState.value.password,
+                    email = _uiState.value.email,
+                    group = _uiState.value.group,
+                    fullName = _uiState.value.name
+                )
+                studentRepository.registerUser(student)
+            }
             mutableState.update {
                 State.Success
             }
