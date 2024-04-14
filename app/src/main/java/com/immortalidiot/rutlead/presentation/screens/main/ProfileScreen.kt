@@ -266,9 +266,7 @@ fun ProfileScreen(
                         text = stringResource(id = R.string.cancel_group),
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onSurface,
-                        onButtonClick = {
-                            profileScreenViewModel.onCancelled()
-                        },
+                        onButtonClick = { profileScreenViewModel.onCancelled() },
                         shape = RoundedCornerShape(dimensions.shapeXLLarge),
                         outlineColor = LightBlue,
                         borderWidth = dimensions.borderXSSmall
@@ -281,9 +279,7 @@ fun ProfileScreen(
                         text = stringResource(id = R.string.save_group),
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onPrimary,
-                        onButtonClick = {
-                            profileScreenViewModel.changeGroup()
-                        },
+                        onButtonClick = { profileScreenViewModel.changeGroup() },
                         shape = RoundedCornerShape(dimensions.shapeXLLarge),
                         backgroundColor = LightBlue,
                         outlineColor = LightBlue,
@@ -304,6 +300,82 @@ fun ProfileScreen(
                     dismissActionContentColor = scheme.onPrimary,
                     shape = RoundedCornerShape(LocalDimensions.current.shapeNormal)
                 )
+            }
+        }
+    }
+
+    if (profileState is ProfileScreenViewModel.State.DeleteAccountDialog) {
+        Box(
+            modifier = modifier
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
+            contentAlignment = Alignment.Center
+        ) {
+            PrimaryProfileDialog(
+                modifier = modifier,
+                maxHeight = dimensions.deleteAccountDialogHeight,
+                maxWidth = dimensions.deleteAccountDialogWidth,
+                properties = DialogProperties(
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true,
+                    usePlatformDefaultWidth = false
+                ),
+                headerText = stringResource(id = R.string.confirmation),
+                headerTextStyle = boldInter16.copy(),
+                headerTextColor = scheme.onSurface,
+                onCancelled = { profileScreenViewModel.onCancelled() },
+                isSnackbar = false
+            ) {
+                Text(
+                    text = stringResource(id = R.string.delete_account_text),
+                    style = mediumInter16.copy(color = scheme.onSurface)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(color = scheme.onBackground)
+                        .padding(horizontal = dimensions.horizontalNormalPadding)
+                ) {
+                    PrimaryButton(
+                        modifier = modifier.weight(1f),
+                        maxWidth = dimensions.buttonWidth,
+                        containerColor = LightRed,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.confirm),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            profileScreenViewModel.deleteAccount()
+                            navController.navigate(AuthScreen.LoginScreen.route) {
+                                popUpTo(0) {
+                                    inclusive = false
+                                    saveState = true
+                                }
+                            }
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderXSSmall
+                    )
+                    Spacer(modifier = modifier.width(dimensions.horizontalVeryBigPadding))
+                    PrimaryButton(
+                        modifier = modifier.weight(1f),
+                        maxWidth = dimensions.buttonWidth,
+                        containerColor = LightBlue,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.cancel),
+                        textStyle = mediumInter14.copy(),
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            profileScreenViewModel.onCancelled()
+                        },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderOne
+                    )
+                }
             }
         }
     }
@@ -484,7 +556,7 @@ fun ProfileScreen(
             outlineColor = scheme.error,
             containerColor = scheme.onBackground,
             onButtonClick = {
-                //TODO(): open the delete account dialog
+                profileScreenViewModel.deleteAccountDialogVisibility()
             }
         )
     }
