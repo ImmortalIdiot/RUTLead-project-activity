@@ -24,10 +24,9 @@ import com.immortalidiot.rutlead.ui.theme.boldLato20
 @Composable
 fun PrimaryButton(
     modifier: Modifier,
-    dimensions: Dimensions = LocalDimensions.current,
     maxHeight: Dp? = null,
     maxWidth: Dp? = null,
-    borderWidth: Dp = dimensions.borderSSmall,
+    borderWidth: Dp? = dimensions.borderSSmall,
     shape: RoundedCornerShape = RoundedCornerShape(dimensions.shapeSLarge),
     scheme: ColorScheme,
     text: String,
@@ -38,6 +37,8 @@ fun PrimaryButton(
     backgroundColor: Color = scheme.onBackground,
     onButtonClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
     val currentModifier = modifier
         .clip(shape = shape)
         .border(
