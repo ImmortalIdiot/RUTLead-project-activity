@@ -186,9 +186,7 @@ fun ProfileScreen(
                         text = stringResource(id = R.string.cancel),
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onPrimary,
-                        onButtonClick = {
-                            profileScreenViewModel.onCancelled()
-                        },
+                        onButtonClick = { profileScreenViewModel.onCancelled() },
                         shape = RoundedCornerShape(dimensions.shapeXLarge),
                         outlineColor = scheme.onBackground,
                         borderWidth = dimensions.borderOne
@@ -368,9 +366,7 @@ fun ProfileScreen(
                         text = stringResource(id = R.string.cancel),
                         textStyle = mediumInter14,
                         colorText = scheme.onPrimary,
-                        onButtonClick = {
-                            profileScreenViewModel.onCancelled()
-                        },
+                        onButtonClick = { profileScreenViewModel.onCancelled() },
                         shape = RoundedCornerShape(dimensions.shapeXLLarge),
                         outlineColor = scheme.onBackground,
                         borderWidth = dimensions.borderOne
@@ -555,9 +551,7 @@ fun ProfileScreen(
             colorText = scheme.error,
             outlineColor = scheme.error,
             containerColor = scheme.onBackground,
-            onButtonClick = {
-                profileScreenViewModel.deleteAccountDialogVisibility()
-            }
+            onButtonClick = { profileScreenViewModel.deleteAccountDialogVisibility() }
         )
     }
 }
