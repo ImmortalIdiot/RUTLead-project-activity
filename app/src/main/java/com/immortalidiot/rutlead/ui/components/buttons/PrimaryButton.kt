@@ -3,6 +3,8 @@ package com.immortalidiot.rutlead.ui.components.buttons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +25,8 @@ import com.immortalidiot.rutlead.ui.theme.boldLato20
 fun PrimaryButton(
     modifier: Modifier,
     dimensions: Dimensions = LocalDimensions.current,
+    maxHeight: Dp? = null,
+    maxWidth: Dp? = null,
     borderWidth: Dp = dimensions.borderSSmall,
     shape: RoundedCornerShape = RoundedCornerShape(dimensions.shapeSLarge),
     scheme: ColorScheme,
@@ -34,16 +38,26 @@ fun PrimaryButton(
     backgroundColor: Color = scheme.onBackground,
     onButtonClick: () -> Unit
 ) {
+    val currentModifier = modifier
+        .clip(shape = shape)
+        .border(
+            width = borderWidth,
+            shape = shape,
+            color = outlineColor
+        )
+        .background(color = backgroundColor)
+        .apply {
+            if (maxHeight != null) {
+                heightIn(max = maxHeight)
+            }
+            if (maxWidth != null) {
+                widthIn(max = maxWidth)
+            }
+        }
+
     Button(
         onClick = { onButtonClick() },
-        modifier = modifier
-            .clip(shape = shape)
-            .background(color = backgroundColor)
-            .border(
-                width = borderWidth,
-                shape = shape,
-                color = outlineColor
-            ),
+        modifier = currentModifier,
         shape = shape,
         colors = ButtonDefaults.buttonColors(containerColor = containerColor)
     ) {
