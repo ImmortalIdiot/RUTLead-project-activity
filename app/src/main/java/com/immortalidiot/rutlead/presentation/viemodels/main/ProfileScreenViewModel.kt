@@ -2,12 +2,14 @@ package com.immortalidiot.rutlead.presentation.viemodels.main
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.immortalidiot.rutlead.ui.models.ChangeGroupModel
 import com.immortalidiot.rutlead.validation.validateGroup
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class ProfileScreenViewModel : ViewModel() {
 
@@ -59,6 +61,9 @@ class ProfileScreenViewModel : ViewModel() {
     }
 
     fun deleteAccount() {
-        //TODO(): realize the deletion account
+        viewModelScope.launch {
+            clearStateStack()
+            //TODO(): realize the deletion account
+        }
     }
 }
