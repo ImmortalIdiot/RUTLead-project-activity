@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
-import com.immortalidiot.rutlead.ui.theme.Dimensions
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 
 @Composable
