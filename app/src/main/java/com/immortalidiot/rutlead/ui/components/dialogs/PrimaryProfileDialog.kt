@@ -23,14 +23,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
+import com.immortalidiot.rutlead.ui.theme.Dimensions
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 
 @Composable
 fun PrimaryProfileDialog(
     modifier: Modifier,
+    dimensions: Dimensions = LocalDimensions.current,
+    maxHeight: Dp = dimensions.profileDialogMaxHeight,
+    maxWidth: Dp = dimensions.profileDialogMaxWidth,
     properties: DialogProperties,
     headerText: String,
     headerTextStyle: TextStyle,
@@ -40,7 +45,6 @@ fun PrimaryProfileDialog(
     snackbarHostState: SnackbarHostState? = null,
     content: @Composable () -> Unit
 ) {
-    val dimensions = LocalDimensions.current
     val scheme = MaterialTheme.colorScheme
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
@@ -57,8 +61,8 @@ fun PrimaryProfileDialog(
         ) {
             Column(
                 modifier = modifier
-                    .heightIn(max = dimensions.profileDialogMaxHeight)
-                    .widthIn(max = dimensions.profileDialogMaxWidth)
+                    .heightIn(max = maxHeight)
+                    .widthIn(max = maxWidth)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clip(roundedShape)
