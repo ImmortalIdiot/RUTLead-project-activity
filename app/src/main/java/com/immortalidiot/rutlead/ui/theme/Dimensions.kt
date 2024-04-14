@@ -21,6 +21,7 @@ data class Dimensions(
 
     val horizontalNormalPadding: Dp = 16.dp,
     val horizontalBigPadding: Dp = 32.dp,
+    val horizontalVeryBigPadding: Dp = 60.dp,
 
     val normalPadding: Dp = 6.dp,
     val bigPadding: Dp = 16.dp,
@@ -42,7 +43,11 @@ data class Dimensions(
     val userAvatarRadius: Dp = 80.dp,
 
     val profileDialogMaxHeight: Dp = 200.dp,
-    val profileDialogMaxWidth: Dp = 300.dp
+    val profileDialogMaxWidth: Dp = 300.dp,
+    val deleteAccountDialogHeight: Dp = 160.dp,
+    val deleteAccountDialogWidth: Dp = 350.dp,
+
+    val buttonWidth: Dp = 80.dp,
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }
