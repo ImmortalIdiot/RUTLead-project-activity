@@ -32,6 +32,8 @@ import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 
 @Composable
 fun PrimaryProfileDialog(
+    maxHeight: Dp,
+    maxWidth: Dp,
     properties: DialogProperties,
     headerText: String,
     headerTextStyle: TextStyle,
@@ -39,8 +41,6 @@ fun PrimaryProfileDialog(
     onCancelled: () -> Unit,
     isSnackbar: Boolean,
     modifier: Modifier = Modifier,
-    maxHeight: Dp = dimensions.profileDialogMaxHeight,
-    maxWidth: Dp = dimensions.profileDialogMaxWidth,
     snackbarHostState: SnackbarHostState? = null,
     content: @Composable () -> Unit
 ) {
