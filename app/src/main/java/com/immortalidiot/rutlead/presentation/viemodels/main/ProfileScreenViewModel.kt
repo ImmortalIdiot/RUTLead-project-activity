@@ -33,6 +33,8 @@ class ProfileScreenViewModel : ViewModel() {
 
     fun clearErrorStack() { mutableState.value = State.ChangeGroupDialog }
 
+    fun clearStateStack() { mutableState.value = State.Init }
+
     fun changeLogoutDialogVisibility() { mutableState.value = State.LogoutDialog }
 
     fun deleteAccountDialogVisibility() { mutableState.value = State.DeleteAccountDialog }
