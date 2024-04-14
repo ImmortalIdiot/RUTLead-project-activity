@@ -197,14 +197,7 @@ fun LoginScreen(
                     RedirectText(
                         modifier = modifier,
                         text = stringResource(id = R.string.to_registration),
-                        onTextClick = {
-                            navHostController.navigate(AuthScreen.SignUpScreen.route) {
-                                popUpTo(0) {
-                                    inclusive = true
-                                    saveState = false
-                                }
-                            }
-                        }
+                        onTextClick = { navHostController.navigate(AuthScreen.SignUpScreen.route) }
                     )
                 }
                 Spacer(modifier = modifier.height(dimensions.verticalXSmall))
