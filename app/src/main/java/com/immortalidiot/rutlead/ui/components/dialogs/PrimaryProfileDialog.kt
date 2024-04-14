@@ -39,13 +39,13 @@ fun PrimaryProfileDialog(
     onCancelled: () -> Unit,
     isSnackbar: Boolean,
     modifier: Modifier = Modifier,
-    dimensions: Dimensions = LocalDimensions.current,
     maxHeight: Dp = dimensions.profileDialogMaxHeight,
     maxWidth: Dp = dimensions.profileDialogMaxWidth,
     snackbarHostState: SnackbarHostState? = null,
     content: @Composable () -> Unit
 ) {
     val scheme = MaterialTheme.colorScheme
+    val dimensions = LocalDimensions.current
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
