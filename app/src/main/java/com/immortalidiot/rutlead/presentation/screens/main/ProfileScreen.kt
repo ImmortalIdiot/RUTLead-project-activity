@@ -208,7 +208,8 @@ fun ProfileScreen(
             contentAlignment = Alignment.Center
         ) {
             PrimaryProfileDialog(
-                modifier = modifier,
+                maxHeight = dimensions.profileDialogMaxHeight,
+                maxWidth = dimensions.profileDialogMaxWidth,
                 properties = DialogProperties(
                     dismissOnBackPress = true,
                     dismissOnClickOutside = true,
@@ -312,7 +313,6 @@ fun ProfileScreen(
             contentAlignment = Alignment.Center
         ) {
             PrimaryProfileDialog(
-                modifier = modifier,
                 maxHeight = dimensions.deleteAccountDialogHeight,
                 maxWidth = dimensions.deleteAccountDialogWidth,
                 properties = DialogProperties(
@@ -339,7 +339,7 @@ fun ProfileScreen(
                         .padding(horizontal = dimensions.horizontalNormalPadding)
                 ) {
                     PrimaryButton(
-                        modifier = modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                         maxWidth = dimensions.buttonWidth,
                         containerColor = LightRed,
                         scheme = scheme,
@@ -359,9 +359,9 @@ fun ProfileScreen(
                         outlineColor = scheme.onBackground,
                         borderWidth = dimensions.borderXSSmall
                     )
-                    Spacer(modifier = modifier.width(dimensions.horizontalVeryBigPadding))
+                    Spacer(modifier = Modifier.width(dimensions.horizontalVeryBigPadding))
                     PrimaryButton(
-                        modifier = modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                         maxWidth = dimensions.buttonWidth,
                         containerColor = LightBlue,
                         scheme = scheme,
