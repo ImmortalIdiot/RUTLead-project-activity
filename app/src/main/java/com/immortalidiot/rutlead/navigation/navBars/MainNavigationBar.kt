@@ -44,7 +44,6 @@ fun BottomNavigationBar(
             )
     ) {
         NavigationBar(
-            modifier = modifier,
             containerColor = scheme.onBackground,
         ) {
             navigationBarItems.forEach { item: NavigationBarItem ->
