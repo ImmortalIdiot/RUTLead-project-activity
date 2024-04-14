@@ -26,8 +26,8 @@ fun PrimaryButton(
     modifier: Modifier,
     maxHeight: Dp? = null,
     maxWidth: Dp? = null,
-    borderWidth: Dp? = dimensions.borderSSmall,
-    shape: RoundedCornerShape = RoundedCornerShape(dimensions.shapeSLarge),
+    borderWidth: Dp? = null,
+    shape: RoundedCornerShape? = null,
     scheme: ColorScheme,
     text: String,
     textStyle: TextStyle = boldLato20,
@@ -39,11 +39,14 @@ fun PrimaryButton(
 ) {
     val dimensions = LocalDimensions.current
 
+    val defaultBorderWidth = dimensions.borderSSmall
+    val defaultShape = RoundedCornerShape(dimensions.shapeSLarge)
+
     val currentModifier = modifier
-        .clip(shape = shape)
+        .clip(shape = shape ?: defaultShape)
         .border(
-            width = borderWidth,
-            shape = shape,
+            width = borderWidth ?: defaultBorderWidth,
+            shape = shape ?: defaultShape,
             color = outlineColor
         )
         .background(color = backgroundColor)
@@ -59,7 +62,7 @@ fun PrimaryButton(
     Button(
         onClick = { onButtonClick() },
         modifier = currentModifier,
-        shape = shape,
+        shape = shape ?: defaultShape,
         colors = ButtonDefaults.buttonColors(containerColor = containerColor)
     ) {
         Box(contentAlignment = Alignment.Center) {
