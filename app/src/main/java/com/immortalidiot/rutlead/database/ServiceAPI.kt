@@ -6,7 +6,7 @@ import retrofit2.http.POST
 
 interface ServiceAPI {
     @POST("api/RUTLead/student")
-    fun register(@Body studentRequest: StudentRequest): Call<StudentResponse>
+    fun register(@Body studentRequest: StudentRequest): Call<StudentRequest>
 
     @POST
     fun auth(@Body auth: Student): Call<Token>
