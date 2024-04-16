@@ -2,6 +2,7 @@ package com.immortalidiot.rutlead.navigation.auth
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -28,8 +29,10 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
+            val loginScreenViewModel: LoginScreenViewModel = viewModel()
+
             LoginScreen(
-                viewModel = LoginScreenViewModel(),
+                viewModel = loginScreenViewModel,
                 darkTheme = darkTheme,
                 navHostController = navController
             )
@@ -41,8 +44,10 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
+            val signUpViewModel: SignUpViewModel = viewModel()
+
             SignUpScreen(
-                viewModel = SignUpViewModel(),
+                viewModel = signUpViewModel,
                 darkTheme = darkTheme,
                 navHostController = navController
             )
@@ -54,9 +59,10 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
+            val resetPasswordViewModel: ResetPasswordViewModel = viewModel()
             ResetPassword(
                 darkTheme = darkTheme,
-                viewModel = ResetPasswordViewModel(),
+                viewModel = resetPasswordViewModel,
                 navController = navController
             )
             screenName("Смена пароля")
