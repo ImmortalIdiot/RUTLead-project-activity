@@ -8,11 +8,24 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class StudentRepository {
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:5036/")
+        .baseUrl("http://192.168.186.170:5036/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     private val service = retrofit.create(ServiceAPI::class.java)
 
-    fun registerUser(student: StudentRequest) { service.register(student) }
+    fun registerUser(student: StudentRequest) { service.register(student).enqueue(
+        object : Callback<StudentRequest>{
+            override fun onResponse(
+                call: Call<StudentRequest>,
+                response: Response<StudentRequest>
+            ) {
+
+            }
+
+            override fun onFailure(call: Call<StudentRequest>, t: Throwable) {
+
+            }
+        }
+    ) }
 }
