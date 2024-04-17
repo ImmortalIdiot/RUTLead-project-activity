@@ -20,10 +20,10 @@ class StudentRepository {
                     call: Call<StudentRequest>,
                     response: Response<StudentRequest>
                 ) {
-
+                    //TODO(): realize a success output
                 }
                 override fun onFailure(call: Call<StudentRequest>, t: Throwable) {
-
+                    //TODO(): realize a fail output
                 }
             }
         )
