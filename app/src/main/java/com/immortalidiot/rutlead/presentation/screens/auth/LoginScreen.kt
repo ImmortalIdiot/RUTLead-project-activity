@@ -52,9 +52,9 @@ import com.immortalidiot.rutlead.presentation.viemodels.auth.LoginScreenViewMode
 @Composable
 fun LoginScreen(
     darkTheme: Boolean,
-    modifier: Modifier = Modifier,
     viewModel: LoginScreenViewModel,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     val scheme = MaterialTheme.colorScheme
 

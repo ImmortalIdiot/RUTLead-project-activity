@@ -72,11 +72,11 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter32
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    modifier: Modifier = Modifier,
-    navController: NavHostController,
     colorUserAvatar: Color,
     themeViewModel: ThemeViewModel,
-    profileScreenViewModel: ProfileScreenViewModel
+    profileScreenViewModel: ProfileScreenViewModel,
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     val state by themeViewModel.mutableState.collectAsState()
     val uiState by profileScreenViewModel.uiState.collectAsState()

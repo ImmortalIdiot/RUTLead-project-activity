@@ -12,9 +12,9 @@ import com.immortalidiot.rutlead.ui.theme.boldLato12
 
 @Composable
 fun GroupField(
-    modifier: Modifier,
     group: String,
-    groupTextStyle: TextStyle
+    groupTextStyle: TextStyle,
+    modifier: Modifier
 ) {
     Text(
         modifier = modifier,

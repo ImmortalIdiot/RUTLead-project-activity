@@ -16,11 +16,11 @@ import com.immortalidiot.rutlead.ui.theme.boldInter16
 
 @Composable
 fun FullNameField(
+    fullNameTextStyle: TextStyle,
     modifier: Modifier,
     firstName: String = "Фамилия",
     secondName: String = "Имя",
-    thirdName: String = "Отчество",
-    fullNameTextStyle: TextStyle
+    thirdName: String = "Отчество"
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),

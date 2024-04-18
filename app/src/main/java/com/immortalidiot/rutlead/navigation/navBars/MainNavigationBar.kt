@@ -20,8 +20,8 @@ import com.immortalidiot.rutlead.ui.theme.LightBlue
 
 @Composable
 fun BottomNavigationBar(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     val navigationBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navigationBackStackEntry?.destination?.route

@@ -63,9 +63,9 @@ import com.immortalidiot.rutlead.presentation.viemodels.auth.ResetPasswordViewMo
 @Composable
 fun ResetPassword(
     darkTheme: Boolean,
-    modifier: Modifier = Modifier,
     viewModel: ResetPasswordViewModel,
-    navController: NavHostController
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val state by viewModel.mutableState.collectAsState()

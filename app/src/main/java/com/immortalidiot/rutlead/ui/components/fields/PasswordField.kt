@@ -39,10 +39,10 @@ import com.immortalidiot.rutlead.ui.theme.mediumInter14
 @Composable
 fun PasswordField(
     hint: String,
-    modifier: Modifier = Modifier,
-    passwordValue: String = "",
     imageVector: ImageVector,
     visualTransformation: VisualTransformation,
+    modifier: Modifier = Modifier,
+    passwordValue: String = "",
     onDoneAction: () -> Unit,
     onIconClick: () -> Unit,
     onTextChange: (password: String) -> Unit

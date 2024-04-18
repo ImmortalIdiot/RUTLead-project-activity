@@ -22,13 +22,13 @@ import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrimaryTextField(
+    colors: TextFieldColors,
     modifier: Modifier,
     value: String = "",
     isSingleLine: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    colors: TextFieldColors,
     minTextLength: Int = 0,
     maxTextLength: Int = Int.MAX_VALUE,
     label: @Composable (() -> Unit)? = {},
