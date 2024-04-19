@@ -47,8 +47,6 @@ import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
 import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewModel
-import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeManager
-import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeStyle
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
 import com.immortalidiot.rutlead.providers.showMessage
@@ -80,8 +78,7 @@ fun ProfileScreen(
     themeViewModel: ThemeViewModel,
     profileScreenViewModel: ProfileScreenViewModel
 ) {
-    val themeFlow = ThemeManager.themeFlow
-    val state by themeFlow.collectAsState()
+    val themeState by themeViewModel.mutableState.collectAsState()
     val uiState by profileScreenViewModel.uiState.collectAsState()
 
     val profileState by profileScreenViewModel.mutableState.collectAsState()
@@ -517,7 +514,7 @@ fun ProfileScreen(
                     .background(color = themeContentColor)
 
                 Box(
-                    modifier = if (state == ThemeStyle.AUTO) {
+                    modifier = if (themeState is ThemeViewModel.ThemeState.Auto) {
                         customModifier
                     } else {
                         modifier
@@ -529,7 +526,7 @@ fun ProfileScreen(
                     Text(
                         text = stringResource(id = R.string.theme_auto),
                         style = boldLato20.copy(
-                            color = if (state == ThemeStyle.AUTO) {
+                            color = if (themeState is ThemeViewModel.ThemeState.Auto) {
                                 scheme.onSecondary
                             } else {
                                 themeContentColor
@@ -539,7 +536,7 @@ fun ProfileScreen(
                     )
                 }
                 Box(
-                    modifier = if (state == ThemeStyle.LIGHT) {
+                    modifier = if (themeState is ThemeViewModel.ThemeState.Light) {
                         customModifier
                     } else {
                         modifier
@@ -551,7 +548,7 @@ fun ProfileScreen(
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.light_theme_controller),
                         contentDescription = "light_theme_controller",
-                        tint = if (state == ThemeStyle.LIGHT) {
+                        tint = if (themeState is ThemeViewModel.ThemeState.Light) {
                             scheme.onSecondary
                         } else {
                             themeContentColor
@@ -559,7 +556,7 @@ fun ProfileScreen(
                     )
                 }
                 Box(
-                    modifier = if (state == ThemeStyle.DARK) {
+                    modifier = if (themeState is ThemeViewModel.ThemeState.Dark) {
                         customModifier
                     } else {
                         modifier
@@ -571,7 +568,7 @@ fun ProfileScreen(
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.dark_theme_controller),
                         contentDescription = "dark_theme_controller",
-                        tint = if (state == ThemeStyle.DARK) {
+                        tint = if (themeState is ThemeViewModel.ThemeState.Dark) {
                             scheme.onSecondary
                         } else {
                             themeContentColor
