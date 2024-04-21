@@ -12,13 +12,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
@@ -186,9 +181,7 @@ fun ProfileScreen(
                         text = stringResource(id = R.string.cancel),
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onPrimary,
-                        onButtonClick = {
-                            profileScreenViewModel.onCancelled()
-                        },
+                        onButtonClick = { profileScreenViewModel.onCancelled() },
                         shape = RoundedCornerShape(dimensions.shapeXLarge),
                         outlineColor = scheme.onBackground,
                         borderWidth = dimensions.borderOne
@@ -202,13 +195,12 @@ fun ProfileScreen(
         profileState is ProfileScreenViewModel.State.GroupValidationError
     ) {
         Box(
-            modifier = modifier
-                .fillMaxHeight()
-                .verticalScroll(rememberScrollState()),
+            modifier = modifier.fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
             PrimaryProfileDialog(
-                modifier = modifier,
+                maxHeight = dimensions.profileDialogMaxHeight,
+                maxWidth = dimensions.profileDialogMaxWidth,
                 properties = DialogProperties(
                     dismissOnBackPress = true,
                     dismissOnClickOutside = true,
@@ -266,9 +258,7 @@ fun ProfileScreen(
                         text = stringResource(id = R.string.cancel_group),
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onSurface,
-                        onButtonClick = {
-                            profileScreenViewModel.onCancelled()
-                        },
+                        onButtonClick = { profileScreenViewModel.onCancelled() },
                         shape = RoundedCornerShape(dimensions.shapeXLLarge),
                         outlineColor = LightBlue,
                         borderWidth = dimensions.borderXSSmall
@@ -281,9 +271,7 @@ fun ProfileScreen(
                         text = stringResource(id = R.string.save_group),
                         textStyle = mediumInter14.copy(),
                         colorText = scheme.onPrimary,
-                        onButtonClick = {
-                            profileScreenViewModel.changeGroup()
-                        },
+                        onButtonClick = { profileScreenViewModel.changeGroup() },
                         shape = RoundedCornerShape(dimensions.shapeXLLarge),
                         backgroundColor = LightBlue,
                         outlineColor = LightBlue,
@@ -306,122 +294,73 @@ fun ProfileScreen(
                 )
             }
         }
+    }
 
-        Dialog(
-            onDismissRequest = { profileScreenViewModel.onCancelled() },
-            properties = DialogProperties(
-                dismissOnBackPress = true,
-                dismissOnClickOutside = true,
-                usePlatformDefaultWidth = false
-            )
+    if (profileState is ProfileScreenViewModel.State.DeleteAccountDialog) {
+        Box(
+            modifier = modifier.fillMaxHeight(),
+            contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = modifier
-                    .fillMaxHeight()
-                    .verticalScroll(rememberScrollState()),
+            PrimaryProfileDialog(
+                maxHeight = dimensions.deleteAccountDialogHeight,
+                maxWidth = dimensions.deleteAccountDialogWidth,
+                properties = DialogProperties(
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = true,
+                    usePlatformDefaultWidth = false
+                ),
+                headerText = stringResource(id = R.string.confirmation),
+                headerTextStyle = boldInter16.copy(),
+                headerTextColor = scheme.onSurface,
+                onCancelled = { profileScreenViewModel.onCancelled() },
+                isSnackbar = false
             ) {
-                Column(
+                Text(
+                    text = stringResource(id = R.string.delete_account_text),
+                    style = mediumInter16.copy(color = scheme.onSurface)
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = modifier
-                        .heightIn(max = 200.dp)
-                        .widthIn(max = 300.dp)
                         .fillMaxWidth()
-                        .fillMaxHeight()
-                        .clip(roundedShape)
                         .background(color = scheme.onBackground)
-                        .border(
-                            width = LocalDimensions.current.borderXSSmall,
-                            color = ClassicGray,
-                            shape = roundedShape
-                        )
-                        .align(Alignment.Center),
-                    verticalArrangement = Arrangement.SpaceEvenly,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(horizontal = dimensions.horizontalNormalPadding)
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.confirmation),
-                        style = boldInter16.copy(color = scheme.onSurface)
-                    )
-                    PrimaryTextField(
-                        modifier = modifier.border(
-                            width = dimensions.borderXSSmall,
-                            color = LightBlue,
-                            shape = roundedShape
-                        ),
-                        value = uiState.group,
-                        isSingleLine = true,
-                        label = {
-                            Text(
-                                text = stringResource(id = R.string.group_with_example),
-                                style = if (uiState.isGroupFieldFocused || uiState.group.isNotBlank()) {
-                                    mediumInter12.copy(color = scheme.primary)
-                                } else {
-                                    mediumInter14.copy(color = scheme.primary)
+                    PrimaryButton(
+                        modifier = Modifier.weight(1f),
+                        maxWidth = dimensions.buttonWidth,
+                        containerColor = LightRed,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.confirm),
+                        textStyle = mediumInter14,
+                        colorText = scheme.onPrimary,
+                        onButtonClick = {
+                            profileScreenViewModel.deleteAccount()
+                            navController.navigate(AuthScreen.LoginScreen.route) {
+                                popUpTo(0) {
+                                    inclusive = false
+                                    saveState = true
                                 }
-                            )
+                            }
                         },
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = scheme.primaryContainer,
-                            textColor = scheme.primary,
-                            cursorColor = scheme.onSecondary,
-                            unfocusedLabelColor = scheme.onPrimary,
-                            focusedLabelColor = scheme.onPrimary,
-                            focusedSupportingTextColor = Color.White,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent
-                        ),
-                        onTextChange = { group -> profileScreenViewModel.changeGroup(group = group) }
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderXSSmall
                     )
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .background(color = scheme.onBackground)
-                            .padding(horizontal = dimensions.horizontalNormalPadding),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        PrimaryButton(
-                            modifier = modifier.weight(1f),
-                            containerColor = scheme.onBackground,
-                            scheme = scheme,
-                            text = stringResource(id = R.string.cancel_group),
-                            textStyle = mediumInter14.copy(),
-                            colorText = scheme.onSurface,
-                            onButtonClick = {
-                                profileScreenViewModel.onCancelled()
-                            },
-                            shape = RoundedCornerShape(dimensions.shapeXLLarge),
-                            outlineColor = LightBlue,
-                            borderWidth = dimensions.borderXSSmall
-                        )
-                        Spacer(modifier = modifier.width(dimensions.horizontalNormalPadding))
-                        PrimaryButton(
-                            modifier = modifier.weight(1f),
-                            containerColor = LightBlue,
-                            scheme = scheme,
-                            text = stringResource(id = R.string.save_group),
-                            textStyle = mediumInter14.copy(),
-                            colorText = scheme.onPrimary,
-                            onButtonClick = {
-                                profileScreenViewModel.changeGroup()
-                            },
-                            shape = RoundedCornerShape(dimensions.shapeXLLarge),
-                            outlineColor = scheme.onBackground,
-                            borderWidth = dimensions.borderOne
-                        )
-                    }
-                }
-                SnackbarHost(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter),
-                    hostState = snackbarHostState
-                ) {
-                    Snackbar(
-                        snackbarData = it,
-                        containerColor = scheme.errorContainer,
-                        contentColor = scheme.onPrimary,
-                        dismissActionContentColor = scheme.onPrimary,
-                        shape = RoundedCornerShape(LocalDimensions.current.shapeNormal)
+                    Spacer(modifier = Modifier.width(dimensions.horizontalVeryBigPadding))
+                    PrimaryButton(
+                        modifier = Modifier.weight(1f),
+                        maxWidth = dimensions.buttonWidth,
+                        containerColor = LightBlue,
+                        scheme = scheme,
+                        text = stringResource(id = R.string.cancel),
+                        textStyle = mediumInter14,
+                        colorText = scheme.onPrimary,
+                        onButtonClick = { profileScreenViewModel.onCancelled() },
+                        shape = RoundedCornerShape(dimensions.shapeXLLarge),
+                        outlineColor = scheme.onBackground,
+                        borderWidth = dimensions.borderOne
                     )
                 }
             }
@@ -603,9 +542,7 @@ fun ProfileScreen(
             colorText = scheme.error,
             outlineColor = scheme.error,
             containerColor = scheme.onBackground,
-            onButtonClick = {
-                //TODO(): open the delete account dialog
-            }
+            onButtonClick = { profileScreenViewModel.deleteAccountDialogVisibility() }
         )
     }
 }

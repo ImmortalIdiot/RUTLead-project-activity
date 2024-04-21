@@ -16,6 +16,7 @@
     <string name="delete_account">Удалить аккаунт</string>
     <string name="confirmation">Подтверждение</string>
     <string name="exit_text">Вы уверены, что хотите <b>выйти</b>?</string>
+    <string name="delete_account_text">Вы уверены, что хотите <b>удалить</b> аккаунт?</string>
     <string name="cancel">Нет</string>
     <string name="confirm">Да</string>
 
