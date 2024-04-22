@@ -3,6 +3,8 @@ package com.immortalidiot.rutlead.presentation.viemodels.main
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class ThemeViewModel : ViewModel() {
 
@@ -13,7 +15,8 @@ class ThemeViewModel : ViewModel() {
         object Dark : ThemeState()
     }
 
-    val mutableState = MutableStateFlow<ThemeState>(ThemeState.Auto)
+    private val mutableState = MutableStateFlow<ThemeState>(ThemeState.Auto)
+    val immutableState: StateFlow<ThemeState> = mutableState.asStateFlow()
 
     private val themeFlow = ThemeManager.themeFlow
 

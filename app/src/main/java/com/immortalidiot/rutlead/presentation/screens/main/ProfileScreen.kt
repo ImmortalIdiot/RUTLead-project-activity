@@ -78,10 +78,10 @@ fun ProfileScreen(
     themeViewModel: ThemeViewModel,
     profileScreenViewModel: ProfileScreenViewModel
 ) {
-    val themeState by themeViewModel.mutableState.collectAsState()
+    val themeState by themeViewModel.immutableState.collectAsState()
     val uiState by profileScreenViewModel.uiState.collectAsState()
 
-    val profileState by profileScreenViewModel.mutableState.collectAsState()
+    val profileState by profileScreenViewModel.immutableState.collectAsState()
 
     val scheme = MaterialTheme.colorScheme
 
