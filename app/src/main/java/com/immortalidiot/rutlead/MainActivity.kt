@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { padding ->
                         RUTLeadScreenFlow(
+                            profileThemeViewModel = themeViewModel,
                             backgroundUserColor = backgroundUserColor,
                             darkTheme = darkTheme,
                             paddingValues = padding,
