@@ -22,8 +22,8 @@ class ProfileScreenViewModel : ViewModel() {
         data class GroupValidationError(val groupError: String?) : State()
     }
 
-    var mutableState = MutableStateFlow<State>(State.Init)
-        private set
+    private val mutableState = MutableStateFlow<State>(State.Init)
+    val immutableState: StateFlow<State> = mutableState.asStateFlow()
 
     private val _uiState = MutableStateFlow(
         ChangeGroupModel(

@@ -15,6 +15,7 @@ import com.immortalidiot.rutlead.presentation.viemodels.main.ProfileScreenViewMo
 import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 
 fun NavGraphBuilder.mainScreenFlow(
+    profileThemeViewModel: ThemeViewModel,
     navController: NavHostController,
     backgroundUserColor: Color,
     screenName: (String) -> Unit
@@ -37,12 +38,11 @@ fun NavGraphBuilder.mainScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            val themeViewModel: ThemeViewModel = viewModel()
             val profileScreenViewModel: ProfileScreenViewModel = viewModel()
 
             ProfileScreen(
                 colorUserAvatar = backgroundUserColor,
-                themeViewModel = themeViewModel,
+                themeViewModel = profileThemeViewModel,
                 profileScreenViewModel = profileScreenViewModel,
                 navController = navController
             )
