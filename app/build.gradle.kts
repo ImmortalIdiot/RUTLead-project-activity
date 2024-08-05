@@ -7,6 +7,11 @@ android {
     namespace = "com.immortalidiot.rutlead"
     compileSdk = 34
 
+    buildFeatures {
+        buildConfig = true
+        compose = true
+    }
+
     defaultConfig {
         applicationId = "com.immortalidiot.rutlead"
         minSdk = 26
@@ -27,6 +32,18 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://192.168.186.170:6000/api/RUTLead/\""
+            )
+        }
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://192.168.186.170:6000/api/RUTLead/\""
+            )
         }
     }
     compileOptions {
@@ -35,9 +52,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
