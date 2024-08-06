@@ -27,7 +27,6 @@ class SignUpViewModel @Inject constructor(
     sealed class State {
         object Init : State()
         object Success : State()
-        object Loading : State()
         object SecondPart : State()
         data class Error(val message: String) : State()
         data class SignUpValidationFirstPartError(
