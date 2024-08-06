@@ -144,12 +144,15 @@ class SignUpViewModel @Inject constructor(
                     group = _uiState.value.group,
                     fullName = _uiState.value.name
                 )
-                studentRepository.registerUser(student)
+                handleResult(studentRepository.registerUser(student))
             }
-            mutableState.update {
-                State.Success
-            }
-            // TODO: register the user
+        }
+    }
+
+    private fun handleResult(result: Result<Unit>) {
+        if (result.isSuccess) { mutableState.update { State.Success } }
+        else { mutableState.update {
+            State.Error(result.exceptionOrNull()?.message ?: "Попробуйте позднее") }
         }
     }
 }
