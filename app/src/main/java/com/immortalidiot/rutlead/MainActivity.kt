@@ -21,7 +21,9 @@ import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeStyle
 import com.immortalidiot.rutlead.providers.LocalSnackbarHostState
 import com.immortalidiot.rutlead.ui.theme.ClassicColors
 import com.immortalidiot.rutlead.ui.theme.RUTLeadTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val themeFlow = ThemeManager.themeFlow
     private val backgroundUserColor = ClassicColors.AvatarColor.getRandomColor()
