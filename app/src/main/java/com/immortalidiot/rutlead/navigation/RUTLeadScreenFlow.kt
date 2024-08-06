@@ -10,9 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.navigation.auth.authScreenFlow
 import com.immortalidiot.rutlead.navigation.main.mainScreenFlow
+import com.immortalidiot.rutlead.presentation.viemodels.main.ThemeViewModel
 
 @Composable
 fun RUTLeadScreenFlow(
+    profileThemeViewModel: ThemeViewModel,
     backgroundUserColor: Color,
     darkTheme: Boolean,
     paddingValues: PaddingValues,
@@ -29,6 +31,7 @@ fun RUTLeadScreenFlow(
              darkTheme = darkTheme
          ) { isNavigationBarVisible(false) }
          mainScreenFlow(
+             profileThemeViewModel = profileThemeViewModel,
              backgroundUserColor = backgroundUserColor,
              navController = navController
          ) { isNavigationBarVisible(true) }

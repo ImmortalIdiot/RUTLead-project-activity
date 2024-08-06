@@ -2,12 +2,14 @@ package com.immortalidiot.rutlead.presentation.viemodels.main
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.immortalidiot.rutlead.ui.models.ChangeGroupModel
 import com.immortalidiot.rutlead.validation.validateGroup
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class ProfileScreenViewModel : ViewModel() {
 
@@ -16,11 +18,12 @@ class ProfileScreenViewModel : ViewModel() {
         object Init : State()
         object LogoutDialog : State()
         object ChangeGroupDialog : State()
+        object DeleteAccountDialog : State()
         data class GroupValidationError(val groupError: String?) : State()
     }
 
-    var mutableState = MutableStateFlow<State>(State.Init)
-        private set
+    private val mutableState = MutableStateFlow<State>(State.Init)
+    val immutableState: StateFlow<State> = mutableState.asStateFlow()
 
     private val _uiState = MutableStateFlow(
         ChangeGroupModel(
@@ -32,7 +35,11 @@ class ProfileScreenViewModel : ViewModel() {
 
     fun clearErrorStack() { mutableState.value = State.ChangeGroupDialog }
 
+    fun clearStateStack() { mutableState.value = State.Init }
+
     fun changeLogoutDialogVisibility() { mutableState.value = State.LogoutDialog }
+
+    fun deleteAccountDialogVisibility() { mutableState.value = State.DeleteAccountDialog }
 
     fun onCancelled() { mutableState.value = State.Init }
 
@@ -50,6 +57,13 @@ class ProfileScreenViewModel : ViewModel() {
         } else {
             // TODO(): add post request for change a group
             mutableState.value = State.Init
+        }
+    }
+
+    fun deleteAccount() {
+        viewModelScope.launch {
+            clearStateStack()
+            //TODO(): realize the deletion account
         }
     }
 }

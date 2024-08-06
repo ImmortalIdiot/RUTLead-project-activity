@@ -3,6 +3,8 @@ package com.immortalidiot.rutlead.ui.components.buttons
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -15,16 +17,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import com.immortalidiot.rutlead.ui.theme.Dimensions
 import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 import com.immortalidiot.rutlead.ui.theme.boldLato20
 
 @Composable
 fun PrimaryButton(
     modifier: Modifier,
-    dimensions: Dimensions = LocalDimensions.current,
-    borderWidth: Dp = dimensions.borderSSmall,
-    shape: RoundedCornerShape = RoundedCornerShape(dimensions.shapeSLarge),
+    maxHeight: Dp? = null,
+    maxWidth: Dp? = null,
+    borderWidth: Dp? = null,
+    shape: RoundedCornerShape? = null,
     scheme: ColorScheme,
     text: String,
     textStyle: TextStyle = boldLato20,
@@ -34,17 +36,32 @@ fun PrimaryButton(
     backgroundColor: Color = scheme.onBackground,
     onButtonClick: () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
+
+    val defaultBorderWidth = dimensions.borderSSmall
+    val defaultShape = RoundedCornerShape(dimensions.shapeSLarge)
+
+    val currentModifier = modifier
+        .clip(shape = shape ?: defaultShape)
+        .border(
+            width = borderWidth ?: defaultBorderWidth,
+            shape = shape ?: defaultShape,
+            color = outlineColor
+        )
+        .background(color = backgroundColor)
+        .apply {
+            if (maxHeight != null) {
+                heightIn(max = maxHeight)
+            }
+            if (maxWidth != null) {
+                widthIn(max = maxWidth)
+            }
+        }
+
     Button(
         onClick = { onButtonClick() },
-        modifier = modifier
-            .clip(shape = shape)
-            .background(color = backgroundColor)
-            .border(
-                width = borderWidth,
-                shape = shape,
-                color = outlineColor
-            ),
-        shape = shape,
+        modifier = currentModifier,
+        shape = shape ?: defaultShape,
         colors = ButtonDefaults.buttonColors(containerColor = containerColor)
     ) {
         Box(contentAlignment = Alignment.Center) {

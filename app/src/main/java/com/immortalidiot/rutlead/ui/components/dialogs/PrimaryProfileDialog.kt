@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
@@ -23,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.immortalidiot.rutlead.ui.theme.ClassicGray
@@ -30,18 +29,20 @@ import com.immortalidiot.rutlead.ui.theme.LocalDimensions
 
 @Composable
 fun PrimaryProfileDialog(
-    modifier: Modifier,
+    maxHeight: Dp,
+    maxWidth: Dp,
     properties: DialogProperties,
     headerText: String,
     headerTextStyle: TextStyle,
     headerTextColor: Color,
     onCancelled: () -> Unit,
     isSnackbar: Boolean,
+    modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState? = null,
     content: @Composable () -> Unit
 ) {
-    val dimensions = LocalDimensions.current
     val scheme = MaterialTheme.colorScheme
+    val dimensions = LocalDimensions.current
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
@@ -50,15 +51,13 @@ fun PrimaryProfileDialog(
         properties = properties
     ) {
         Box(
-            modifier = modifier
-                .fillMaxHeight()
-                .verticalScroll(rememberScrollState()),
+            modifier = modifier.fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 modifier = modifier
-                    .heightIn(max = dimensions.profileDialogMaxHeight)
-                    .widthIn(max = dimensions.profileDialogMaxWidth)
+                    .heightIn(max = maxHeight)
+                    .widthIn(max = maxWidth)
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .clip(roundedShape)

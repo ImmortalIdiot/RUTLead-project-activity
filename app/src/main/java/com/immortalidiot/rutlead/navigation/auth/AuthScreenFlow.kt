@@ -29,8 +29,10 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
+            val loginScreenViewModel: LoginScreenViewModel = viewModel()
+
             LoginScreen(
-                viewModel = LoginScreenViewModel(),
+                viewModel = loginScreenViewModel,
                 darkTheme = darkTheme,
                 navHostController = navController
             )
@@ -57,9 +59,10 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
+            val resetPasswordViewModel: ResetPasswordViewModel = viewModel()
             ResetPassword(
                 darkTheme = darkTheme,
-                viewModel = ResetPasswordViewModel(),
+                viewModel = resetPasswordViewModel,
                 navController = navController
             )
             screenName("Смена пароля")
