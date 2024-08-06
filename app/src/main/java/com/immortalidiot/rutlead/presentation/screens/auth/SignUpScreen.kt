@@ -260,7 +260,8 @@ fun SignUpScreen(
                         }
                     )
                 } else if (state is SignUpViewModel.State.SecondPart ||
-                    state is SignUpViewModel.State.SignUpValidationSecondPartError
+                    state is SignUpViewModel.State.SignUpValidationSecondPartError ||
+                    state is SignUpViewModel.State.Error
                 ) {
                     PrimaryTextField(
                         modifier = modifier.border(
