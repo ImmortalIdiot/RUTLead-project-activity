@@ -1,32 +1,24 @@
 package com.immortalidiot.rutlead.database
 
-import com.immortalidiot.rutlead.BuildConfig
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.google.gson.Gson
+import javax.inject.Inject
 
-class StudentRepository {
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+class StudentRepository @Inject constructor(
+    private val service: ServiceAPI
+) {
+    suspend fun registerUser(student: Student): Result<Unit> {
+        val response = service.register(student)
+        return if (response.isSuccessful) {
+            Result.success(Unit)
+        } else {
+            val error = response.errorBody()?.string()
+            val errorResponse = error?.let { parseResponse(it) }
+            Result.failure(Exception(errorResponse?.title ?: "Попробуйте позднее"))
+        }
+    }
 
-    private val service = retrofit.create(ServiceAPI::class.java)
-
-    fun registerUser(student: Student) {
-        service.register(student).enqueue(object : Callback<Student> {
-                override fun onResponse(
-                    call: Call<Student>,
-                    response: Response<Student>
-                ) {
-                    //TODO(): realize a success output
-                }
-                override fun onFailure(call: Call<Student>, t: Throwable) {
-                    //TODO(): realize a fail output
-                }
-            }
-        )
+    private fun parseResponse(json: String): RegistrationResponse? {
+        val gson = Gson()
+        return gson.fromJson(json, RegistrationResponse::class.java)
     }
 }
