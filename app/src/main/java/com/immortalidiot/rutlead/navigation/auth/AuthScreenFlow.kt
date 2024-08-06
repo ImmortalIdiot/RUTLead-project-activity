@@ -2,11 +2,11 @@ package com.immortalidiot.rutlead.navigation.auth
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.immortalidiot.rutlead.database.StudentRepository
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.presentation.screens.auth.LoginScreen
 import com.immortalidiot.rutlead.presentation.screens.auth.ResetPassword
@@ -20,8 +20,6 @@ fun NavGraphBuilder.authScreenFlow(
     darkTheme: Boolean,
     screenName: (String) -> Unit,
 ) {
-    val studentRepository = StudentRepository()
-
     navigation(
         startDestination = AuthScreen.LoginScreen.route,
         route = RUTLeadScreen.AuthScreenFlow.route
@@ -44,8 +42,10 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
+            val signUpViewModel: SignUpViewModel = hiltViewModel()
+
             SignUpScreen(
-                viewModel = SignUpViewModel(studentRepository),
+                viewModel = signUpViewModel,
                 darkTheme = darkTheme,
                 navHostController = navController
             )

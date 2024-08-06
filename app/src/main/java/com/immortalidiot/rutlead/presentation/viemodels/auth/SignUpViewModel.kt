@@ -3,21 +3,26 @@ package com.immortalidiot.rutlead.presentation.viemodels.auth
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.immortalidiot.rutlead.database.Student
 import com.immortalidiot.rutlead.database.StudentRepository
-import com.immortalidiot.rutlead.database.StudentRequest
 import com.immortalidiot.rutlead.ui.models.SignUpModel
 import com.immortalidiot.rutlead.validation.validateEmail
 import com.immortalidiot.rutlead.validation.validateGroup
 import com.immortalidiot.rutlead.validation.validateName
 import com.immortalidiot.rutlead.validation.validatePassword
 import com.immortalidiot.rutlead.validation.validateStudentID
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpViewModel(private val studentRepository: StudentRepository) : ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val studentRepository: StudentRepository
+) : ViewModel() {
     @Immutable
     sealed class State {
         object Init : State()
@@ -132,7 +137,7 @@ class SignUpViewModel(private val studentRepository: StudentRepository) : ViewMo
             }
         } else {
             viewModelScope.launch {
-                val student = StudentRequest(
+                val student = Student(
                     studentID = _uiState.value.studentID.toInt(),
                     password = _uiState.value.password,
                     email = _uiState.value.email,
