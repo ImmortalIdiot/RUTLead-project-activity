@@ -15,15 +15,15 @@ class StudentRepository {
 
     private val service = retrofit.create(ServiceAPI::class.java)
 
-    fun registerUser(student: StudentRequest) {
-        service.register(student).enqueue(object : Callback<StudentRequest> {
+    fun registerUser(student: Student) {
+        service.register(student).enqueue(object : Callback<Student> {
                 override fun onResponse(
-                    call: Call<StudentRequest>,
-                    response: Response<StudentRequest>
+                    call: Call<Student>,
+                    response: Response<Student>
                 ) {
                     //TODO(): realize a success output
                 }
-                override fun onFailure(call: Call<StudentRequest>, t: Throwable) {
+                override fun onFailure(call: Call<Student>, t: Throwable) {
                     //TODO(): realize a fail output
                 }
             }
