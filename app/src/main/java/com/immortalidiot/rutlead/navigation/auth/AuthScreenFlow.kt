@@ -3,6 +3,7 @@ package com.immortalidiot.rutlead.navigation.auth
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
