@@ -18,13 +18,14 @@ class StudentRepository {
         return if (response.isSuccessful) {
             Result.success(Unit)
         } else {
-            val error = response.errorBody()?.string()
-            val errorResponse = error?.let { parseResponse(it) }
-            Result.failure(Exception(errorResponse?.title ?: "Попробуйте позднее"))
+            val error = response.errorBody()!!.string()
+            val errorResponse = parseResponse(error)
+            val firstError = errorResponse.errors.values.first().first()
+            Result.failure(Exception(firstError))
         }
     }
 
-    private fun parseResponse(json: String): RegistrationResponse? {
+    private fun parseResponse(json: String): RegistrationResponse {
         val gson = Gson()
         return gson.fromJson(json, RegistrationResponse::class.java)
     }
