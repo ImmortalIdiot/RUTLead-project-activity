@@ -124,6 +124,11 @@ fun SignUpScreen(
                 }
                 viewModel.clearErrorStackInSecondPart()
             }
+
+            (state is SignUpViewModel.State.Error) -> {
+                val errorState = state as SignUpViewModel.State.Error
+                snackbarHostState.showMessage(errorState.toString())
+            }
         }
     }
 
