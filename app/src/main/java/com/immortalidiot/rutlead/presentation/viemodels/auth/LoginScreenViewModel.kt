@@ -3,16 +3,22 @@ package com.immortalidiot.rutlead.presentation.viemodels.auth
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.immortalidiot.rutlead.database.StudentRepository
 import com.immortalidiot.rutlead.ui.models.LoginModel
 import com.immortalidiot.rutlead.validation.validatePassword
 import com.immortalidiot.rutlead.validation.validateStudentID
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginScreenViewModel : ViewModel() {
+@HiltViewModel
+class LoginScreenViewModel @Inject constructor(
+    private val studentRepository: StudentRepository
+) : ViewModel() {
     @Immutable
     sealed class State {
         object Init : State()
@@ -43,6 +49,7 @@ class LoginScreenViewModel : ViewModel() {
             State.Init
         }
     }
+
     fun changeLogin(studentID: String) {
         _uiState.update {
             uiState.value.copy(studentID = studentID)
@@ -74,10 +81,23 @@ class LoginScreenViewModel : ViewModel() {
             }
         } else {
             viewModelScope.launch {
-                mutableState.value = State.Loading
-                // TODO: add verification for an existing user in the database
+                handleResult(
+                    studentRepository.loginStudent(
+                        _uiState.value.studentID,
+                        _uiState.value.password
+                    )
+                )
+            }
+        }
+    }
 
-                mutableState.value = State.Success
+    private fun handleResult(result: Result<Unit>) {
+        if (result.isSuccess) {
+            mutableState.update { State.Success }
+        } else {
+            mutableState.update {
+                val errorMessage = result.exceptionOrNull()?.message ?: "Неизвестная ошибка"
+                State.Error(errorMessage)
             }
         }
     }
