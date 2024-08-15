@@ -68,7 +68,7 @@ class LoginScreenViewModel @Inject constructor(
         }
     }
 
-    fun request() {
+    fun login() {
         val studentID = _uiState.value.studentID.validateStudentID()
         val password = _uiState.value.password.validatePassword()
 
