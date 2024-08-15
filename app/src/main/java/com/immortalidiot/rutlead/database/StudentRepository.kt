@@ -15,6 +15,8 @@ class StudentRepository {
     private val service = retrofit.create(ServiceAPI::class.java)
 
     private val unknownErrorMessage = "Неизвестная ошибка, попробуйте позднее"
+    private val networkError = "Ошибка сети"
+    private val success = "Successful registration"
 
     suspend fun registerStudent(student: Student): String {
         return withContext(Dispatchers.IO) {
@@ -23,7 +25,7 @@ class StudentRepository {
             if (response.isSuccessful) {
                 val responseBody = response.body()
                 if (responseBody != null && responseBody.status == 201) {
-                    "Successful registration"
+                    success
                 } else {
                     responseBody?.errors?.values?.first()?.first() ?: unknownErrorMessage
                 }
@@ -34,20 +36,22 @@ class StudentRepository {
     }
 
     suspend fun loginStudent(studentId: String, password: String): Result<Unit> {
-        return withContext(Dispatchers.IO) {
-            val response = service.auth(studentId, password).execute()
+        return try {
+            withContext(Dispatchers.IO) {
+                val response = service.auth(studentId, password).execute()
 
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                if (responseBody != null && responseBody.status == 200) {
-                    Result.success(Unit)
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null && responseBody.status == 200) {
+                        Result.success(Unit)
+                    } else {
+                        Result.failure(Exception(responseBody?.errors?.values?.first()?.first()
+                            ?: unknownErrorMessage))
+                    }
                 } else {
-                    Result.failure(Exception(responseBody?.errors?.values?.first()?.first()
-                        ?: unknownErrorMessage))
+                    Result.failure(Exception(response.errorBody()?.string() ?: unknownErrorMessage))
                 }
-            } else {
-                Result.failure(Exception(response.errorBody()?.string() ?: unknownErrorMessage))
             }
-        }
+        } catch (e: Exception) { Result.failure(Exception(networkError)) }
     }
 }
