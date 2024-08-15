@@ -9,5 +9,5 @@ interface ServiceAPI {
     suspend fun register(@Body newStudent: Student): Call<RegistrationResponse>
 
     @POST
-    fun auth(@Body auth: Student): Call<Token>
+    suspend fun auth(@Body studentId: Int, @Body password: String): Call<LoginResponse> // TODO: add token
 }
