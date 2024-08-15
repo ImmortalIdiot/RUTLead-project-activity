@@ -16,7 +16,7 @@ class StudentRepository {
 
     private val unknownErrorMessage = "Неизвестная ошибка, попробуйте позднее"
 
-    suspend fun registerUser(student: Student): String {
+    suspend fun registerStudent(student: Student): String {
         return withContext(Dispatchers.IO) {
             val response = service.register(student).execute()
 

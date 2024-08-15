@@ -143,7 +143,7 @@ class SignUpViewModel @Inject constructor(
                     group = _uiState.value.group,
                     fullName = _uiState.value.name
                 )
-                handleResult(studentRepository.registerUser(student))
+                handleResult(studentRepository.registerStudent(student))
             }
         }
     }
