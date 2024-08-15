@@ -32,4 +32,22 @@ class StudentRepository {
             }
         }
     }
+
+    suspend fun loginStudent(studentId: String, password: String): Result<Unit> {
+        return withContext(Dispatchers.IO) {
+            val response = service.auth(studentId, password).execute()
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                if (responseBody != null && responseBody.status == 200) {
+                    Result.success(Unit)
+                } else {
+                    Result.failure(Exception(responseBody?.errors?.values?.first()?.first()
+                        ?: unknownErrorMessage))
+                }
+            } else {
+                Result.failure(Exception(response.errorBody()?.string() ?: unknownErrorMessage))
+            }
+        }
+    }
 }
