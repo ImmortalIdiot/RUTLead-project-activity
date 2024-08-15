@@ -30,9 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
@@ -215,15 +213,5 @@ fun LoginScreen(
     BottomSnackbar(
         modifier = modifier,
         snackbarHostState = snackbarHostState
-    )
-}
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        darkTheme = true,
-        viewModel = LoginScreenViewModel(),
-        navHostController = rememberNavController()
     )
 }
