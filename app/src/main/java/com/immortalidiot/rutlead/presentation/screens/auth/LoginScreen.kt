@@ -75,18 +75,25 @@ fun LoginScreen(
     }
 
     LaunchedEffect(key1 = state) {
-        if (state is LoginScreenViewModel.State.ValidationError) {
-            val errorState = state as LoginScreenViewModel.State.ValidationError
+        when {
+            (state is LoginScreenViewModel.State.ValidationError) -> {
+                val errorState = state as LoginScreenViewModel.State.ValidationError
 
-            when {
-                errorState.studentIDError != null ->
-                    snackbarHostState.showMessage(studentIDErrorMessage)
+                when {
+                    errorState.studentIDError != null ->
+                        snackbarHostState.showMessage(studentIDErrorMessage)
 
-                errorState.passwordError != null ->
-                    snackbarHostState.showMessage(passwordErrorMessage)
+                    errorState.passwordError != null ->
+                        snackbarHostState.showMessage(passwordErrorMessage)
+                }
             }
-            viewModel.clearErrorStack()
+
+            (state is LoginScreenViewModel.State.Error) -> {
+                val errorState = state as LoginScreenViewModel.State.Error
+                snackbarHostState.showMessage(errorState.message)
+            }
         }
+        viewModel.clearErrorStack()
     }
 
     if (state is LoginScreenViewModel.State.Success) {
@@ -166,7 +173,7 @@ fun LoginScreen(
                     onDoneAction = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
-                        viewModel.request()
+                        viewModel.login()
                     },
                     onIconClick = {
                         viewModel.changePasswordVisibility(uiState.isPasswordVisible)
@@ -183,7 +190,7 @@ fun LoginScreen(
                     onButtonClick = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
-                        viewModel.request()
+                        viewModel.login()
                     }
                 )
                 Spacer(modifier = modifier.height(dimensions.verticalXLarge))
