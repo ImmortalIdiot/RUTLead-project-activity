@@ -1,7 +1,8 @@
 package com.immortalidiot.rutlead.database
 
-import com.google.gson.Gson
 import com.immortalidiot.rutlead.BuildConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,20 +14,22 @@ class StudentRepository {
 
     private val service = retrofit.create(ServiceAPI::class.java)
 
-    suspend fun registerUser(student: Student): Result<Unit> {
-        val response = service.register(student)
-        return if (response.isSuccessful) {
-            Result.success(Unit)
-        } else {
-            val error = response.errorBody()!!.string()
-            val errorResponse = parseResponse(error)
-            val firstError = errorResponse.errors.values.first().first()
-            Result.failure(Exception(firstError))
-        }
-    }
+    private val unknownErrorMessage = "Неизвестная ошибка, попробуйте позднее"
 
-    private fun parseResponse(json: String): RegistrationResponse {
-        val gson = Gson()
-        return gson.fromJson(json, RegistrationResponse::class.java)
+    suspend fun registerUser(student: Student): String {
+        return withContext(Dispatchers.IO) {
+            val response = service.register(student).execute()
+
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                if (responseBody != null && responseBody.status == 201) {
+                    "Successful registration"
+                } else {
+                    responseBody?.errors?.values?.first()?.first() ?: unknownErrorMessage
+                }
+            } else {
+                response.errorBody()?.string() ?: unknownErrorMessage
+            }
+        }
     }
 }

@@ -148,10 +148,8 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    private fun handleResult(result: Result<Unit>) {
-        if (result.isSuccess) { mutableState.update { State.Success } }
-        else { mutableState.update {
-            State.Error(result.exceptionOrNull()?.message ?: "Попробуйте позднее") }
-        }
+    private fun handleResult(result: String) {
+        if (result == "Successful registration") { mutableState.update { State.Success } }
+        else { mutableState.update { State.Error(result) } }
     }
 }
