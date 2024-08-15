@@ -30,7 +30,7 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            val loginScreenViewModel: LoginScreenViewModel = viewModel()
+            val loginScreenViewModel: LoginScreenViewModel = hiltViewModel()
 
             LoginScreen(
                 viewModel = loginScreenViewModel,
