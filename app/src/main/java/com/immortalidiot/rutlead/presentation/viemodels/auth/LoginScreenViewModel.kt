@@ -3,8 +3,8 @@ package com.immortalidiot.rutlead.presentation.viemodels.auth
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.immortalidiot.rutlead.database.StudentRepository
 import com.immortalidiot.rutlead.ui.models.LoginModel
+import com.immortalidiot.rutlead.usecases.LoginUseCase
 import com.immortalidiot.rutlead.validation.validatePassword
 import com.immortalidiot.rutlead.validation.validateStudentID
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    private val studentRepository: StudentRepository
+    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
     @Immutable
     sealed class State {
@@ -81,7 +81,7 @@ class LoginScreenViewModel @Inject constructor(
         } else {
             viewModelScope.launch {
                 handleResult(
-                    studentRepository.loginStudent(
+                    loginUseCase.loginStudent(
                         _uiState.value.studentID,
                         _uiState.value.password
                     )
