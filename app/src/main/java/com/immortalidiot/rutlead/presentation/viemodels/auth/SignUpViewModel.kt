@@ -4,8 +4,8 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.immortalidiot.rutlead.database.Student
-import com.immortalidiot.rutlead.database.StudentRepository
 import com.immortalidiot.rutlead.ui.models.SignUpModel
+import com.immortalidiot.rutlead.usecases.RegistrationUseCase
 import com.immortalidiot.rutlead.validation.validateEmail
 import com.immortalidiot.rutlead.validation.validateGroup
 import com.immortalidiot.rutlead.validation.validateName
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val studentRepository: StudentRepository
+    private val registrationUseCase: RegistrationUseCase
 ) : ViewModel() {
     @Immutable
     sealed class State {
@@ -143,7 +143,7 @@ class SignUpViewModel @Inject constructor(
                     group = _uiState.value.group,
                     fullName = _uiState.value.name
                 )
-                handleResult(studentRepository.registerStudent(student))
+                handleResult(registrationUseCase.registerStudent(student))
             }
         }
     }
