@@ -23,7 +23,6 @@ class LoginScreenViewModel @Inject constructor(
     sealed class State {
         object Init : State()
         object Success : State()
-        object Loading : State()
         data class Error(val message: String) : State()
         data class ValidationError(
             val studentIDError: String?,
