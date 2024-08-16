@@ -77,58 +77,51 @@ fun SignUpScreen(
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
-    var studentIDErrorMessage = ""
-    var emailErrorMessage = ""
-    var passwordErrorMessage = ""
-    var groupErrorMessage = ""
-    var nameErrorMessage = ""
-
-    (state as? SignUpViewModel.State.SignUpValidationFirstPartError)?.let { errorState ->
-        studentIDErrorMessage = errorState.studentIDError.toString()
-        emailErrorMessage = errorState.emailError.toString()
-        passwordErrorMessage = errorState.passwordError.toString()
-    }
-
-    (state as? SignUpViewModel.State.SignUpValidationSecondPartError)?.let { errorState ->
-        groupErrorMessage = errorState.groupError.toString()
-        nameErrorMessage = errorState.nameError.toString()
-    }
+    lateinit var studentIDErrorMessage: String
+    lateinit var emailErrorMessage: String
+    lateinit var passwordErrorMessage: String
+    lateinit var groupErrorMessage: String
+    lateinit var nameErrorMessage: String
 
     LaunchedEffect(key1 = state) {
-        when {
-            (state is SignUpViewModel.State.SignUpValidationFirstPartError) -> {
-                val errorState = state as SignUpViewModel.State.SignUpValidationFirstPartError
+        when (val signUpState = state){
+            is SignUpViewModel.State.SignUpValidationFirstPartError -> {
+                studentIDErrorMessage = signUpState.studentIDError.toString()
+                emailErrorMessage = signUpState.emailError.toString()
+                passwordErrorMessage = signUpState.passwordError.toString()
 
                 when {
-                    errorState.studentIDError != null ->
+                    signUpState.studentIDError != null ->
                         snackbarHostState.showMessage(studentIDErrorMessage)
 
-                    errorState.emailError != null ->
+                    signUpState.emailError != null ->
                         snackbarHostState.showMessage(emailErrorMessage)
 
-                    errorState.passwordError != null ->
+                    signUpState.passwordError != null ->
                         snackbarHostState.showMessage(passwordErrorMessage)
                 }
                 viewModel.clearErrorStackInFirstPart()
             }
 
-            (state is SignUpViewModel.State.SignUpValidationSecondPartError) -> {
-                val errorState = state as SignUpViewModel.State.SignUpValidationSecondPartError
+            is SignUpViewModel.State.SignUpValidationSecondPartError -> {
+                groupErrorMessage = signUpState.groupError.toString()
+                nameErrorMessage = signUpState.nameError.toString()
 
                 when {
-                    errorState.nameError != null ->
+                    signUpState.nameError != null ->
                         snackbarHostState.showMessage(nameErrorMessage)
 
-                    errorState.groupError != null ->
+                    signUpState.groupError != null ->
                         snackbarHostState.showMessage(groupErrorMessage)
                 }
                 viewModel.clearErrorStackInSecondPart()
             }
 
-            (state is SignUpViewModel.State.Error) -> {
-                val errorState = state as SignUpViewModel.State.Error
-                snackbarHostState.showMessage(errorState.toString())
+            is SignUpViewModel.State.Error -> {
+                snackbarHostState.showMessage(signUpState.message)
             }
+
+            else -> {}
         }
     }
 
