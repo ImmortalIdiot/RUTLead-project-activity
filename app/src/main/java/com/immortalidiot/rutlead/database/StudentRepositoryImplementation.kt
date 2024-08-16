@@ -23,20 +23,22 @@ class StudentRepositoryImplementation : StudentRepository {
     private val ioDispatcher: CoroutineDispatcher = DispatcherModule.providesIODispatcher()
 
     override suspend fun registerStudent(student: Student): String {
-        return withContext(ioDispatcher) {
-            val response = service.register(student).execute()
+        return try {
+            withContext(ioDispatcher) {
+                val response = service.register(student).execute()
 
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                if (responseBody != null && responseBody.status == 201) {
-                    SUCCESSFUL_REGISTRATION
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null && responseBody.status == 201) {
+                        SUCCESSFUL_REGISTRATION
+                    } else {
+                        responseBody?.errors?.values?.first()?.first() ?: UNKNOWN_ERROR
+                    }
                 } else {
-                    responseBody?.errors?.values?.first()?.first() ?: UNKNOWN_ERROR
+                    response.errorBody()?.string() ?: UNKNOWN_ERROR
                 }
-            } else {
-                response.errorBody()?.string() ?: UNKNOWN_ERROR
             }
-        }
+        } catch (e: Exception) { NETWORK_ERROR }
     }
 
     override suspend fun loginStudent(studentId: String, password: String): Result<Unit> {
