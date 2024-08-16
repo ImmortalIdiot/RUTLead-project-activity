@@ -121,7 +121,7 @@ fun SignUpScreen(
                 snackbarHostState.showMessage(signUpState.message)
             }
 
-            else -> {}
+            else -> Unit
         }
     }
 

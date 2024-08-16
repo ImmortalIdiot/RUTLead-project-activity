@@ -88,7 +88,7 @@ fun LoginScreen(
                 snackbarHostState.showMessage(loginState.message)
             }
 
-            else -> {}
+            else -> Unit
         }
         viewModel.clearErrorStack()
     }
