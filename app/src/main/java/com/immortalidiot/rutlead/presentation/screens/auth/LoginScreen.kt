@@ -66,32 +66,29 @@ fun LoginScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    var studentIDErrorMessage = ""
-    var passwordErrorMessage = ""
-
-    (state as? LoginScreenViewModel.State.ValidationError)?.let { errorState ->
-        studentIDErrorMessage = errorState.studentIDError.toString()
-        passwordErrorMessage = errorState.passwordError.toString()
-    }
+    lateinit var studentIDErrorMessage: String
+    lateinit var passwordErrorMessage: String
 
     LaunchedEffect(key1 = state) {
-        when {
-            (state is LoginScreenViewModel.State.ValidationError) -> {
-                val errorState = state as LoginScreenViewModel.State.ValidationError
+        when (val loginState = state) {
+            is LoginScreenViewModel.State.ValidationError -> {
+                studentIDErrorMessage = loginState.studentIDError.toString()
+                passwordErrorMessage = loginState.passwordError.toString()
 
                 when {
-                    errorState.studentIDError != null ->
+                    loginState.studentIDError != null ->
                         snackbarHostState.showMessage(studentIDErrorMessage)
 
-                    errorState.passwordError != null ->
+                    loginState.passwordError != null ->
                         snackbarHostState.showMessage(passwordErrorMessage)
                 }
             }
 
-            (state is LoginScreenViewModel.State.Error) -> {
-                val errorState = state as LoginScreenViewModel.State.Error
-                snackbarHostState.showMessage(errorState.message)
+            is LoginScreenViewModel.State.Error -> {
+                snackbarHostState.showMessage(loginState.message)
             }
+
+            else -> {}
         }
         viewModel.clearErrorStack()
     }
