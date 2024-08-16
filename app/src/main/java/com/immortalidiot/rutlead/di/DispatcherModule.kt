@@ -1,4 +1,4 @@
-package com.immortalidiot.rutlead.modules
+package com.immortalidiot.rutlead.di
 
 import dagger.Binds
 import dagger.Module

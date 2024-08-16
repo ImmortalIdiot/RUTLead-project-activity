@@ -1,4 +1,4 @@
-package com.immortalidiot.rutlead.modules
+package com.immortalidiot.rutlead.di
 
 import com.immortalidiot.rutlead.database.StudentRepository
 import com.immortalidiot.rutlead.database.StudentRepositoryImplementation

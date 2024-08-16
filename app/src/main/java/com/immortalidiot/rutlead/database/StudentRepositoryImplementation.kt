@@ -1,7 +1,7 @@
 package com.immortalidiot.rutlead.database
 
 import com.immortalidiot.rutlead.BuildConfig
-import com.immortalidiot.rutlead.modules.Dispatcher
+import com.immortalidiot.rutlead.di.Dispatcher
 import com.immortalidiot.rutlead.util.Messages.NETWORK_ERROR
 import com.immortalidiot.rutlead.util.Messages.SUCCESSFUL_REGISTRATION
 import com.immortalidiot.rutlead.util.Messages.UNKNOWN_ERROR
