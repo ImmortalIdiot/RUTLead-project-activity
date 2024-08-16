@@ -1,6 +1,16 @@
 package com.immortalidiot.rutlead.validation
 
 import android.util.Patterns
+import com.immortalidiot.rutlead.util.Messages.EMPTY_EMAIL
+import com.immortalidiot.rutlead.util.Messages.EMPTY_PASSWORD
+import com.immortalidiot.rutlead.util.Messages.EMPTY_STUDENT_ID
+import com.immortalidiot.rutlead.util.Messages.INCORRECT_FULL_NAME
+import com.immortalidiot.rutlead.util.Messages.INCORRECT_GROUP_FORMAT
+import com.immortalidiot.rutlead.util.Messages.INCORRECT_LENGTH_PASSWORD
+import com.immortalidiot.rutlead.util.Messages.INCORRECT_LENGTH_STUDENT_ID
+import com.immortalidiot.rutlead.util.Messages.NOT_EMAIL
+import com.immortalidiot.rutlead.util.Messages.NOT_MATCHING_PASSWORDS
+import com.immortalidiot.rutlead.util.Messages.ONLY_DIGITS_IN_STUDENT_ID
 
 class AuthValidationException(message: String) : Exception(message)
 
@@ -14,19 +24,19 @@ fun String.validateStudentID(): Result<Unit> {
     } else if (this.isBlank()) {
         Result.failure(
             AuthValidationException(
-                "Поле \"Номер студенческого билета\" не должно быть пустым"
+                EMPTY_STUDENT_ID
             )
         )
     } else if (!containsOnlyDigits) {
         Result.failure(
             AuthValidationException(
-                "Поле \"Номер студенческого билета\" должно содержать только цифры"
+                ONLY_DIGITS_IN_STUDENT_ID
             )
         )
     } else {
         Result.failure(
             AuthValidationException(
-                "Номер студенческого билета состоит из 8 цифр"
+                INCORRECT_LENGTH_STUDENT_ID
             )
         )
     }
@@ -38,13 +48,13 @@ fun String.validatePassword(): Result<Boolean> {
     } else if (isBlank()) {
         Result.failure(
             AuthValidationException(
-                "Поле \"Пароль\" не должно быть пустым"
+                EMPTY_PASSWORD
             )
         )
     } else {
         Result.failure(
             AuthValidationException(
-                "Пароль должен содержать минимум 8 символов"
+                INCORRECT_LENGTH_PASSWORD
             )
         )
     }
@@ -56,7 +66,7 @@ fun validateConfirmPassword(password: String, confirmPassword: String):Result<Un
     } else {
         Result.failure(
             AuthValidationException(
-                "Пароли не совпадают"
+                NOT_MATCHING_PASSWORDS
             )
         )
     }
@@ -68,13 +78,13 @@ fun String.validateEmail(): Result<Boolean> {
     } else if (this.isBlank()) {
         Result.failure(
             AuthValidationException(
-                "Поле \"Email \" не должно быть пустым"
+                EMPTY_EMAIL
             )
         )
     } else {
         Result.failure(
             AuthValidationException(
-                "Ввод не соответствует Email's"
+                NOT_EMAIL
             )
         )
     }
@@ -94,7 +104,7 @@ fun String.validateGroup(): Result<Boolean> {
     } else {
         Result.failure(
             AuthValidationException(
-                "Неверный формат группы. Пример: УВП-111"
+                INCORRECT_GROUP_FORMAT
             )
         )
     }
@@ -111,7 +121,7 @@ fun String.validateName(): Result<Boolean> {
     } else {
         Result.failure(
             AuthValidationException(
-                "Введите верные ФИО. Пример: Иванов Иван Иванович"
+                INCORRECT_FULL_NAME
             )
         )
     }
