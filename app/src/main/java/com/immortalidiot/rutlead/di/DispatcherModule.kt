@@ -2,6 +2,7 @@ package com.immortalidiot.rutlead.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,8 +19,8 @@ annotation class Dispatcher(val qualifier: String) {
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface DispatcherModule {
-    @Binds
+object DispatcherModule {
+    @Provides
     @Dispatcher(Dispatcher.IO)
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 }
