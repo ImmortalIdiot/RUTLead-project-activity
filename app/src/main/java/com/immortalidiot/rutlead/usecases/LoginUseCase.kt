@@ -14,6 +14,7 @@ class LoginUseCaseImpl @Inject constructor(
     private val studentRepository: StudentRepository,
     @Dispatcher(Dispatcher.IO) private val ioDispatcher: CoroutineDispatcher
 ) : LoginUseCase {
+
     override suspend fun loginStudent(studentId: String, password: String): Result<Unit> {
         return withContext(ioDispatcher) {
             studentRepository.loginStudent(studentId = studentId, password = password)
