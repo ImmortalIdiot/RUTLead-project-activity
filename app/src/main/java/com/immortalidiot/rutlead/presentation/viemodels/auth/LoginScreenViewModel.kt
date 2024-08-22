@@ -19,6 +19,7 @@ import javax.inject.Inject
 class LoginScreenViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : ViewModel() {
+
     @Immutable
     sealed class State {
         object Init : State()

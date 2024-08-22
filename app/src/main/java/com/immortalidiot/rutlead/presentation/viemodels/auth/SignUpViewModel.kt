@@ -23,6 +23,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val registrationUseCase: RegistrationUseCase
 ) : ViewModel() {
+
     @Immutable
     sealed class State {
         object Init : State()

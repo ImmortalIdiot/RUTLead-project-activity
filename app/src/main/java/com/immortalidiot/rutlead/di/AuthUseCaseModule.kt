@@ -13,6 +13,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface AuthUseCaseModule {
+
     @Binds
     @Singleton
     fun provideLoginUseCase(impl: LoginUseCaseImpl): LoginUseCase

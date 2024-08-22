@@ -11,6 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface ApplicationModule {
+
     @Binds
     @Singleton
     fun provideStudentRepository(impl: StudentRepositoryImpl): StudentRepository
