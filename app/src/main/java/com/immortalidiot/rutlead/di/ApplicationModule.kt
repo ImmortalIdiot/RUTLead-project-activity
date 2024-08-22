@@ -1,7 +1,7 @@
 package com.immortalidiot.rutlead.di
 
 import com.immortalidiot.rutlead.database.StudentRepository
-import com.immortalidiot.rutlead.database.StudentRepositoryImplementation
+import com.immortalidiot.rutlead.database.StudentRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import javax.inject.Singleton
 interface ApplicationModule {
     @Binds
     @Singleton
-    fun provideStudentRepository(impl: StudentRepositoryImplementation): StudentRepository
+    fun provideStudentRepository(impl: StudentRepositoryImpl): StudentRepository
 }

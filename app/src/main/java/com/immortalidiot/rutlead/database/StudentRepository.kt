@@ -16,7 +16,7 @@ interface StudentRepository {
     suspend fun loginStudent(studentId: String, password: String): Result<Unit>
 }
 
-class StudentRepositoryImplementation @Inject constructor(
+class StudentRepositoryImpl @Inject constructor(
     @Dispatcher(Dispatcher.IO) private val ioDispatcher: CoroutineDispatcher
 ) : StudentRepository {
     private val retrofit = Retrofit.Builder()
