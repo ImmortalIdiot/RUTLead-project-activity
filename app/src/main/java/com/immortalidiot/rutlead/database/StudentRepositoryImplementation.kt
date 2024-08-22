@@ -11,6 +11,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
+interface StudentRepository {
+    suspend fun registerStudent(student: Student): String
+    suspend fun loginStudent(studentId: String, password: String): Result<Unit>
+}
+
 class StudentRepositoryImplementation @Inject constructor(
     @Dispatcher(Dispatcher.IO) private val ioDispatcher: CoroutineDispatcher
 ) : StudentRepository {
