@@ -77,18 +77,12 @@ fun SignUpScreen(
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
-    lateinit var studentIDErrorMessage: String
-    lateinit var emailErrorMessage: String
-    lateinit var passwordErrorMessage: String
-    lateinit var groupErrorMessage: String
-    lateinit var nameErrorMessage: String
-
     LaunchedEffect(key1 = state) {
         when (val signUpState = state){
             is SignUpViewModel.State.SignUpValidationFirstPartError -> {
-                studentIDErrorMessage = signUpState.studentIDError.toString()
-                emailErrorMessage = signUpState.emailError.toString()
-                passwordErrorMessage = signUpState.passwordError.toString()
+                val studentIDErrorMessage = signUpState.studentIDError.toString()
+                val emailErrorMessage = signUpState.emailError.toString()
+                val passwordErrorMessage = signUpState.passwordError.toString()
 
                 when {
                     signUpState.studentIDError != null ->
@@ -104,8 +98,8 @@ fun SignUpScreen(
             }
 
             is SignUpViewModel.State.SignUpValidationSecondPartError -> {
-                groupErrorMessage = signUpState.groupError.toString()
-                nameErrorMessage = signUpState.nameError.toString()
+                val groupErrorMessage = signUpState.groupError.toString()
+                val nameErrorMessage = signUpState.nameError.toString()
 
                 when {
                     signUpState.nameError != null ->

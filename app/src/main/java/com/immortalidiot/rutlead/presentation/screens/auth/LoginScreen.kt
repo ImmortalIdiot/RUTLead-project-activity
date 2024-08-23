@@ -66,14 +66,11 @@ fun LoginScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    lateinit var studentIDErrorMessage: String
-    lateinit var passwordErrorMessage: String
-
     LaunchedEffect(key1 = state) {
         when (val loginState = state) {
             is LoginScreenViewModel.State.ValidationError -> {
-                studentIDErrorMessage = loginState.studentIDError.toString()
-                passwordErrorMessage = loginState.passwordError.toString()
+                val studentIDErrorMessage = loginState.studentIDError.toString()
+                val passwordErrorMessage = loginState.passwordError.toString()
 
                 when {
                     loginState.studentIDError != null ->
