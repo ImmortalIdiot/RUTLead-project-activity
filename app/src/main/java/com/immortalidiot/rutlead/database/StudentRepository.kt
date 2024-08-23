@@ -1,14 +1,11 @@
 package com.immortalidiot.rutlead.database
 
-import com.immortalidiot.rutlead.BuildConfig
 import com.immortalidiot.rutlead.di.Dispatcher
 import com.immortalidiot.rutlead.util.Messages.NETWORK_ERROR
 import com.immortalidiot.rutlead.util.Messages.SUCCESSFUL_REGISTRATION
 import com.immortalidiot.rutlead.util.Messages.UNKNOWN_ERROR
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 interface StudentRepository {
@@ -18,15 +15,9 @@ interface StudentRepository {
 }
 
 class StudentRepositoryImpl @Inject constructor(
-    @Dispatcher(Dispatcher.IO) private val ioDispatcher: CoroutineDispatcher
+    @Dispatcher(Dispatcher.IO) private val ioDispatcher: CoroutineDispatcher,
+    private val service: ServiceAPI
 ) : StudentRepository {
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val service = retrofit.create(ServiceAPI::class.java)
 
     override suspend fun registerStudent(student: Student): String {
         return try {
