@@ -14,5 +14,5 @@ interface ApplicationModule {
 
     @Binds
     @Singleton
-    fun provideStudentRepository(impl: StudentRepositoryImpl): StudentRepository
+    fun bindStudentRepository(impl: StudentRepositoryImpl): StudentRepository
 }

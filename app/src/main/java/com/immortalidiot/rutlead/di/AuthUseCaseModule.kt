@@ -16,9 +16,9 @@ interface AuthUseCaseModule {
 
     @Binds
     @Singleton
-    fun provideLoginUseCase(impl: LoginUseCaseImpl): LoginUseCase
+    fun bindLoginUseCase(impl: LoginUseCaseImpl): LoginUseCase
     
     @Binds
     @Singleton
-    fun provideRegistrationUseCase(impl: RegistrationUseCaseImpl): RegistrationUseCase
+    fun bindRegistrationUseCase(impl: RegistrationUseCaseImpl): RegistrationUseCase
 }
