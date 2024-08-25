@@ -80,33 +80,27 @@ fun SignUpScreen(
     LaunchedEffect(key1 = state) {
         when (val signUpState = state){
             is SignUpViewModel.State.SignUpValidationFirstPartError -> {
-                val studentIDErrorMessage = signUpState.studentIDError.toString()
-                val emailErrorMessage = signUpState.emailError.toString()
-                val passwordErrorMessage = signUpState.passwordError.toString()
+                signUpState.studentIDError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-                when {
-                    signUpState.studentIDError != null ->
-                        snackbarHostState.showMessage(studentIDErrorMessage)
+                signUpState.emailError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-                    signUpState.emailError != null ->
-                        snackbarHostState.showMessage(emailErrorMessage)
-
-                    signUpState.passwordError != null ->
-                        snackbarHostState.showMessage(passwordErrorMessage)
+                signUpState.passwordError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
                 }
                 viewModel.clearErrorStackInFirstPart()
             }
 
             is SignUpViewModel.State.SignUpValidationSecondPartError -> {
-                val groupErrorMessage = signUpState.groupError.toString()
-                val nameErrorMessage = signUpState.nameError.toString()
+                signUpState.groupError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-                when {
-                    signUpState.nameError != null ->
-                        snackbarHostState.showMessage(nameErrorMessage)
-
-                    signUpState.groupError != null ->
-                        snackbarHostState.showMessage(groupErrorMessage)
+                signUpState.nameError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
                 }
                 viewModel.clearErrorStackInSecondPart()
             }

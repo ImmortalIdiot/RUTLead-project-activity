@@ -69,15 +69,12 @@ fun LoginScreen(
     LaunchedEffect(key1 = state) {
         when (val loginState = state) {
             is LoginScreenViewModel.State.ValidationError -> {
-                val studentIDErrorMessage = loginState.studentIDError.toString()
-                val passwordErrorMessage = loginState.passwordError.toString()
+                loginState.studentIDError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-                when {
-                    loginState.studentIDError != null ->
-                        snackbarHostState.showMessage(studentIDErrorMessage)
-
-                    loginState.passwordError != null ->
-                        snackbarHostState.showMessage(passwordErrorMessage)
+                loginState.passwordError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
                 }
             }
 
