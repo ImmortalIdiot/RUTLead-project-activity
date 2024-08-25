@@ -14,15 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkModule {
 
     @Provides
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
+        .baseUrl(BuildConfig.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     @Provides
-    fun provideServiceAPI(retrofit: Retrofit): ServiceAPI {
-        return retrofit.create(ServiceAPI::class.java)
-    }
+    fun provideServiceAPI(retrofit: Retrofit): ServiceAPI = retrofit.create(ServiceAPI::class.java)
 }
