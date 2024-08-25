@@ -2,6 +2,7 @@ package com.immortalidiot.rutlead.navigation.auth
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -29,7 +30,7 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            val loginScreenViewModel: LoginScreenViewModel = viewModel()
+            val loginScreenViewModel: LoginScreenViewModel = hiltViewModel()
 
             LoginScreen(
                 viewModel = loginScreenViewModel,
@@ -44,7 +45,7 @@ fun NavGraphBuilder.authScreenFlow(
             enterTransition = { fadeIn() },
             exitTransition = { fadeOut() }
         ) {
-            val signUpViewModel: SignUpViewModel = viewModel()
+            val signUpViewModel: SignUpViewModel = hiltViewModel()
 
             SignUpScreen(
                 viewModel = signUpViewModel,

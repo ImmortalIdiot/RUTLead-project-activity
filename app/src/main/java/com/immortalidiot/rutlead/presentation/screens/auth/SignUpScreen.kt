@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -37,11 +35,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
+import com.immortalidiot.rutlead.navigation.main.MainScreen
 import com.immortalidiot.rutlead.ui.components.buttons.PrimaryButton
 import com.immortalidiot.rutlead.ui.components.other.BottomSnackbar
 import com.immortalidiot.rutlead.ui.components.other.BoxLabel
@@ -80,55 +77,51 @@ fun SignUpScreen(
 
     val roundedShape = RoundedCornerShape(dimensions.shapeXLarge)
 
-    var studentIDErrorMessage = ""
-    var emailErrorMessage = ""
-    var passwordErrorMessage = ""
-    var groupErrorMessage = ""
-    var nameErrorMessage = ""
-
-    (state as? SignUpViewModel.State.SignUpValidationFirstPartError)?.let { errorState ->
-        studentIDErrorMessage = errorState.studentIDError.toString()
-        emailErrorMessage = errorState.emailError.toString()
-        passwordErrorMessage = errorState.passwordError.toString()
-    }
-
-    (state as? SignUpViewModel.State.SignUpValidationSecondPartError)?.let { errorState ->
-        groupErrorMessage = errorState.groupError.toString()
-        nameErrorMessage = errorState.nameError.toString()
-    }
-
     LaunchedEffect(key1 = state) {
-        when {
-            (state is SignUpViewModel.State.SignUpValidationFirstPartError) -> {
-                val errorState = state as SignUpViewModel.State.SignUpValidationFirstPartError
+        when (val signUpState = state){
+            is SignUpViewModel.State.SignUpValidationFirstPartError -> {
+                signUpState.studentIDError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-                when {
-                    errorState.studentIDError != null ->
-                        snackbarHostState.showMessage(studentIDErrorMessage)
+                signUpState.emailError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-                    errorState.emailError != null ->
-                        snackbarHostState.showMessage(emailErrorMessage)
-
-                    errorState.passwordError != null ->
-                        snackbarHostState.showMessage(passwordErrorMessage)
+                signUpState.passwordError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
                 }
                 viewModel.clearErrorStackInFirstPart()
             }
 
-            (state is SignUpViewModel.State.SignUpValidationSecondPartError) -> {
-                val errorState = state as SignUpViewModel.State.SignUpValidationSecondPartError
+            is SignUpViewModel.State.SignUpValidationSecondPartError -> {
+                signUpState.groupError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-                when {
-                    errorState.nameError != null ->
-                        snackbarHostState.showMessage(nameErrorMessage)
-
-                    errorState.groupError != null ->
-                        snackbarHostState.showMessage(groupErrorMessage)
+                signUpState.nameError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
                 }
                 viewModel.clearErrorStackInSecondPart()
             }
+
+            is SignUpViewModel.State.Error -> {
+                snackbarHostState.showMessage(signUpState.message)
+            }
+
+            else -> Unit
         }
     }
+
+    if (state is SignUpViewModel.State.Success) {
+        navHostController.navigate(MainScreen.ProfileScreen.route) {
+            popUpTo(0) {
+                inclusive = false
+                saveState = true
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -253,7 +246,8 @@ fun SignUpScreen(
                         }
                     )
                 } else if (state is SignUpViewModel.State.SecondPart ||
-                    state is SignUpViewModel.State.SignUpValidationSecondPartError
+                    state is SignUpViewModel.State.SignUpValidationSecondPartError ||
+                    state is SignUpViewModel.State.Error
                 ) {
                     PrimaryTextField(
                         modifier = modifier.border(
@@ -352,18 +346,4 @@ fun SignUpScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState
     )
-}
-
-@Preview
-@Composable
-fun SignUpScreenPreview() {
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
-        SignUpScreen(
-            darkTheme = true,
-            viewModel = SignUpViewModel(),
-            navHostController = rememberNavController()
-        )
-    }
 }

@@ -2,23 +2,32 @@ package com.immortalidiot.rutlead.presentation.viemodels.auth
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.immortalidiot.rutlead.database.Student
 import com.immortalidiot.rutlead.ui.models.SignUpModel
+import com.immortalidiot.rutlead.usecases.RegistrationUseCase
 import com.immortalidiot.rutlead.validation.validateEmail
 import com.immortalidiot.rutlead.validation.validateGroup
 import com.immortalidiot.rutlead.validation.validateName
 import com.immortalidiot.rutlead.validation.validatePassword
 import com.immortalidiot.rutlead.validation.validateStudentID
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpViewModel : ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val registrationUseCase: RegistrationUseCase
+) : ViewModel() {
+
     @Immutable
     sealed class State {
         object Init : State()
         object Success : State()
-        object Loading : State()
         object SecondPart : State()
         data class Error(val message: String) : State()
         data class SignUpValidationFirstPartError(
@@ -127,10 +136,21 @@ class SignUpViewModel : ViewModel() {
                 )
             }
         } else {
-            mutableState.update {
-                State.Success
+            viewModelScope.launch {
+                val student = Student(
+                    studentID = _uiState.value.studentID.toInt(),
+                    password = _uiState.value.password,
+                    email = _uiState.value.email,
+                    group = _uiState.value.group,
+                    fullName = _uiState.value.name
+                )
+                handleResult(registrationUseCase.registerStudent(student))
             }
-            // TODO: register the user
         }
+    }
+
+    private fun handleResult(result: String) {
+        if (result == "Successful registration") { mutableState.update { State.Success } }
+        else { mutableState.update { State.Error(result) } }
     }
 }

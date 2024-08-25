@@ -30,9 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.immortalidiot.rutlead.R
 import com.immortalidiot.rutlead.navigation.RUTLeadScreen
 import com.immortalidiot.rutlead.navigation.auth.AuthScreen
@@ -68,27 +66,25 @@ fun LoginScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
-    var studentIDErrorMessage = ""
-    var passwordErrorMessage = ""
-
-    (state as? LoginScreenViewModel.State.ValidationError)?.let { errorState ->
-        studentIDErrorMessage = errorState.studentIDError.toString()
-        passwordErrorMessage = errorState.passwordError.toString()
-    }
-
     LaunchedEffect(key1 = state) {
-        if (state is LoginScreenViewModel.State.ValidationError) {
-            val errorState = state as LoginScreenViewModel.State.ValidationError
+        when (val loginState = state) {
+            is LoginScreenViewModel.State.ValidationError -> {
+                loginState.studentIDError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
 
-            when {
-                errorState.studentIDError != null ->
-                    snackbarHostState.showMessage(studentIDErrorMessage)
-
-                errorState.passwordError != null ->
-                    snackbarHostState.showMessage(passwordErrorMessage)
+                loginState.passwordError?.let { errorMessage ->
+                    snackbarHostState.showMessage(errorMessage)
+                }
             }
-            viewModel.clearErrorStack()
+
+            is LoginScreenViewModel.State.Error -> {
+                snackbarHostState.showMessage(loginState.message)
+            }
+
+            else -> Unit
         }
+        viewModel.clearErrorStack()
     }
 
     if (state is LoginScreenViewModel.State.Success) {
@@ -168,7 +164,7 @@ fun LoginScreen(
                     onDoneAction = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
-                        viewModel.request()
+                        viewModel.login()
                     },
                     onIconClick = {
                         viewModel.changePasswordVisibility(uiState.isPasswordVisible)
@@ -185,7 +181,7 @@ fun LoginScreen(
                     onButtonClick = {
                         focusManager.clearFocus()
                         keyboardController?.hide()
-                        viewModel.request()
+                        viewModel.login()
                     }
                 )
                 Spacer(modifier = modifier.height(dimensions.verticalXLarge))
@@ -215,15 +211,5 @@ fun LoginScreen(
     BottomSnackbar(
         modifier = modifier,
         snackbarHostState = snackbarHostState
-    )
-}
-
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        darkTheme = true,
-        viewModel = LoginScreenViewModel(),
-        navHostController = rememberNavController()
     )
 }

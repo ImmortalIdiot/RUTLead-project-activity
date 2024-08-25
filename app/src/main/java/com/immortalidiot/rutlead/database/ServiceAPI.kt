@@ -5,9 +5,10 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ServiceAPI {
-    @POST("register")
-    fun register(@Body register: Student): Call<Student>
+
+    @POST("/student")
+    suspend fun register(@Body newStudent: Student): Call<RegistrationResponse>
 
     @POST
-    fun auth(@Body auth: Student): Call<Token>
+    suspend fun auth(@Body studentId: String, @Body password: String): Call<LoginResponse> // TODO: add token
 }

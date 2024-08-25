@@ -4,20 +4,26 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.immortalidiot.rutlead.ui.models.LoginModel
+import com.immortalidiot.rutlead.usecases.LoginUseCase
 import com.immortalidiot.rutlead.validation.validatePassword
 import com.immortalidiot.rutlead.validation.validateStudentID
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginScreenViewModel : ViewModel() {
+@HiltViewModel
+class LoginScreenViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
+) : ViewModel() {
+
     @Immutable
     sealed class State {
         object Init : State()
         object Success : State()
-        object Loading : State()
         data class Error(val message: String) : State()
         data class ValidationError(
             val studentIDError: String?,
@@ -43,6 +49,7 @@ class LoginScreenViewModel : ViewModel() {
             State.Init
         }
     }
+
     fun changeLogin(studentID: String) {
         _uiState.update {
             uiState.value.copy(studentID = studentID)
@@ -61,7 +68,7 @@ class LoginScreenViewModel : ViewModel() {
         }
     }
 
-    fun request() {
+    fun login() {
         val studentID = _uiState.value.studentID.validateStudentID()
         val password = _uiState.value.password.validatePassword()
 
@@ -74,10 +81,23 @@ class LoginScreenViewModel : ViewModel() {
             }
         } else {
             viewModelScope.launch {
-                mutableState.value = State.Loading
-                // TODO: add verification for an existing user in the database
+                handleResult(
+                    loginUseCase.loginStudent(
+                        _uiState.value.studentID,
+                        _uiState.value.password
+                    )
+                )
+            }
+        }
+    }
 
-                mutableState.value = State.Success
+    private fun handleResult(result: Result<Unit>) {
+        if (result.isSuccess) {
+            mutableState.update { State.Success }
+        } else {
+            mutableState.update {
+                val errorMessage = result.exceptionOrNull()?.message ?: "Неизвестная ошибка"
+                State.Error(errorMessage)
             }
         }
     }
